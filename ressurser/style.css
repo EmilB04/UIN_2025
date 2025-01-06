@@ -1,0 +1,51 @@
+/*Forhåndsdefinerte farger*/
+.dark-blue{color: #2A324B;}
+.lighter-blue{color: #58699D;}
+.light-grey{color: #E1E5EE;}
+.white{color: #fff;}
+
+/*Forhåndsdefinerte fonter*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/*------------------------*/
+body {
+    background-color: #E1E5EE;
+    height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    nav ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0;
+        margin: 0;
+        font-weight: 600;
+        
+        li{
+            background-color: #2A324B;
+            padding: 1.3rem 3.3rem;
+            color: #fff;
+            list-style: none;
+        }
+        li:hover, #active{
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+        }
+    }
+    section{
+        background-color: #fff;
+        padding: 4rem;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
