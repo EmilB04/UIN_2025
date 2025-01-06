@@ -93,4 +93,47 @@ const resources = [
             },
         ]
     },
-]
+];
+// Referanser til HTML-elementer
+const navList = document.querySelector("nav ul");
+const sectionTitle = document.querySelector("section h1");
+const sectionText = document.querySelector("section p");
+const sectionSources = document.querySelector("section ul");
+
+// Funksjon for å oppdatere innholdet
+function updateContent(category) {
+    // Filtrer for å finne den riktige ressursen
+    const [resource] = resources.filter(resource => resource.category === category);
+    if (resource) {
+        sectionTitle.textContent = resource.category;
+        sectionText.textContent = resource.text;
+
+        // Oppdater kildelisten med map()
+        sectionSources.innerHTML = resource.sources.map(source => `<li><a href="${source.url}" target="_blank">${source.title}</a></li>`).join("");
+
+        // Fjern #active fra alle li-elementer
+        const activeSection = navList.querySelector("#active");
+        if (activeSection) {
+            activeSection.removeAttribute("id");
+        }
+
+        // Legg til #active til den klikkede li
+        const clickedSection = Array.from(navList.children).find(li => li.textContent === category);
+        if (clickedSection) {
+            clickedSection.id = "active";
+        }
+    }
+}
+
+// Fyll navigasjonen og legg til klikkhendelser
+navList.innerHTML = resources.map(resource =>`<li>${resource.category}</li>`).join("");
+
+// Legg til klikkhendelser på hver navigasjonspost
+Array.from(navList.children).forEach(li => {
+    li.addEventListener("click", () => updateContent(li.textContent));
+});
+
+// Vis første ressurs ved oppstart
+if (resources.length > 0) {
+    updateContent(resources[0].category);
+}
