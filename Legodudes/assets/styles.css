@@ -1,24 +1,76 @@
-.color-red {color: #DA291C;}
-.color-blue {color: #006DB7;}
-.color-white {color: #FFFFFF;}
-.color-black {color: #000000;}
-.color.green {color: #00AF4D;}
-.color-yellow {color: #FFD700;}
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-* {
-    font-size: 20px;
+:root{
+    --red: #DA291C;
+    --blue: #006DB7;
+    --white: #FFFFFF;
+    --black: #000000;
+    --green: #00AF4D;
+    --yellow: #FFD700;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: var(--yellow) ;
+    background-image: url("website_images/mainbackground.png");
+    font-family: 'Rubik', sans-serif;
+    font-size: 20px;
+}
 p {
     font-size: 1rem;
 }
 h2 {
     font-size: 2.5rem;
-    font-family: 'Rubik', sans-serif;
     font-weight: 700;
 }
 h3 {
     font-size: 1.5rem;
-    font-family: 'Rubik', sans-serif;
     font-weight: 500;
+}
+#wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--white);
+}
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    nav {
+        background-color: var(--red);
+        width: 100%;
+    }
+    #logo {
+        display: inline-block;
+        width: 300px;
+        margin: 1rem;
+    }
+    #shopping-cart {
+        border: none;
+        background-color: transparent;
+        position: relative;
+        margin: 1rem;
+
+        img {
+            width: 50px;   
+            height: auto;
+        }
+        #cart-count {
+            position: absolute;
+            top: 0;
+            left: -10px;
+            background-color: var(--red);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-family: 'Rubik', sans-serif;
+            text-align: center;
+            border-radius: 50%;
+            padding: 0.5rem;
+        }
+    }
 }
