@@ -1,47 +1,62 @@
 /*Forhåndsdefinerte farger*/
-.bg-dark-blue{background-color: #2A324B;}
-.bg-lighter-blue{background-color: #58699D;}
-.bg-light-grey{background-color: #E1E5EE;}
-.bg-white{background-color: #fff;}
+:root{
+    --dark-blue: #2A324B;
+    --lighter-blue: #58699D;
+    --light-grey: #E1E5EE;
+    --white: #fff;
+    --black: #000;
+}
 
 /*Roboto font*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 /*------------------------*/
-body {
-    background-color: #E1E5EE;
-    height: 100vh;
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Roboto', sans-serif;
+html{
+    margin: 0;
+    padding: 0;
+    body {
+        background-color: var(--light-grey);
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        #wrapper {
+            height: 100vh;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }
 
 main {
-    nav ul {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 0;
-        margin: 0;
-        font-weight: 600;
-        
-        li{
-            background-color: #2A324B;
-            padding: 1.3rem 3rem;
-            color: #fff;
-            list-style: none;
-        }
-        li:hover, #active{
-            background-color: #fff;
-            color: #000;
-            cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    nav {
+        ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+            margin: 0;
+            font-weight: 600;
+            li {
+                background-color: var(--dark-blue);
+                padding: 1.3rem 2rem;
+                color: #fff;
+                list-style: none;
+                white-space: nowrap;
+                &:hover, &#active {
+                    background-color: var(--white);
+                    color: var(--black);
+                    cursor: pointer;
+                }
+            }
         }
     }
-    section{
-        background-color: #fff;
+    section {
+        background-color: var(--white);
         padding: 5rem;
         margin: 0;
         display: flex;
@@ -50,29 +65,32 @@ main {
     }
 }
 
+
+
+
+
 /*Responsivt design - Ikke krevd av oppgaven*/
-@media screen and (min-width: 1100px) {
-    section{
-        min-width: 950px;
-        min-height: 250px;
+@media screen and (min-width: 750px) {
+    main nav ul {
+        flex-direction: row;
     }
+}
+
+@media screen and (min-width: 850px) {
+    main nav ul li {
+        padding: 1.3rem 3rem;
+    }
+}
+
+@media screen and (min-width: 950px) {
     main nav ul li {
         padding: 1.3rem 4rem;
     }
 }
-@media screen and (max-width: 950px) {
-    main nav ul li {
-        padding: 1.3rem 3rem !important;
-    }
-}
-@media screen and (max-width: 850px) {
-    main nav ul li {
-        padding: 1.3rem 2rem !important;
-    }
-    
-}
-@media screen and (max-width: 650px) {
-    main ul{
-        flex-direction: column !important;
+
+@media screen and (min-width: 1100px) {
+    section {
+        min-width: 950px;
+        min-height: 250px;
     }
 }
