@@ -110,7 +110,11 @@ function updateContent(category) {
         sectionText.textContent = resource.text;
 
         // Oppdater kildelisten med map()
-        sectionSources.innerHTML = resource.sources.map(source => `<li><a href="${source.url}" target="_blank">${source.title}</a></li>`).join("");
+        sectionSources.innerHTML = resource.sources.map(source => 
+            `<li>
+                <a href="${source.url}" target="_blank">${source.title}</a>
+            </li>
+            `).join("");
 
         // Active er en klasse som brukes for å markere hvilken kategori som er valgt
         // Fjern #active fra alle li-elementer
