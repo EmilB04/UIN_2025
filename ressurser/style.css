@@ -26,7 +26,6 @@ html{
         align-items: center;
     }
 }
-
 main {
     display: flex;
     flex-direction: column;
@@ -45,9 +44,12 @@ main {
                 color: #fff;
                 list-style: none;
                 white-space: nowrap;
-                &:hover, &#active {
+                &#active {
                     background-color: var(--white);
                     color: var(--black);
+                    cursor: pointer;
+                }
+                &:hover {
                     cursor: pointer;
                 }
             }
@@ -60,6 +62,9 @@ main {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        a {
+            color: var(--lighter-blue);
+        }
     }
 }
 
