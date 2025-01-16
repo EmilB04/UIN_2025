@@ -135,11 +135,11 @@ function updateContent(category) {
 navList.innerHTML = resources.map(resource =>`<li>${resource.category}</li>`).join("");
 
 // Legg til klikkhendelser på hver navigasjonspost
-Array.from(navList.children).forEach(li => {
-    li.addEventListener("click", () => updateContent(li.textContent));
+navList.querySelectorAll("li").forEach(li => {
+    li.addEventListener("click", () => {
+        updateContent(li.textContent);
+    });
 });
 
-// Vis første ressurs ved oppstart
-if (resources.length > 0) {
-    updateContent(resources[0].category);
-}
+// Oppstart av siden med første ressurs
+updateContent(resources[0].category);
