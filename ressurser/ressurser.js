@@ -1,4 +1,4 @@
-const resources = [ // Array komprimert for å spare plass og lesbarhet
+const resources = [ // Array komprimert for å spare plass og for bedre lesbarhet
     {
         category: "HTML",
         text: "HTML står for HyperText Markup Language, og er et strukturspråk som brukes for å lage strukturer til nettside- og applikasjonsgrensesnitt.",
@@ -86,12 +86,14 @@ function showCategory(category) {
     // Spørring 'How do I remove an id from an element?'
     // Resultat: 'removeAttribute("id")'
 */
-categories.addEventListener("click", (function (event) {
+categories.addEventListener("click", function (event) {
     showCategory(event.target.textContent)
     let liElements = document.querySelectorAll("#categories li")
-    liElements.forEach((liElement) => {liElement.removeAttribute("id");});
+    liElements.forEach((liElement) => {
+        liElement.removeAttribute("id");
+    });
     event.target.id = "active";
-    }));
+    });
 
 showNav(); // Vis nav-bar og første kategori ved lasting av siden   
 showCategory(resources[0].category); // Setter første kategori som aktiv
