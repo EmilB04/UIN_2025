@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./styles/style.css";
+import "./assets/legodudes.js"
+import { products } from "./assets/legodudes";
+import ProductCard from "./components/ProductCard.jsx";
+import CategoryHeading from "./components/CategoryHeading.jsx";
+import Navigation from "./components/Navigation.jsx";
+import Cart from "./components/Cart.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+    return (
+        <div id="content">
+            <Cart />
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+            <header>
+                <a href="index.html" id="logo">
+                    <img src="website_images/LD_logo.svg" alt="Legodudes" />
+                </a>
+                <button id="shoppingcart">
+                    <span id="cartcount">99</span>
+                    <img src="website_images/legocart.svg" alt="Handlevogn" />
+                </button>
+                <Navigation />
+            </header>
+            <main>
+                <CategoryHeading category="Ninjago" />
+                <div id="productlist">
+                    {products.map((product, index) => (
+                        <ProductCard product={product} key={index} />
+                        ))}
+                </div>
+            </main>
+            <footer>
+                <p>2025 &copy; Legodudes</p>
+            </footer>
+        </div>
+    );
 }
 
-export default App
+export default App;
