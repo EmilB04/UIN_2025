@@ -170,6 +170,7 @@ main {
     z-index: 999;
     opacity: 0;
     transition: ease-in-out 0.4s;
+    z-index: -1;
 
     #cart-products {
         display: flex;
@@ -209,4 +210,5 @@ main {
 }
 #cart.visible {
     opacity: 1;
+    z-index: 1;
 }
