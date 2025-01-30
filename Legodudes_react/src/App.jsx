@@ -1,24 +1,35 @@
-import "./styles/style.css";
-import "./assets/legodudes.js"
-import Header from "./components/Header.jsx";
-import Cart from "./components/Cart.jsx";
-import MainContent from "./components/MainContent.jsx";
-import { products } from "./assets/legodudes.js";
 import { useState } from "react";
+// Importerer produkter fra en ekstern fil
+import { products } from "./assets/legodudes";
 
+// Importerer komponenter som brukes i appen
+import Cart from "./components/Cart";
+
+import Header from "./components/Header";
+
+import PageContent from "./components/PageContent";
+
+// Importerer stilfilen for appen
+import "./styles/style.css";
+
+// Definerer hovedkomponenten App
 function App() {
-    const [cartCount, setCartCount] = useState(0);
-    return (
-        <div id="content">
-            <Cart />
+  const [cartCount, setCartCount] = useState(0);
+  return (
+    <div id="content">
+      {/* Legger til handlevogn-komponenten */}
+      <Cart />
+      {/* Overskrift-seksjon med logo og handlekurvknapp */}
+      <Header cartCount={cartCount} />
+      <PageContent products={products} setCartCount={setCartCount} />
 
-            <Header cartCount={cartCount} setCartCount={setCartCount} />
-            <MainContent products={products} />
-            <footer>
-                <p>2025 &copy; Legodudes</p>
-            </footer>
-        </div>
-    );
+      {/* Footer-seksjon */}
+      <footer>
+        <p>2025 &copy; Legodudes</p>
+      </footer>
+    </div>
+  );
 }
 
+// Eksporterer App-komponenten for bruk i applikasjonen
 export default App;
