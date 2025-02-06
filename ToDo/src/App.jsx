@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState } from "react";
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
 import "./App.css";
@@ -14,7 +14,7 @@ function App() {
         { id: 3, title: "Dra på jobb", content: "Klokken 16" },
     ];
     const username = "emilber";
-    // const [count, setCount] = useState(0)
+    const [todos, setTodos] = useState(startTodos);
 
     return (
         <>
@@ -22,8 +22,8 @@ function App() {
             <main>
                 <h1>ToDo App</h1>
             </main>
-            <Form />
-            <Todos startTodos={startTodos} />
+            <Form setTodos={setTodos} />
+            <Todos startTodos={todos} setTodos={setTodos} />
         </>
     );
 }

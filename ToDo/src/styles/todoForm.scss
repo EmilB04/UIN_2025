@@ -1,3 +1,6 @@
+$positive: #4caf50;
+$negative: #f44336;
+
 form {
     display: flex;
     flex-direction: column;
@@ -19,7 +22,7 @@ form {
         min-height: 150px;
     }
     button{
-        background-color: #4CAF50;
+        background-color: $positive;
         color: white;
         padding: 1rem;
         border: none;
