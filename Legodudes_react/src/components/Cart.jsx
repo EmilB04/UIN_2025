@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import CartProduct from "./CartProduct";
 
 export default function Cart({ toggle, cart }) {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router";
 import Cart from "./Cart";
 import Header from "./Header";
