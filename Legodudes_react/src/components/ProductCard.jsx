@@ -19,7 +19,7 @@ export default function ProductCard({ product, setCartCount, cart, setCart }) {
     <article className="product-card">
       {/* Viser produktbilde basert på filnavnet fra produktobjektet */}
       <img
-        src={`website_images/PROD_${product.imagefile}`}
+        src={`/website_images/PROD_${product.imagefile}`}
         alt={product.title}
       />
       {/* Lenke til produktkategori */}
