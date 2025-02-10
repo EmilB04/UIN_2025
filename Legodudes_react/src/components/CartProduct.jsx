@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function CartProduct({ product }) {
   return (
     <article className="cart-product">

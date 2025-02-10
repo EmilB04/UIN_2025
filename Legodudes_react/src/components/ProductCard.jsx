@@ -1,4 +1,4 @@
-// Produktkort-komponent som tar inn et produkt som prop
+/* eslint-disable react/prop-types */
 export default function ProductCard({ product, setCartCount, cart, setCart }) {
   const handleClick = () => {
     const exist = cart.find((item) => item.prodid === product.prodid);

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import { useState } from "react";
 import CategoryHeading from "./CategoryHeading";
 import ProductCard from "./ProductCard";

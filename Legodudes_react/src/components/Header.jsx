@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Nav from "./Nav";
 export default function Header({ cartCount, setToggle, toggle }) {
 

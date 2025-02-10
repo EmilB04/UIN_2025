@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import NavItem from "./NavItem";
 
 export default function Nav() {
