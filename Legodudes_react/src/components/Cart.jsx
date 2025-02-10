@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import CartProduct from "./CartProduct";
 
 export default function Cart({ toggle, cart }) {
@@ -6,7 +5,9 @@ export default function Cart({ toggle, cart }) {
     <section id="cart" className={toggle ? "visible" : null}>
       <h3>Din handlevogn</h3>
       <div id="cart-products">
-        {cart.map((product) => <CartProduct product={product} key={product.prodid} />)}
+        {cart.map((product) => (
+          <CartProduct product={product} key={product.prodid} />
+        ))}
       </div>
       <p>
         Totalt: Kr. <span id="cart-total">99999</span>,-

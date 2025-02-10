@@ -1,10 +1,9 @@
-/* eslint-disable react/prop-types */
 import Nav from "./Nav";
 export default function Header({ cartCount, setToggle, toggle }) {
-
   const handleClick = () => {
-    setToggle(!toggle)
-  }
+    setToggle(!toggle);
+    console.log(toggle);
+  };
   return (
     <header>
       <a href="index.html" id="logo">
@@ -16,6 +15,7 @@ export default function Header({ cartCount, setToggle, toggle }) {
         <img src="website_images/legocart.svg" alt="Handlevogn" />
       </button>
 
+      {/* Navigasjonskomponenten */}
       <Nav />
     </header>
   );
