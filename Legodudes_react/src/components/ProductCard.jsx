@@ -12,6 +12,9 @@ export default function ProductCard({ product, setCartCount, cart, setCart }) {
         : [...prev, { ...product, quantity: 1 }]
     );
 
+    // Update cart count
+    setCartCount((prevCount) => prevCount + 1);
+
     console.log("Denne sjekken skjer i ProductCar:", exist);
   };
 
