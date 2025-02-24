@@ -6,6 +6,7 @@ import './App.css'
 import Layout from './components/Layout'
 import Home from './components/Home'
 import CategoryPage from './components/CategoryPage'
+import GamePage from './components/GamePage'
 
 function App() {
   const [games, setGames] = useState([]);
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home games={games}/>}></Route>
           <Route path=":slug" element={<CategoryPage/>}></Route>
+          <Route path="games/:game_id" element={<GamePage/>}></Route>
 
         </Routes>
       </Layout>
