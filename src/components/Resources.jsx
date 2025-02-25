@@ -1,21 +1,24 @@
 /* eslint-disable react/prop-types */
 import Ressurser from '../scripts/ressurser';
+import PageTitle from './PageTitle';
 
 export default function Resources({ category }) {
-    const resources = Ressurser().filter(resource => resource.category === category);
+    const resources = Ressurser();
+    // Filter resources based on the selected category
+    const filteredResources = resources.filter(resource => resource.category === category);
 
     return (
         <div>
-            <h2>{category.toUpperCase()}</h2>
-            <ul>
-                {resources.map((resource, index) => (
-                    <li key={index}>
-                        <a href={resource.url} target="_blank">
-                            {resource.title}
-                        </a>
-                    </li>
-                ))}
-            </ul>
+            <section id="currentCategory">
+                <PageTitle title={category.toUpperCase()} />
+                <ul>
+                    {filteredResources.map((resource, index) => (
+                        <li key={index}>
+                            <a href={resource.url} target="_blank"> {resource.title}</a>
+                        </li>
+                    ))}
+                </ul>
+            </section>
         </div>
     );
 }

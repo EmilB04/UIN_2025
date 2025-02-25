@@ -1,26 +1,21 @@
 /* eslint-disable react/prop-types */
-import "../styles/LayoutStyle.scss"
+import "../styles/LayoutStyle.scss";
+import { useParams } from 'react-router';
 import Nav from './Nav';
-import PageTitle from "./PageTitle";
-import Ressurser from "../scripts/ressurser";
+import Resources from './Resources';
 
+export default function Layout() {
+    const { category } = useParams();
+    const currentCategory = category || "html"; // Default to "html" if no category is provided
 
-export default function Layout({ category }) {
-    const resources = Ressurser();
-    const filteredResources = resources.filter(resource => resource.category === category);
     return (
-        <div>
-            <main>
+        <>
+            <header>
                 <Nav />
-                <section id="currentCategory">
-                    <PageTitle title="HÆÆLLÆ"/>
-                    <p></p>
-                    <ul>
-                        {filteredResources.map((resource, index) => (
-                            <li key={index}>{resource.title}</li>))}
-                    </ul>
-                </section>
+            </header>
+            <main>
+                <Resources category={currentCategory} />
             </main>
-        </div>
-    )
+        </>
+    );
 }
