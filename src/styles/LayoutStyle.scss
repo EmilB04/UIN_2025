@@ -26,11 +26,11 @@ html{
         align-items: center;
     }
 }
-main {
+main, header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    nav#categories {
+    #categories {
         ul {
             display: flex;
             flex-direction: column;
@@ -74,19 +74,19 @@ main {
 
 /*Responsivt design - Ikke krevd av oppgaven*/
 @media screen and (min-width: 750px) {
-    main nav#categories ul {
+    header nav#categories ul {
         flex-direction: row;
     }
 }
 
 @media screen and (min-width: 850px) {
-    main nav#categories ul li {
+    header nav#categories ul li {
         padding: 1.3rem 3rem;
     }
 }
 
 @media screen and (min-width: 950px) {
-    main nav#categories ul li {
+    header nav#categories ul li {
         padding: 1.3rem 4rem;
     }
 }
