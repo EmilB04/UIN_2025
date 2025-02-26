@@ -1,16 +1,12 @@
-import { Link, useLocation } from "react-router";
-import { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { Link } from "react-router";
 
-export default function Nav() {
-    const location = useLocation();
-    const [activePath, setActivePath] = useState(location.pathname);
-
-    useEffect(() => {
-        setActivePath(location.pathname);
-    }, [location]);
-
+export default function Nav({ activeCategory }) {
     const isActive = (path) => {
-        return activePath === path || (activePath === '/' && path === '/html');
+        // Check if the current path is the same as the path in the argument
+        // If the current path is the root path, check if the argument is '/html'
+        // This is to make sure that the 'HTML' category is active when the root path is active
+        return activeCategory === path || (activeCategory === '/' && path === '/html');
     };
 
     return (
