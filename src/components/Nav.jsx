@@ -9,14 +9,18 @@ export default function Nav() {
         setActivePath(location.pathname);
     }, [location]);
 
+    const isActive = (path) => {
+        return activePath === path || (activePath === '/' && path === '/html');
+    };
+
     return (
         <nav id="categories">
             <ul>
-                <Link className={`nav-li ${activePath === '/html' ? 'active' : ''}`} to={'/html'}>HTML</Link>
-                <Link className={`nav-li ${activePath === '/css' ? 'active' : ''}`} to={'/css'}>CSS</Link>
-                <Link className={`nav-li ${activePath === '/javascript' ? 'active' : ''}`} to={'/javascript'}>JavaScript</Link>
-                <Link className={`nav-li ${activePath === '/react' ? 'active' : ''}`} to={'/react'}>React</Link>
-                <Link className={`nav-li ${activePath === '/headless-cms' ? 'active' : ''}`} to={'/headless-cms'}>Sanity and headless CMS</Link>
+                <Link className={`nav-li ${isActive('/html') ? 'active' : ''}`} to={'/html'}>HTML</Link>
+                <Link className={`nav-li ${isActive('/css') ? 'active' : ''}`} to={'/css'}>CSS</Link>
+                <Link className={`nav-li ${isActive('/javascript') ? 'active' : ''}`} to={'/javascript'}>JavaScript</Link>
+                <Link className={`nav-li ${isActive('/react') ? 'active' : ''}`} to={'/react'}>React</Link>
+                <Link className={`nav-li ${isActive('/headless-cms') ? 'active' : ''}`} to={'/headless-cms'}>Sanity and headless CMS</Link>
             </ul>
         </nav>
     )
