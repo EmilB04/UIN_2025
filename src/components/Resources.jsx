@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import Ressurser from '../scripts/ressurser';
 import PageTitle from './PageTitle';
+import "../styles/LayoutStyle.scss";
 
 export default function Resources({ category }) {
     const resources = Ressurser();

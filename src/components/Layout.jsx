@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import "../styles/LayoutStyle.scss";
 import { useParams } from 'react-router';
 import Nav from './Nav';
@@ -10,12 +9,14 @@ export default function Layout() {
 
     return (
         <>
-            <header>
-                <Nav />
-            </header>
-            <main>
-                <Resources category={currentCategory} />
-            </main>
+            <div className="content">
+                <header>
+                    <Nav />
+                </header>
+                <main>
+                    <Resources category={currentCategory} />
+                </main>
+            </div>
         </>
     );
 }
