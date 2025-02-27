@@ -10,6 +10,7 @@ export default function Layout({ children }) {
                 <Link to={'bosses'}>Bosses</Link>
                 <Link to={'characters'}>Characters</Link>
                 <Link to={'items'}>Items</Link>
+                <Link to={'places'}>Places</Link>
             </nav>
         </header>
         {children}

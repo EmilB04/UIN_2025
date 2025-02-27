@@ -1,11 +1,26 @@
 .gameCard {
     max-width: 400px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #ffffff39;
+    padding: 0.5rem;
 
+    h3 {
+        margin: 0;
+    }
     p {
-        min-height: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+    a {
+        display: inline-block;
+        background-color: #fff;
+        color: #131313;
+        padding: 0.5rem;
+        width: fit-content;
     }
 }
