@@ -28,7 +28,7 @@ export default function Signup() {
             name="email"
             onChange={handleChange}
             type="email"
-            placeholder="emilbe@hiof.."
+            placeholder="emilbe@hiof..."
           />
         </label>
         <label>
