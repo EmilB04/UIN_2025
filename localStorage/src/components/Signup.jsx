@@ -28,7 +28,7 @@ export default function Signup() {
             name="email"
             onChange={handleChange}
             type="email"
-            placeholder="ackarlse@hiof..."
+            placeholder="emilbe@hiof.."
           />
         </label>
         <label>
@@ -37,7 +37,7 @@ export default function Signup() {
             name="name"
             onChange={handleChange}
             type="text"
-            placeholder="Ann-Charlott Karlsen"
+            placeholder="Emil Berglund"
           />
         </label>
         <label>
@@ -46,7 +46,7 @@ export default function Signup() {
             name="username"
             onChange={handleChange}
             type="text"
-            placeholder="Ackarlse..."
+            placeholder="emilbe..."
           />
         </label>
         <label>

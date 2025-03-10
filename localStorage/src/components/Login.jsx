@@ -5,7 +5,7 @@ export default function Login() {
       <form>
         <label>
           Brukernavn
-          <input type="text" placeholder="Ackarlse..." />
+          <input type="text" placeholder="emilbe..." />
         </label>
         <label>
           Passord
