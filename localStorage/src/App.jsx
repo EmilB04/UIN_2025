@@ -1,6 +1,4 @@
 import { useState } from "react";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
 import "./App.css";
 import Layout from "./components/Layout";
 import Login from "./components/Login";
@@ -10,12 +8,13 @@ import Welcome from "./components/Welcome";
 
 function App() {
   const [signedIn, setSignedIn] = useState(false);
+
   const [storageUser, setStorageUser] = useState(localStorage.getItem("user"));
 
   console.log("Kommer fra storage", storageUser);
 
   return (
-    <Layout signedIn={signedIn} setSignedIn={setSignedIn}>
+    <Layout>
       <Routes>
         <Route
           path="/"
@@ -23,22 +22,14 @@ function App() {
             signedIn ? (
               <Welcome />
             ) : (
-              <Login
-                storageUser={storageUser}
-                setSignedIn={setSignedIn}
-                signedIn={signedIn}
-              />
+              <Login storageUser={storageUser} setSignedIn={setSignedIn} />
             )
           }
         />
         <Route
           path="login"
           element={
-            <Login
-              storageUser={storageUser}
-              setSignedIn={setSignedIn}
-              signedIn={signedIn}
-            />
+            <Login storageUser={storageUser} setSignedIn={setSignedIn} />
           }
         />
         <Route path="signup" element={<Signup />} />

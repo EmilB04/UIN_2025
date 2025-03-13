@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login({ storageUser, setSignedIn }) {
   const [userLogin, setUserLogin] = useState([]);
   const [error, setError] = useState();
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const inputName = e.target.name;
@@ -19,15 +17,10 @@ export default function Login({ storageUser, setSignedIn }) {
       userLogin.username === existingUser.username &&
       userLogin.password === existingUser.password;
     console.log(exists);
-    if (exists) {
-      setSignedIn(true);
-      navigate("/");
-    } else {
-      setError("Brukernavn eller passord stemmer ikke");
-    }
-    sessionStorage.setItem("login", true);
+    exists
+      ? setSignedIn(true)
+      : setError("Brukernavn eller passord stemmer ikke");
   };
-  useEffect(() => {
 
   return (
     <section>
@@ -37,7 +30,6 @@ export default function Login({ storageUser, setSignedIn }) {
           Brukernavn
           <input
             type="text"
-            placeholder="emilbe..."
             name="username"
             onChange={handleChange}
           />
