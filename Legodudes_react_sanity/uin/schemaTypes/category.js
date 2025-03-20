@@ -1,3 +1,5 @@
+import { slugifier } from "./helpers";
+
 export const category = {
     type: "document",
     name: "category",
@@ -14,7 +16,7 @@ export const category = {
             type: "slug",
             options: {
                 source: "categoryname",
-                slugify: input => input.toLowerCase().replace("&", "and").replace(/\s+/g, "-").replace(/[^a-z0-9- ]/g, "")
+                slugify: input => slugifier(input)
             }
         }
     ]
