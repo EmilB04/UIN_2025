@@ -6,9 +6,11 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
+      <Route path="/" element={<Layout />}>
+      {/* Add personal url here*/}
+      </Route>
     </Routes>
-  )
+  );
 }
 
 export default App
