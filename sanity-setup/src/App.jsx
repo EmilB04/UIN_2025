@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import { fetchAllProducts } from "./sanity/productsServices";
+import { fetchAllCategories } from "./sanity/catecoryServices";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const getAllProducts = async () => {
+    const data = await fetchAllProducts();
+    setProducts(data);
+  };
+
+  const getAllCategories = async () => {
+    const data = await fetchAllCategories();
+    setCategories(data);
+  };
+
+  const getProductsByCategory = async (cat) => {
+    const data = await fetchProductByCategories(cat);
+    setProducts(data);
+  }
+
+  console.log(products);
+
+  useEffect(() => {
+    getAllProducts();
+    getAllCategories();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main>
+      <h1>Min nettbutikk</h1>
+      <button key={category._id} onClick={()=> getProductsByCategory(category.categoryname)}>{category.categoryname}</button>
+      {products?.map((product) => (
+        <article key={product._id}>
+          <h3>{product.productname}</h3>
+          <img src={product.image.asset.url} alt={product.productname} />
+        </article>
+      ))}
+    </main>
+  );
 }
 
-export default App
+export default App;

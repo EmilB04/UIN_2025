@@ -15,5 +15,14 @@ export const products = {
             name: 'image',
             type: 'image',
         },
+        {
+            name: 'categories',
+            title: 'Categories',
+            type: 'array',
+            of : [{
+                type: 'reference',
+                to: [{ type: 'categories' }]
+            }]
+        }
     ],
 }
