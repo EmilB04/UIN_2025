@@ -1,0 +1,36 @@
+section {
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+        
+        article {
+            border: 3px solid white;
+            padding: 1rem;
+        }
+
+        img {
+            width: 400px;
+            height: 400px;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        h2{
+            font-size: 1.5rem;
+        }
+        h3{
+            font-size: 1.2rem;
+            color: violet;
+        }
+    }
+}

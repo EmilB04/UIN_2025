@@ -1,4 +1,5 @@
 import Nav from './Nav';
+import GroupMembers from './GroupMembers';
 
 export default function Layout () {
 
@@ -7,6 +8,9 @@ export default function Layout () {
             <header>
                 <Nav />
             </header>
+            <main>
+                <GroupMembers />
+            </main>
         </>
     )
 }
