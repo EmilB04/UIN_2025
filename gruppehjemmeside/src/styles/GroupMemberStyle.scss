@@ -1,10 +1,12 @@
 section {
+    margin-block: 2rem;
     h1 {
         font-size: 2rem;
         text-align: center;
     }
     div {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
         gap: 2rem;
@@ -16,8 +18,12 @@ section {
         }
 
         img {
-            width: 400px;
-            height: 400px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 400px;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         p {
