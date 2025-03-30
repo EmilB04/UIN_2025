@@ -3,6 +3,14 @@ import "../styles/NavStyle.scss";
 import groupMembers from "../scripts/GroupMembers";
 
 export default function Nav() {
+    const renderGroupMembers = () => {
+        return groupMembers.map((member) => (
+            <li key={member.slug}>
+                <Link to={`/${member.slug}`}>{member.name.split(" ")[0]}</Link>
+            </li>
+        ));
+    };
+
     return (
         <nav>
             <span>Gruppe 2</span>
@@ -10,13 +18,7 @@ export default function Nav() {
                 <li>
                     <Link to={"/"}>Hjem</Link>
                 </li>
-                {groupMembers.map((member) => (
-                    <li key={member.slug}>
-                        <Link to={`/${member.slug}`}>
-                            {member.name.split(" ")[0]}
-                        </Link>
-                    </li>
-                ))}
+                {renderGroupMembers()}
             </ul>
         </nav>
     );
