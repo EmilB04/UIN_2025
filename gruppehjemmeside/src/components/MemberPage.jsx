@@ -1,14 +1,14 @@
 import { useParams } from "react-router";
-import Nav from "../Nav";
-import groupMembers from "../../scripts/GroupMembers";
-import "../../styles/EmilStyle.scss";
+import Nav from "./Nav";
+import groupMembers from "../scripts/GroupMembers";
+import "../styles/EmilStyle.scss";
 
-export default function Emil() {
+export default function MemberPage() {
     const { slug } = useParams(); // Extract slug from URL params
     const member = groupMembers.find((m) => m.slug === slug); // Find member by slug
 
     return (
-        <div className="emil">
+        <div>
             <Nav />
             <section className="om-meg">
                 <img
