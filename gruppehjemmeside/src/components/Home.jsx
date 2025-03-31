@@ -1,6 +1,6 @@
 import Nav from './Nav';
 import GroupMembers from './GroupMembers';
-import Arbeidslogg from './Arbeidslogg';
+import WorkLog from './WorkLog';
 
 export default function Layout () {
 
@@ -11,7 +11,7 @@ export default function Layout () {
             </header>
             <main>
                 <GroupMembers />
-                <Arbeidslogg />
+                <WorkLog />
             </main>
         </>
     )

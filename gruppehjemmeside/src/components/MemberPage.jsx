@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import Nav from "./Nav";
 import groupMembers from "../scripts/GroupMembers";
-import "../styles/EmilStyle.scss";
+import "../styles/MemberStyle.scss";
 
 export default function MemberPage() {
     const { slug } = useParams(); // Extract slug from URL params
