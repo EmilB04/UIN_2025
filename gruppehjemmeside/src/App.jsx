@@ -6,7 +6,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/:slug" element={<MemberPage />} />
+      <Route path=":slug" element={<MemberPage />} />
+      {/* TODO: Add fix for wrong URL's. Show 404 error*/}
     </Routes>
   );
 }

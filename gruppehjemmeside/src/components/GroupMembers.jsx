@@ -3,6 +3,7 @@ import groupMembers from "../scripts/GroupMembers";
 import "../styles/GroupMemberStyle.scss";
 
 export default function GroupMembers() {
+    // TODO: Load info from Sanity.
     return (
         <section>
             <h1>Gruppemedlemmer</h1>

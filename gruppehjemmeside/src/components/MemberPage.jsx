@@ -7,6 +7,10 @@ export default function MemberPage() {
     const { slug } = useParams(); // Extract slug from URL params
     const member = groupMembers.find((m) => m.slug === slug); // Find member by slug
 
+
+    // TODO: Load info from Sanity. If not found, redirect to 404 page.
+    // TODO: If some fields are empty, show a placeholder or default value.
+
     return (
         <div>
             <Nav />
