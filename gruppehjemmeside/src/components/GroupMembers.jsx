@@ -1,8 +1,7 @@
 import { Link } from "react-router";
-import groupMembers from "../scripts/GroupMembers";
 import "../styles/GroupMemberStyle.scss";
 
-export default function GroupMembers() {
+export default function GroupMembers({ groupMembers }) {
     // TODO: Load info from Sanity.
     return (
         <section>

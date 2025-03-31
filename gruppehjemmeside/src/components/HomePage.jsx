@@ -1,18 +1,17 @@
-import Nav from './NavSection';
+import NavSection from './NavSection';
 import GroupMembers from './GroupMembers';
 import WorkLog from './WorkLog';
 
-export default function Layout () {
-
-    return(
+export default function HomePage({ groupMembers }) {
+    return (
         <>
             <header>
-                <Nav />
+                <NavSection groupMembers={groupMembers} />
             </header>
             <main>
-                <GroupMembers />
+                <GroupMembers groupMembers={groupMembers} />
                 <WorkLog />
             </main>
         </>
-    )
+    );
 }

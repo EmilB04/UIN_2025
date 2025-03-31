@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import "../styles/NavStyle.scss";
 import groupMembers from "../scripts/GroupMembers";
 
-export default function Nav() {
+export default function NavSection() {
     // TODO: Load info from Sanity.
     const renderGroupMembers = () => {
         return groupMembers.map((member) => (
