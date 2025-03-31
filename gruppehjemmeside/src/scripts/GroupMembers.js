@@ -1,4 +1,5 @@
 const groupMembers = [
+  /* Temporary file, before using Sanity */
   {
     name: "Andreas B. Olaussen",
     email: "andreabo@hiof.no",
