@@ -9,7 +9,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route
-        path=":slug"
+        path="members/:slug"
         element={<MemberPage groupMembers={groupMembers} />}
       />
       <Route path="/404" element={<PageNotFound />} />

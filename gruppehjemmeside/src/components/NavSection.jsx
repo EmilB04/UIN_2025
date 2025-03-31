@@ -7,7 +7,7 @@ export default function Nav() {
     const renderGroupMembers = () => {
         return groupMembers.map((member) => (
             <li key={member.slug}>
-                <Link to={`/${member.slug}`}>{member.name.split(" ")[0]}</Link>
+                <Link to={`/members/${member.slug}`}>{member.name.split(" ")[0]}</Link>
             </li>
         ));
     };
