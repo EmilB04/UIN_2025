@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import Nav from "./Nav";
+import Nav from "./NavSection";
 import groupMembers from "../scripts/GroupMembers";
 import "../styles/MemberStyle.scss";
 

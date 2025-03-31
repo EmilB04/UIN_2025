@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router";
-import Layout from "./components/Home";
+import HomePage from "./components/HomePage";
 import MemberPage from "./components/MemberPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/:slug" element={<MemberPage />} />
     </Routes>
   );

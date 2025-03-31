@@ -1,4 +1,4 @@
-import Nav from './Nav';
+import Nav from './NavSection';
 import GroupMembers from './GroupMembers';
 import WorkLog from './WorkLog';
 
