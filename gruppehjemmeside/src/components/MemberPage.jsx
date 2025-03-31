@@ -2,10 +2,22 @@ import { useParams } from "react-router";
 import Nav from "./NavSection";
 import groupMembers from "../scripts/GroupMembers";
 import "../styles/MemberStyle.scss";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MemberPage() {
     const { slug } = useParams(); // Extract slug from URL params
-    const member = groupMembers.find((m) => m.slug === slug); // Find member by slug
+    const navigate = useNavigate();
+    const [member, setMember] = useState(null);
+
+    useEffect(() => {
+        const foundMember = groupMembers.find((m) => m.slug === slug);
+        if (!foundMember) {
+            navigate("/404");
+        } else {
+            setMember(foundMember);
+        }
+    }, [slug, navigate]);
 
 
     // TODO: Load info from Sanity. If not found, redirect to 404 page.
