@@ -7,3 +7,8 @@ export async function fetchAllCategories() {
   );
   return data;
 }
+
+export async function fetchAllParentCategories() {
+  const data = await client.fetch(`*[_type == 'parentCategory']`);
+  return data;
+}
