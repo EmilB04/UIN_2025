@@ -13,7 +13,8 @@ export async function fetchAllProducts() {
     price,
     // Går inn i image-feltet og henter asset-objektet via "->" (dereferering)
     // Fra asset hentes bilde-ID og bilde-URL
-    image{asset ->{ _id, url }}
+    image{asset ->{ _id, url }},
+    "productslug": productslug.current
   }`);
 
   // Returnerer resultatet av spørringen som en array av produktobjekter
@@ -25,5 +26,10 @@ export async function fetchProductByCategories(cat) {
     `*[_type == 'products' && $cat in categories[]-> categoryname]`,
     { cat }
   );
+  return data;
+}
+
+export async function fetchProductBySlug(slug) {
+  const data = await client.fetch(`*[productslug.current == $slug]`, { slug });
   return data;
 }
