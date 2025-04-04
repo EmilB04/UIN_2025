@@ -1,6 +1,6 @@
 export const schemaTypes = [
     {
-        name: 'GroupMember',
+        name: 'groupMembers',
         title: 'Group Members',
         type: 'document',
         fields: [
@@ -52,7 +52,7 @@ export const schemaTypes = [
                 of: [
                     {
                         type: 'reference',
-                        to: [{ type: 'WorklogEntry' }],
+                        to: [{ type: 'worklog' }],
                     },
                 ],
             }
