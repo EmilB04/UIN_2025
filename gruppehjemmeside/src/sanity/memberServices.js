@@ -13,7 +13,12 @@ export async function fetchAllGroupMembers() {
                 }
             },
             bio,
-            interests
+            interests,
+            worklog[]->{
+                _id,
+                entry,
+                createdAt
+            }
         }`
     );
     return data;
@@ -31,7 +36,12 @@ export async function fetchGroupMemberBySlug(slug) {
                 }
             },
             bio,
-            interests
+            interests,
+            worklog[]->{
+                _id,
+                entry,
+                createdAt
+            }
         }`,
         { slug }
     );
