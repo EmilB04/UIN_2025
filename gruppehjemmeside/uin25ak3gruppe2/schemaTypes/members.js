@@ -1,4 +1,4 @@
-export const groupMembers = [
+export const groupMembers =
     {
         name: 'groupMembers',
         title: 'Group Members',
@@ -53,11 +53,12 @@ export const groupMembers = [
                     {
                         type: 'reference',
                         to: [
-                            { type: 'worklog' },
+                            {
+                             type: 'worklog'
+                            },
                         ],
                     },
                 ],
             }
         ],
-    },
-];
+    };
