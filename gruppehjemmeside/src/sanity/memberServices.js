@@ -5,19 +5,12 @@ export async function fetchAllGroupMembers() {
         `*[_type == "groupMembers"]{
             _id,
             name,
+            email,
             slug,
-            image {
+            photo {
                 asset -> {
-                    _id,
                     url
                 }
-            },
-            bio,
-            interests,
-            worklog[]->{
-                _id,
-                entry,
-                createdAt
             }
         }`
     );
@@ -28,20 +21,22 @@ export async function fetchGroupMemberBySlug(slug) {
         `*[_type == "groupMembers" && slug.current == $slug][0]{
             _id,
             name,
+            email,
             slug,
-            image {
+            bio,
+            interests,
+            photo {
                 asset -> {
                     _id,
                     url
                 }
             },
-            bio,
-            interests,
-            worklog[]->{
+            "worklog": *[_type == "worklog" && member._ref == ^._id] | order(createdAt desc) {
                 _id,
                 entry,
-                createdAt
-            }
+                createdAt,
+                timeSpent,
+             }
         }`,
         { slug }
     );

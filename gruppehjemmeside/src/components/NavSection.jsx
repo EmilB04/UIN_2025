@@ -1,13 +1,26 @@
 import { Link } from "react-router";
 import "../styles/NavStyle.scss";
-import groupMembers from "../scripts/GroupMembers";
+import { fetchAllGroupMembers } from "../sanity/memberServices";
+import { useEffect, useState } from "react";
 
 export default function NavSection() {
-    // TODO: Load info from Sanity.
+
+    const [groupMembers, setGroupMembers] = useState([]);
+
+    useEffect(() => {
+        async function getGroupMembers() {
+            const data = await fetchAllGroupMembers();
+            setGroupMembers(data);
+        }
+        getGroupMembers();
+    }, []);
+
     const renderGroupMembers = () => {
         return groupMembers.map((member) => (
-            <li key={member.slug}>
-                <Link to={`/members/${member.slug}`}>{member.name.split(" ")[0]}</Link>
+            <li key={member._id}>
+                <Link to={`/members/${member.slug.current}`}>
+                {member.name.split(" ")[0]}
+                </Link>
             </li>
         ));
     };

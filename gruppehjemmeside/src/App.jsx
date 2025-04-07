@@ -1,13 +1,14 @@
 import { Route, Routes, Navigate, useParams } from "react-router";
 import HomePage from "./components/HomePage";
 import MemberPage from "./components/MemberPage";
-import groupMembers from "./scripts/GroupMembers";
 import PageNotFound from "./components/PageNotFound";
+import { useEffect, useState } from "react";
+import { fetchAllGroupMembers } from "./sanity/memberServices";
 
 // Wrapper component to validate slug and pass member data
 function ValidSlugRoute({ groupMembers }) {
   const { slug } = useParams(); // Extract slug from URL params
-  const member = groupMembers.find((m) => m.slug === slug); 
+  const member = groupMembers.find((m) => m.slug,current === slug); 
 
   if (!member) 
     return <Navigate to="/404" />;
@@ -16,6 +17,17 @@ function ValidSlugRoute({ groupMembers }) {
 }
 
 function App() {
+
+  const [groupMembers, setGroupMembers] = useState([]);
+  useEffect(() => {
+    async function getGroupMembers() {
+      const data = await fetchAllGroupMembers();
+      setGroupMembers(data);
+    }
+    getGroupMembers();
+  }, []);
+
+  
   return (
     <Routes>
       <Route path="/" element={<HomePage groupMembers={groupMembers} />} />
