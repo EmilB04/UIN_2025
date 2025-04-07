@@ -4,15 +4,18 @@ export const worklog = {
     type: 'document',
     fields: [
         {
+            name: 'title',
+            type: 'string',
+            title: 'Title',
+        },
+        {
             name: 'member',
             title: 'Member',
             type: 'reference',
-            to: [
-                { type: 'groupMembers' }
-            ],
+            to: [{ type: 'groupMembers' }],
         },
         {
-            name:'entry',
+            name: 'entry',
             title: 'Entry',
             type: 'text',
         },
@@ -20,13 +23,12 @@ export const worklog = {
             name: 'createdAt',
             title: 'Created At',
             type: 'datetime',
-            readOnly: true,
             initialValue: () => new Date().toISOString(),
         },
         {
             name: 'timeSpent',
             title: 'Time Spent',
             type: 'string',
-        }
+        },
     ],
-};
+}
