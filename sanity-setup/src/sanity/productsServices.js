@@ -33,3 +33,10 @@ export async function fetchProductBySlug(slug) {
   const data = await client.fetch(`*[productslug.current == $slug]`, { slug });
   return data;
 }
+
+export async function fetchProductsByParentCategory() {
+  const data = await client.fetch(
+    `*[_type == 'categories' && references('6f2964ac-0ade-4629-bc8c-c28f624d1358')]`
+  );
+  return data;
+}

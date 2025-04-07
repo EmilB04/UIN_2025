@@ -9,6 +9,8 @@ export async function fetchAllCategories() {
 }
 
 export async function fetchAllParentCategories() {
-  const data = await client.fetch(`*[_type == 'parentCategory']`);
+  const data = await client.fetch(
+    `*[_type == 'parentcategory']{_id, title, "slug": slug.current}`
+  );
   return data;
 }
