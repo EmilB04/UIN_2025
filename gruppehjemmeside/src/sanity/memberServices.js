@@ -36,7 +36,7 @@ export async function fetchGroupMemberBySlug(slug) {
                 entry,
                 createdAt,
                 timeSpent,
-             }
+            }
         }`,
         { slug }
     );

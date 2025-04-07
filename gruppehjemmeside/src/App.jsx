@@ -8,7 +8,7 @@ import { fetchAllGroupMembers } from "./sanity/memberServices";
 // Wrapper component to validate slug and pass member data
 function ValidSlugRoute({ groupMembers }) {
   const { slug } = useParams(); // Extract slug from URL params
-  const member = groupMembers.find((m) => m.slug,current === slug); 
+  const member = groupMembers.find((m) => m.slug.current === slug); 
 
   if (!member) 
     return <Navigate to="/404" />;
