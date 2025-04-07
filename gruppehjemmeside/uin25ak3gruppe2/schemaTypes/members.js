@@ -45,20 +45,5 @@ export const groupMembers =
                 type: 'array',
                 of: [{ type: 'string' }],
             },
-            {
-                name: 'worklog',
-                title: 'Work Log',
-                type: 'array',
-                of: [
-                    {
-                        type: 'reference',
-                        to: [
-                            {
-                             type: 'worklog'
-                            },
-                        ],
-                    },
-                ],
-            }
         ],
     };
