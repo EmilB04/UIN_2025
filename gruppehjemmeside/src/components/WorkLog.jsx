@@ -19,9 +19,9 @@ export default function Arbeidslogg() {
             <div>
                 {workLogs.map((log) => (
                     <div key={log._id} className="worklog-entry">
-                        <p>{new Date(log.createdAt).toLocaleDateString()}</p>  {/* Bare dato */}
+                        <p>{new Date(log.createdAt).toLocaleDateString()}</p>{" "} {/* Bare dato */}
                         <p>{log.member.name}</p>
-                        <h2>{log.title}</h2>
+                        <h2>{log.title}</h2>        {/* Tittel. Fungerer ikke helt */}
                         <p>{log.timeSpent}</p>
                     </div>
                 ))}

@@ -1,12 +1,12 @@
 .worklog-section {
-    h1{
-        text-align: left;
-        font-size: 2rem;
-    }
     div {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+    }
+    .worklog-entry {
         background-color: #f0f0f0;
+        width: 100%;
+        border-radius: 10px;
     }
 }
