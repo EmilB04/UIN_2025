@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchWorklogs } from "../sanity/worklogServices";
-import "../styles/WorkLogStyle.scss"; // Assuming you have a CSS file for styles
+import "../styles/WorkLogStyle.scss";
 
 export default function Arbeidslogg() {
     const [workLogs, setWorkLogs] = useState([]);
@@ -19,9 +19,15 @@ export default function Arbeidslogg() {
             <div>
                 {workLogs.map((log) => (
                     <div key={log._id} className="worklog-entry">
-                        <p>{new Date(log.createdAt).toLocaleDateString()}</p>{" "} {/* Bare dato */}
+                        <p>
+                            {new Date(log.createdAt).toLocaleDateString("no-NO", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                            })}
+                        </p>
                         <p>{log.member.name}</p>
-                        <h2>{log.title}</h2>        {/* Tittel. Fungerer ikke helt */}
+                        <p>{log.title}</p>
                         <p>{log.timeSpent}</p>
                     </div>
                 ))}
