@@ -8,7 +8,7 @@ export default function GroupMembers({ groupMembers }) {
             <div>
                 {groupMembers.map((member) => (
                     <Link to={`/members/${member.slug.current}`} key={member._id}>
-                        <img src={member.photo?.asset?.url} alt={`Bilde av ${member.name}`}/>
+                        <img src={member.photo?.asset?.url || "https://placehold.co/400x400"} alt={`Bilde av ${member.name}`}/>
                         <h2>{member.name}</h2>
                         <h3>{member.email}</h3>
                     </Link>

@@ -39,7 +39,7 @@ export default function MemberPage() {
                 <section className="biografi">
                     <article>
                         <h1>{member.name}</h1>
-                        <p>{member.email || "E-post ikke tilgjengelig"}</p>
+                        <p>{member.bio || "Beskrivelse ikke tilgjengelig"}</p>
                     </article>
                     <article>
                         <h2>Interesser</h2>
