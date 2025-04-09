@@ -2,7 +2,7 @@ import { client } from "./client";
 
 export async function fetchWorklogs() {
     const data = await client.fetch(
-        `*[_type == "worklog"]{
+        `*[_type == "worklog"] | order(createdAt desc){
             _id,
             title,
             entry,
@@ -16,15 +16,16 @@ export async function fetchWorklogs() {
     );
     return data;
 }
+
 export async function fetchWorkLogsByMemberId(slug) {
     const data = await client.fetch(
-        `*[_type == "worklog" && member->slug.current == $slug][0]{
+        `*[_type == "worklog" && member->slug.current == $slug] | order(createdAt desc){
             _id,
             title,
             entry,
             createdAt,
             timeSpent,
-            member -> {
+            member->{
                 _id,
                 name
             }

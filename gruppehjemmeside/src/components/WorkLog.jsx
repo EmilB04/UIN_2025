@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchWorklogs } from "../sanity/worklogServices";
 import "../styles/WorkLogStyle.scss";
 
-export default function Arbeidslogg() {
+export default function WorkLog() {
     const [workLogs, setWorkLogs] = useState([]);
 
     useEffect(() => {
@@ -12,6 +12,7 @@ export default function Arbeidslogg() {
         }
         getWorkLogs();
     }, []);
+    
 
     return (
         <section className="worklog-section">

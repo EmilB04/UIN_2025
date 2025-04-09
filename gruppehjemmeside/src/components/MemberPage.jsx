@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Nav from "./NavSection";
 import "../styles/MemberStyle.scss";
-import { fetchWorklogs } from "../sanity/worklogServices";
+import { fetchWorklogs, fetchWorkLogsByMemberId } from "../sanity/worklogServices";
 import { fetchGroupMemberBySlug } from "../sanity/memberServices";
 
 export default function MemberPage() {
@@ -18,7 +18,7 @@ export default function MemberPage() {
                 setMember(memberData);
 
                 // Fetch work logs for the member
-                const logs = await fetchWorklogs(slug); // Må fikses slik at den henter logs for den spesifikke medlemmen
+                const logs = await fetchWorkLogsByMemberId(slug);
                 setWorkLogs(logs);
             } catch (error) {
                 console.error("Error fetching member or work logs:", error);
@@ -34,12 +34,8 @@ export default function MemberPage() {
 
     return (
         <div>
-            <Nav />
             <section className="om-meg">
-                <img
-                    src={member.photo?.asset?.url ? member.photo.asset.url : "https://placehold.co/400x400"}
-                    alt={`Bilde av ${member.name}`}
-                />
+                <img src={member.photo?.asset?.url || "https://placehold.co/400x400"} alt={`Bilde av ${member.name}`} />
                 <section className="biografi">
                     <article>
                         <h1>{member.name}</h1>
@@ -49,9 +45,7 @@ export default function MemberPage() {
                         <h2>Interesser</h2>
                         <ul>
                             {member.interests?.length > 0 ? (
-                                member.interests.map((interest, index) => (
-                                    <li key={index}>{interest}</li>
-                                ))
+                                member.interests.map((interest, index) => <li key={index}>{interest}</li>)
                             ) : (
                                 <li>Ingen interesser oppgitt.</li>
                             )}
@@ -59,26 +53,24 @@ export default function MemberPage() {
                     </article>
                 </section>
             </section>
-            <section className="arbeidslogg">
-                <h2>Arbeidslogg</h2>
-                {workLogs.length > 0 ? (
-                    workLogs.map((log) => (
-                        <article key={log._id}>
-                            <h3>{log.title}</h3>
-                            <p>{log.entry}</p>
-                            <time>
+            <section className="worklog-section">
+                <h1>Arbeidslogg</h1>
+                <div>
+                    {workLogs.map((log) => (
+                        <div key={log._id} className="worklog-entry">
+                            <p>
                                 {new Date(log.createdAt).toLocaleDateString("no-NO", {
                                     day: "2-digit",
                                     month: "2-digit",
                                     year: "numeric",
                                 })}
-                            </time>
-                            <p>Tid brukt: {log.timeSpent || "Ikke oppgitt"}</p>
-                        </article>
-                    ))
-                ) : (
-                    <p>Ingen arbeidslogg funnet.</p>
-                )}
+                            </p>
+                            <p>{log.member.name}</p>
+                            <p>{log.title}</p>
+                            <p>{log.timeSpent}</p>
+                        </div>
+                    ))}
+                </div>
             </section>
         </div>
     );
