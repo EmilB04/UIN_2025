@@ -19,9 +19,6 @@ export default function HomePage() {
 
     return (
         <>
-            <header>
-                <NavSection groupMembers={groupMembers} />
-            </header>
             <main style={{ maxWidth: '1300px', margin: '0 auto' }}>
                 <GroupMembers groupMembers={groupMembers} />
                 <WorkLog />

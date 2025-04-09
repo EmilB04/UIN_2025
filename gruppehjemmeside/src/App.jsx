@@ -4,6 +4,7 @@ import MemberPage from "./components/MemberPage";
 import PageNotFound from "./components/PageNotFound";
 import { useEffect, useState } from "react";
 import { fetchAllGroupMembers } from "./sanity/memberServices";
+import Layout from "./components/Layout";
 
 // Wrapper component to validate slug and pass member data
 function ValidSlugRoute({ groupMembers }) {
@@ -29,15 +30,17 @@ function App() {
 
   
   return (
-    <Routes>
-      <Route path="/" element={<HomePage groupMembers={groupMembers} />} />
-      <Route
-        path="members/:slug"
-        element={<ValidSlugRoute groupMembers={groupMembers} />}
-      />
-      <Route path="/404" element={<PageNotFound />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage groupMembers={groupMembers} />} />
+        <Route
+          path="members/:slug"
+          element={<ValidSlugRoute groupMembers={groupMembers} />}
+        />
+        <Route path="/404" element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Layout>
   );
 }
 
