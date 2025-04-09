@@ -19,7 +19,7 @@ export default function HomePage() {
 
     return (
         <>
-            <main style={{ maxWidth: '1300px', margin: '0 auto' }}>
+            <main>
                 <GroupMembers groupMembers={groupMembers} />
                 <WorkLog />
             </main>

@@ -1,57 +1,48 @@
-.om-meg {
-    max-width: 1280px;
-    margin: 2rem auto 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: left;
-    align-items: start;
-    gap: 3rem;
-
-    img {
-        max-height: 500px;
-        width: auto;
-    }
-
-    .biografi {
-        margin: 1rem 0 0 0;
-    }
-}
-
-article:nth-child(1) {
-    margin: 0;
-
-    h1 {
-        font-size: 2em;
+.member-page {
+    .about-me {
+        display: flex;
         text-align: left;
-        margin: 0;
-        padding: 0;
-    }
-}
+        align-items: start;
+        gap: 2rem;
 
-article:nth-child(2) {
-    h2 {
-        text-align: left;
-    }
+        img {
+            max-height: 70vh;
+            width: auto;
+        }
 
-    ul {
-        padding: 0 1.2rem;
-        list-style: disc;
+        .biography {
+            margin: 1rem 0 0 0;
+            white-space: wrap;
+            max-width: 70ch; // Character limit for line length
 
-        li {
-            margin: 0.5rem 0;
-            padding-left: 1rem;
-            text-align: left;
+            article:nth-child(1) { // Bio
+                margin: 0;
+        
+                h1 {
+                    font-size: 2.5rem;
+                    text-align: left;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        
+            article:nth-child(2) { // Intersser
+                h2 {
+                    text-align: left;
+                    font-size: 2rem;
+                }
+        
+                ul {
+                    padding: 0 0 0rem 1.4rem;
+                    list-style: disc;
+        
+                    li {
+                        margin: 0.5rem 0;
+                        text-align: left;
+                    }
+                }
+            }
         }
     }
-}
-
-
-.arbeidslogg {
-    max-width: 1280px;
-    margin: 0 auto;
-
-    h2 {
-        text-align: left;
-    }
+    // Worklog is handled in WorkLogStyle.scss
 }

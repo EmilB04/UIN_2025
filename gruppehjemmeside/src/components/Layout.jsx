@@ -5,7 +5,7 @@ export default function Layout({ children }) {
   return (
     <div>
       <NavSection />
-      <main>{children}</main>
+      <main style={{ maxWidth: '1300px', margin: '0 auto' }}>{children}</main>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import Nav from "./NavSection";
 import "../styles/MemberStyle.scss";
+import WorkLog from "./WorkLog";
 import { fetchWorklogs, fetchWorkLogsByMemberId } from "../sanity/worklogServices";
 import { fetchGroupMemberBySlug } from "../sanity/memberServices";
 
@@ -33,10 +33,10 @@ export default function MemberPage() {
     }
 
     return (
-        <div>
-            <section className="om-meg">
+        <div className="member-page">
+            <section className="about-me">
                 <img src={member.photo?.asset?.url || "https://placehold.co/400x400"} alt={`Bilde av ${member.name}`} />
-                <section className="biografi">
+                <section className="biography">
                     <article>
                         <h1>{member.name}</h1>
                         <p>{member.bio || "Beskrivelse ikke tilgjengelig"}</p>
@@ -71,6 +71,7 @@ export default function MemberPage() {
                         </div>
                     ))}
                 </div>
+                
             </section>
         </div>
     );
