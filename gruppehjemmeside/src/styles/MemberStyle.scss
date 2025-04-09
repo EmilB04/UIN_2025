@@ -1,6 +1,7 @@
 .member-page {
     .about-me {
         display: flex;
+        justify-content: center;
         text-align: left;
         align-items: start;
         gap: 2rem;
@@ -13,7 +14,6 @@
         .biography {
             margin: 1rem 0 0 0;
             white-space: wrap;
-            max-width: 70ch; // Character limit for line length
 
             article:nth-child(1) { // Bio
                 margin: 0;
@@ -44,5 +44,9 @@
             }
         }
     }
-    // Worklog is handled in WorkLogStyle.scss
+
+    // ==============================================================
+    // 🔧 Worklog styles are handled in src/styles/WorkLogStyle.scss
+    // ⚠️ Do not edit styles here!
+    // ==============================================================
 }

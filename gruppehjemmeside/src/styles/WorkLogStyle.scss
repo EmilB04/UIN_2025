@@ -1,12 +1,33 @@
 .worklog-section {
-    div {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+    h1 {
+        margin-bottom: 1rem;
     }
+
+    .worklog-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem; // Mellom radene
+    }
+
     .worklog-entry {
-        background-color: #f0f0f0;
+        display: grid;
+        grid-template-columns: 0.5fr 1fr 2fr 1fr;
+        background-color: #f5f5f5;
+        padding: 1.5rem 1rem;
+        border-radius: 4px;
+        align-items: center;
+        font-size: 0.95rem;
         width: 100%;
-        border-radius: 10px;
+
+        .date,
+        .member,
+        .title,
+        .time {
+            margin: 0;
+        }
+
+        .time {
+            text-align: right;
+        }
     }
 }

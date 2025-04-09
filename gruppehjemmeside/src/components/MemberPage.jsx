@@ -35,7 +35,10 @@ export default function MemberPage() {
     return (
         <div className="member-page">
             <section className="about-me">
-                <img src={member.photo?.asset?.url || "https://placehold.co/400x400"} alt={`Bilde av ${member.name}`} />
+                <img
+                    src={member.photo?.asset?.url || "https://placehold.co/400x400"}
+                    alt={`Bilde av ${member.name}`}
+                />
                 <section className="biography">
                     <article>
                         <h1>{member.name}</h1>
@@ -45,7 +48,9 @@ export default function MemberPage() {
                         <h2>Interesser</h2>
                         <ul>
                             {member.interests?.length > 0 ? (
-                                member.interests.map((interest, index) => <li key={index}>{interest}</li>)
+                                member.interests.map((interest, index) => (
+                                    <li key={index}>{interest}</li>
+                                ))
                             ) : (
                                 <li>Ingen interesser oppgitt.</li>
                             )}
@@ -55,23 +60,26 @@ export default function MemberPage() {
             </section>
             <section className="worklog-section">
                 <h1>Arbeidslogg</h1>
-                <div>
-                    {workLogs.map((log) => (
-                        <div key={log._id} className="worklog-entry">
-                            <p>
-                                {new Date(log.createdAt).toLocaleDateString("no-NO", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                })}
-                            </p>
-                            <p>{log.member.name}</p>
-                            <p>{log.title}</p>
-                            <p>{log.timeSpent}</p>
-                        </div>
-                    ))}
+                <div className="worklog-grid">
+                    {workLogs.length > 0 ? (
+                        workLogs.map((log) => (
+                            <div key={log._id} className="worklog-entry">
+                                <p className="date">
+                                    {new Date(log.createdAt).toLocaleDateString("no-NO", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })}
+                                </p>
+                                <p className="member">{log.member?.name || "Ukjent medlem"}</p>
+                                <p className="title">{log.title || "Tittel ikke oppgitt"}</p>
+                                <p className="time">{log.timeSpent || "Tid ikke oppgitt"}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>Ingen arbeidslogg funnet.</p>
+                    )}
                 </div>
-                
             </section>
         </div>
     );
