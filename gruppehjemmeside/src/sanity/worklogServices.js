@@ -17,20 +17,18 @@ export async function fetchWorklogs() {
     return data;
 }
 
-export async function fetchWorkLogsByMemberId(slug) {
-    const data = await client.fetch(
-        `*[_type == "worklog" && member->slug.current == $slug] | order(createdAt desc){
-            _id,
-            title,
-            entry,
-            createdAt,
-            timeSpent,
-            member->{
-                _id,
-                name
-            }
-        }`,
-        { slug }
-    );
-    return data;
+export async function fetchWorkLogsByMemberId(memberId) {
+    const query = `*[_type == "worklog" && member._ref == $memberId]{
+        _id,
+        title,
+        timeSpent,
+        createdAt,
+        member->{
+            name
+        }
+    }`;
+
+    const params = { memberId };
+    const result = await client.fetch(query, params);
+    return result;
 }

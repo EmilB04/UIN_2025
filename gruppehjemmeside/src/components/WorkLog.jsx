@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchWorklogs } from "../sanity/worklogServices";
+import { fetchWorklogs, fetchWorkLogsByMemberId } from "../sanity/worklogServices";
 import "../styles/WorkLogStyle.scss";
 
 export default function WorkLog({ memberId }) {
@@ -8,7 +8,7 @@ export default function WorkLog({ memberId }) {
     useEffect(() => {
         async function getWorkLogs() {
             const data = memberId
-                ? await fetchWorklogs(memberId) // Fetch logs for a specific member
+                ? await fetchWorkLogsByMemberId(memberId) // Fetch logs for a specific member
                 : await fetchWorklogs(); // Fetch all logs
             setWorkLogs(data);
         }
