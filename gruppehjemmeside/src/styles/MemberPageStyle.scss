@@ -51,3 +51,30 @@
     // ⚠️ Do not edit styles here!
     // ==============================================================
 }
+@media (max-width: 768px) {
+    .member-page {
+        .about-me {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            .biography {
+                margin: 0rem;
+            }
+
+            img {
+                max-height: 50vh;
+                width: auto;
+            }
+            
+            h1, h2, ul, li {
+                text-align: center !important;
+                list-style: none;
+                padding: 0 !important;
+            }
+            p {
+                text-align: left;
+            }
+        }
+    }
+}
