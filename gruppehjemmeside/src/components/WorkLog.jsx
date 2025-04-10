@@ -10,7 +10,10 @@ export default function WorkLog({ memberId }) {
             const data = memberId
                 ? await fetchWorkLogsByMemberId(memberId) // Fetch logs for a specific member
                 : await fetchWorklogs(); // Fetch all logs
-            setWorkLogs(data);
+
+            // Sort logs by date (newest first)
+            const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setWorkLogs(sortedData);
         }
         getWorkLogs();
     }, [memberId]);
