@@ -30,7 +30,7 @@ export default function WorkLog({ memberId }) {
                                 })}
                             </p>
                             <p className="member">{log.member?.name || "Ukjent medlem"}</p>
-                            <p className="title">{log.title}</p>
+                            <p className="title">{log.title || "Tittel ikke oppgitt"}</p>
                             <p className="time">{log.timeSpent || "Tid ikke oppgitt"}</p>
                         </div>
                     ))
