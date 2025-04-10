@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, useParams } from "react-router";
+import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import MemberPage from "./components/MemberPage";
 import PageNotFound from "./components/PageNotFound";
@@ -20,13 +20,18 @@ function ValidSlugRoute({ groupMembers }) {
 function App() {
 
   const [groupMembers, setGroupMembers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); 
+
   useEffect(() => {
     async function getGroupMembers() {
       const data = await fetchAllGroupMembers();
       setGroupMembers(data);
+      setIsLoading(false); // Set loading to false after data is fetched
     }
     getGroupMembers();
   }, []);
+
+  if (isLoading) return <p>Laster ...</p>
 
   
   return (
