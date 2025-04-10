@@ -34,9 +34,9 @@ export async function fetchProductBySlug(slug) {
   return data;
 }
 
-export async function fetchProductsByParentCategory() {
+export async function fetchProductsByParentCategory(id) {
   const data = await client.fetch(
-    `*[_type == 'categories' && references('6f2964ac-0ade-4629-bc8c-c28f624d1358')]`
+    `*[_type == 'categories' && references($id)]`,{id}
   );
   return data;
 }

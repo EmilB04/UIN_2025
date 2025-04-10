@@ -12,7 +12,6 @@ export default function Product() {
     setProductInfo(data);
   };
 
-  console.log(productInfo);
 
   useEffect(() => {
     getProductBySlug(product);

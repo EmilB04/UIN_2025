@@ -12,6 +12,7 @@ import { Route, Routes } from "react-router-dom";
 import Product from "./components/Product";
 import Category from "./components/Category";
 import Home from "./components/Home";
+import SubCategory from "./components/SubCategory";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -32,7 +33,6 @@ function App() {
     setProducts(data);
   };
 
-  console.log(products);
 
   useEffect(() => {
     getAllProducts();
@@ -55,6 +55,7 @@ function App() {
           />
           <Route path="product/:product" element={<Product />} />
           <Route path="category/:category" element={<Category />} />
+          <Route path="category/:category/:subcategory" element={<SubCategory getProductsByCategory={getProductsByCategory} products={products} />} />
           <Route path="category/" element={<Category />} />
         </Routes>
       </Layout>
