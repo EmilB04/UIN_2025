@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import "../styles/MemberStyle.scss";
+import "../styles/MembePageStyle.scss";
 import WorkLog from "./WorkLog";
 import { fetchGroupMemberBySlug } from "../sanity/memberServices";
 

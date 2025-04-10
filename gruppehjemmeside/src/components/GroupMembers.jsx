@@ -3,7 +3,7 @@ import "../styles/GroupMemberStyle.scss";
 
 export default function GroupMembers({ groupMembers }) {
     return (
-        <section>
+        <section className="group-members-section">
             <h1>Gruppemedlemmer</h1>
             <div>
                 {groupMembers.map((member) => (
