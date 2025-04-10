@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'reviews',
 
-  projectId: 'njnptjj2',
+  projectId: 'nkgepv81',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
