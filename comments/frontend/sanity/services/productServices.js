@@ -1,5 +1,5 @@
 import { comments } from "../../../sanity/schemaTypes/comments";
-import { client, writeClient } from "../client";
+import { client } from "../client";
 
 export async function fetchAllProducts() {
   const data = await client.fetch(
