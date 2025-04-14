@@ -21,10 +21,10 @@
 
 For å komme i gang med prosjektet lokalt:
 
-1. **Installer avhengigheter**
+1. **Installer avhengigheter i: _uin25ak3_gruppe2/gruppehjemmeside_**
    ```bash
    npm install
 
-2. **Spinn opp Reach og Sanity-klienter: _uin25ak3_gruppe2/gruppehjemmeside_ og _uin25ak3_gruppe2/gruppehjemmeside/uin25ak3gruppe2_**
+2. **Spinn opp Reach og Sanity-klienter i: _uin25ak3_gruppe2/gruppehjemmeside_ og _uin25ak3_gruppe2/gruppehjemmeside/uin25ak3gruppe2_**
    ```bash
    npm run dev
