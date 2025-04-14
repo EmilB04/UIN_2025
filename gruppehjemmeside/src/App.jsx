@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import "./styles/App.css";
+import { Route, Routes, Navigate, useParams } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import MemberPage from "./components/MemberPage";
+import PageNotFound from "./components/PageNotFound";
+import { useEffect, useState } from "react";
+import { fetchAllGroupMembers } from "./sanity/memberServices";
+import Layout from "./components/Layout";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Wrapper component to validate slug and pass member data
+function ValidSlugRoute({ groupMembers }) {
+  const { slug } = useParams(); // Extract slug from URL params
+  const member = groupMembers.find((m) => m.slug.current === slug); 
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  if (!member) 
+    return <Navigate to="/404" />;
+  
+  return <MemberPage member={member} />;
 }
 
-export default App
+function App() {
+
+  const [groupMembers, setGroupMembers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); 
+
+  useEffect(() => {
+    async function getGroupMembers() {
+      const data = await fetchAllGroupMembers();
+      setGroupMembers(data);
+      setIsLoading(false); // Set loading to false after data is fetched
+    }
+    getGroupMembers();
+  }, []);
+
+  if (isLoading) return <p>Laster ...</p>
+
+  
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage groupMembers={groupMembers} />} />
+        <Route
+          path="members/:slug"
+          element={<ValidSlugRoute groupMembers={groupMembers} />}
+        />
+        <Route path="/404" element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Layout>
+  );
+}
+
+export default App;
