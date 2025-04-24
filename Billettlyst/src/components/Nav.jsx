@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/navStyle.scss";
 
 export default function Nav() {
@@ -10,11 +11,11 @@ export default function Nav() {
             <span>
                 <h1>Billettlyst</h1>
             </span>
-            <ul id={menuOpen ? "open" : ""}>
-                <li><a href="/">Home</a></li>
-                <li><a href="/category">Category</a></li>
-                <li><a href="/event">Event</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
+            <ul class={menuOpen ? "open" : ""} id="nav-links">
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/category">Category</Link></li>
+                <li><Link to="/event">Event</Link></li>
+                <li><Link to="/dashboard">Dashboard</Link></li>
             </ul>
             <search id="search-container">
                 {searchOpen && (

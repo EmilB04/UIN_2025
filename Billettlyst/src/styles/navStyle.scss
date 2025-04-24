@@ -2,16 +2,17 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
     padding: 1.2rem 1rem;
     background-color: #333;
     color: white;
     position: relative;
 
-    h1 {
-        margin: 0;
+    span {
+        width: 9rem ;
+        h1 {
+            margin: 0;
+        }
     }
-
     #hamburger {
         // Hamburger menu icon
         font-size: 1.5rem;
@@ -21,7 +22,7 @@
         cursor: pointer;
     }
 
-    ul {
+    #nav-links {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -37,7 +38,7 @@
         border-radius: 0 0 5px 5px;
         z-index: 10;
 
-        &#open {
+        &.open {
             display: flex; // Show menu when open
         }
 
@@ -116,39 +117,76 @@
 }
 
 @media (min-width: 768px) {
-    // TODO: Make ul items in the center and make the search box smaller or new solution.
-
-    // Desktop styles
-    #hamburger {
-        display: none;
-    }
 
     #nav {
-        display: flex;
-        justify-content: space-between;
-
-        ul {
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        #hamburger {
+            display: none;
+        }
+        #nav-links {
             display: flex;
             flex-direction: row;
-            justify-content: left;
-            position: static;
-            background: none;
+            position: relative;
+            justify-content: center;
+            background-color: transparent;
+            max-width: none;
             box-shadow: none;
-            width: auto;
+            border-radius: 0px;
+            z-index: 1;
+
 
             li {
-                margin: 0 0.5rem;
+                margin: 0;
                 padding: 0;
-                text-align: center;
+                text-align: left;
+
+                &:last-child {
+                    a {
+                        &:hover {
+                            border-radius: 0;
+                        }
+                    }
+                }
 
                 a {
-                    padding: 0.5rem 1rem; 
-                    border-radius: 0 !important;
+                    padding: 1rem 0.5rem;
+                    transition: background-color 0.5s ease, color 0.5s ease;
+
+                    &:hover {
+                        background-color: #555;
+                    }
                 }
             }
         }
+
         #search-container {
-            max-width: 300px;
+            display: flex;
+            top: 2rem;
+            right: 1rem;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 9rem;
+            z-index: 10;
+
+            #search-icon {
+                font-size: 1.5rem;
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+
+            #search-box {
+                display: flex;
+                align-items: center;
+                position: absolute;
+                top: 2rem;
+                right: -4rem;
+                transform: translateX(-50%);
+                width: auto;
+            }
         }
     }
 }
