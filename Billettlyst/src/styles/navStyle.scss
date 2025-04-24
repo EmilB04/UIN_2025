@@ -1,0 +1,192 @@
+#nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    background-color: #333;
+    color: white;
+    position: relative;
+
+    span {
+        width: 9rem ;
+        h1 {
+            margin: 0;
+        }
+    }
+    #hamburger {
+        // Hamburger menu icon
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    #nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0rem;
+        background-color: #444;
+        max-width: 300px;
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 0 0 5px 5px;
+        z-index: 10;
+
+        &.open {
+            display: flex; // Show menu when open
+        }
+
+
+        li {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+
+            &:last-child {
+
+                // To get the last li to have a border radius
+                a {
+                    &:hover {
+                        border-radius: 0 0 5px 5px;
+                    }
+                }
+            }
+
+            a {
+                text-decoration: none;
+                color: white;
+                display: block;
+                padding: 1rem 0.5rem;
+
+                &:hover {
+                    background-color: #555;
+                }
+            }
+        }
+    }
+
+    #search-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+
+        #search-icon {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        #search-box {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+
+            input {
+                width: 100%;
+                padding: 0.5rem;
+                border: none;
+                border-radius: 5px 0 0 5px;
+                outline: none;
+            }
+
+            button {
+                padding: 0.5rem;
+                background-color: #555;
+                border: none;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #666;
+                }
+            }
+        }
+    }
+
+}
+
+@media (min-width: 768px) {
+
+    #nav {
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        #hamburger {
+            display: none;
+        }
+        #nav-links {
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            justify-content: center;
+            background-color: transparent;
+            max-width: none;
+            box-shadow: none;
+            border-radius: 0px;
+            z-index: 1;
+
+
+            li {
+                margin: 0;
+                padding: 0;
+                text-align: left;
+
+                &:last-child {
+                    a {
+                        &:hover {
+                            border-radius: 0;
+                        }
+                    }
+                }
+
+                a {
+                    padding: 1rem 0.5rem;
+                    transition: background-color 0.5s ease, color 0.5s ease;
+
+                    &:hover {
+                        background-color: #555;
+                    }
+                }
+            }
+        }
+
+        #search-container {
+            display: flex;
+            top: 2rem;
+            right: 1rem;
+            flex-direction: row;
+            justify-content: flex-end;
+            width: 9rem;
+            z-index: 10;
+
+            #search-icon {
+                font-size: 1.5rem;
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+
+            #search-box {
+                display: flex;
+                align-items: center;
+                position: absolute;
+                top: 2rem;
+                right: -4rem;
+                transform: translateX(-50%);
+                width: auto;
+            }
+        }
+    }
+}
