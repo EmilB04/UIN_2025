@@ -1,2 +1,31 @@
-# UIN2025_eksamen_gruppe2
-Github repo for innlevering av Eksamen i Utvikling av Interaktive Nettsteder (UIN) - 2025.
+# 🛠️ uin25ak3_gruppe2  
+**Innleveringsrepo for eksamen**  
+📚 *UIN – Gruppe 2*
+
+---
+
+## 👥 Gruppemedlemmer  
+- Andreas B. Olaussen  
+- Emil Berglund  
+- Ida K. Tollaksen  
+- Sebastian W. Thomsen  
+
+---
+
+## 🧠 Sanity Organization  
+ADD LINK
+🔗 [Sanity Dashboard]()
+
+---
+
+## 🚀 Kjøreguide
+
+For å komme i gang med prosjektet lokalt:
+
+1. **Installer avhengigheter i: _uin25ak3_gruppe2/gruppehjemmeside_**
+   ```bash
+   npm install
+
+2. **Spinn opp Reach og Sanity-klienter i: _uin25ak3_gruppe2/gruppehjemmeside_ og _uin25ak3_gruppe2/gruppehjemmeside/uin25ak3gruppe2_**
+   ```bash
+   npm run dev
