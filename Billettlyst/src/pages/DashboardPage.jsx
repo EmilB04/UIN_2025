@@ -1,3 +1,60 @@
+{/*
+FIXME:
+TODO: 
+    Karakter: E
+        - Skal inneholde et innloggingsskjema (uten krav til reell funksjonalitet).
+
+    Karakter: D
+        - Ikke relevant
+
+    Karakter: C
+        - Innloggingsskjema (ikke funksjonalitet - backend)
+        - Når brukeren fyller ut skjemaet og "logger inn", skal:
+                Innloggingsskjemaet skjules
+                En ny visning vises med overskriften "Min side"
+        - Påloggingsstatusen kan håndteres ved hjelp av en state-variabel (f.eks. isLoggedIn), som endres fra false til true når brukeren sender inn skjemaet.
+
+    Karakter: B
+        - På Dashboard-siden skal følgende vises:
+            En oversikt over alle events lagret i Sanity
+            En oversikt over alle brukere
+            For hver bruker skal det vises:
+            Navn og profilbilde
+            En opptelling av events brukeren har i ønskelisten og tidligere kjøp
+            En liste over disse eventene
+    
+    Karakter: A
+        - På Dashboard-siden skal innholdet være delt opp i to tydelige seksjoner:
+
+        1. Brukerinformasjon
+        Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
+        
+        2. Brukerens innhold
+        Ønskeliste og tidligere kjøp
+        
+        Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
+        Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
+        Navn på eventet
+        Dato
+        Bilde
+        Venner-funksjonalitet
+        
+        Oppdater brukerens Sanity-modell ved å legge til et nytt felt: friends
+        Dette skal være en referanse til én eller flere andre brukere i systemet.
+        I grensesnittet skal du hente ut og vise vennelisten til den innloggede brukeren.
+        Felles arrangementer
+        
+        Under hver venn i visningen, skal det kontrolleres om brukeren og vennen har felles events i ønskelisten.
+        Dersom det finnes et eller flere felles arrangementer, skal det vises en melding som for eksempel:
+        "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
+    
+    
+*/}
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 
