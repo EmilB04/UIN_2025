@@ -13,8 +13,7 @@
 ---
 
 ## 🧠 Sanity Organization  
-ADD LINK
-🔗 [Sanity Dashboard]()
+🔗 [Sanity Dashboard](https://www.sanity.io/organizations/oa4H42Px9/project/zfrfh6h7?orgId=oa4H42Px9)
 
 ---
 
