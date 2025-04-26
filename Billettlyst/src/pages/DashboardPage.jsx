@@ -121,7 +121,7 @@ export default function DashboardPage() {
         <div id="dashboard-page">
             {!isLoggedIn ? (
                 <section id="login-section">
-                    <h1>Velkommen tilbake</h1>
+                    <h1>Velkommen tilbake!</h1>
                     <form onSubmit={handleLogin}>
                         <div className="input-wrapper">
                             <i className="fas fa-envelope"></i>
@@ -151,8 +151,10 @@ export default function DashboardPage() {
                 </section>
             ) : (
                 <section id="dashboard-section">
-                    <h1>Min side</h1>
-                    <button onClick={handleLogout}>Logg ut</button>
+                    <section id="dashboard-header">
+                        <h1>Min side</h1>
+                        <button id="logout" onClick={handleLogout}>Logg ut</button> 
+                    </section>
 
                     {/* User Information */}
                     <section id="user-info-section">
