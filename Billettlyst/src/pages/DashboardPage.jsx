@@ -1,20 +1,22 @@
-{/*
-FIXME:
+/*
 TODO: 
-    Karakter: E
-        - Skal inneholde et innloggingsskjema (uten krav til reell funksjonalitet).
+⬜ 
+🔄 DOING:
+✅ DONE:
+    ✅ DONE: Karakter: E
+        - Skal inneholde et innloggingsskjema (uten krav til reell funksjonalitet). 
 
-    Karakter: D
+    ✅ DONE: Karakter: D
         - Ikke relevant
 
-    Karakter: C
+    ✅ DONE: Karakter: C
         - Innloggingsskjema (ikke funksjonalitet - backend)
         - Når brukeren fyller ut skjemaet og "logger inn", skal:
                 Innloggingsskjemaet skjules
                 En ny visning vises med overskriften "Min side"
         - Påloggingsstatusen kan håndteres ved hjelp av en state-variabel (f.eks. isLoggedIn), som endres fra false til true når brukeren sender inn skjemaet.
 
-    Karakter: B
+    🔄 DOING: Karakter: B
         - På Dashboard-siden skal følgende vises:
             En oversikt over alle events lagret i Sanity
             En oversikt over alle brukere
@@ -23,7 +25,7 @@ TODO:
             En opptelling av events brukeren har i ønskelisten og tidligere kjøp
             En liste over disse eventene
     
-    Karakter: A
+    ⬜ Karakter: A
         - På Dashboard-siden skal innholdet være delt opp i to tydelige seksjoner:
 
         1. Brukerinformasjon
@@ -49,7 +51,7 @@ TODO:
         "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
     
     
-*/}
+*/
 
 
 
@@ -167,7 +169,7 @@ export default function DashboardPage() {
                     {/* Events Overview */}
                     <section id="events-section">
                         <h2>Alle eventer</h2>
-                        <div id="events-list">
+                        <ul id="events-list">  {/* Fetch content from sanity */}
                             {events.map((event) => (
                                 <div key={event.id} className="event-card">
                                     <img src={event.image} alt={event.name} />
@@ -175,13 +177,13 @@ export default function DashboardPage() {
                                     <p>{event.date}</p>
                                 </div>
                             ))}
-                        </div>
+                        </ul>
                     </section>
 
                     {/* Users Overview */}
                     <section id="users-section">
                         <h2>Alle brukere</h2>
-                        <div id="users-list">
+                        <ul id="users-list">   {/* Fetch content from sanity */}
                             {users.map((user) => (
                                 <div key={user.id} className="user-card">
                                     <img src={user.image} alt={user.name} />
@@ -189,14 +191,14 @@ export default function DashboardPage() {
                                     <p>Ønskeliste: {user.wishlist.length} eventer</p>
                                     <p>Tidligere kjøp: {user.purchases.length} eventer</p>
                                     <div className="user-events">
-                                        <h4>Ønskeliste:</h4>
+                                        <h4>Ønskeliste:</h4>    {/* Fetch content from sanity */}
                                         {user.wishlist.map((event) => (
                                             <div key={event.id} className="event-card">
                                                 <img src={event.image} alt={event.name} />
                                                 <p>{event.name}</p>
                                             </div>
                                         ))}
-                                        <h4>Tidligere kjøp:</h4>
+                                        <h4>Tidligere kjøp:</h4>    {/* Fetch content from sanity */}
                                         {user.purchases.map((event) => (
                                             <div key={event.id} className="event-card">
                                                 <img src={event.image} alt={event.name} />
@@ -206,7 +208,7 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </ul>
                     </section>
                 </section>
             )}
