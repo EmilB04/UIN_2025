@@ -6,7 +6,7 @@ export async function fetchAllUsers() {
             _id,
             firstName,
             lastName,
-            userId,
+            password,
             photo{
                 asset->{
                     _id,
@@ -33,13 +33,13 @@ export async function fetchAllUsers() {
     }
 }
 
-export async function fetchUserById(userId) {
+export async function fetchUserById(_id) {
     try {
-        const data = await client.fetch(`*[_type == "user" && userId == $userId][0]{
+        const data = await client.fetch(`*[_type == "user" && _id == $_id][0]{
             _id,
             firstName,
             lastName,
-            userId,
+            password,
             photo{
                 asset->{
                     _id,
@@ -58,7 +58,7 @@ export async function fetchUserById(userId) {
                 _id,
                 name
             },
-        }`, { userId });
+        }`, { _id });
         return data;
     } catch (error) {
         console.error("Error fetching user by ID:", error);
