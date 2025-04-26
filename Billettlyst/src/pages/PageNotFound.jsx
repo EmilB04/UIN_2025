@@ -6,9 +6,9 @@ export default function PageNotFound() {
         <section id="page-not-found">
             <h1>404 - Page Not Found</h1>
             <p>Beklager, siden du leter etter finnes ikke.</p>
-            <button>
-                <Link to="/">Gå tilbake</Link>
-            </button>
+            <Link to="/" className="button-link">
+                <button>Gå tilbake</button>
+            </Link>
         </section>
     );
 }
