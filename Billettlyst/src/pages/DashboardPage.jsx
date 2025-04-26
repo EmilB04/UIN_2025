@@ -28,7 +28,7 @@ TODO:
     🔄 DOING: Karakter: A
         - På Dashboard-siden skal innholdet være delt opp i to tydelige seksjoner:
 
-        1. Brukerinformasjon 
+        1. Brukerinformasjon ✅ DONE:
         Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
         
         2. Brukerens innhold
@@ -152,10 +152,10 @@ export default function DashboardPage() {
                             <button
                                 type="button"
                                 id="toggle-password"
-                                onClick={() => setShowPassword(!showPassword)} 
+                                onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? (
-                                    <i className="fa-regular fa-eye"></i> 
+                                    <i className="fa-regular fa-eye"></i>
                                 ) : (
                                     <i className="fa-regular fa-eye-slash"></i>
                                 )}
@@ -169,24 +169,65 @@ export default function DashboardPage() {
                 <section id="dashboard-section">
                     <section id="dashboard-header">
                         <h1>Min side</h1>
-                        <button id="logout" onClick={handleLogout}>Logg ut</button>
+                        <button id="logout" onClick={handleLogout} aria-label="Logg ut" title="Logg ut">
+                            <i className="fas fa-sign-out-alt"></i>
+                        </button>
                     </section>
 
                     {/* User Information */}
                     <section id="user-info-section">
                         <h2>Brukerinformasjon</h2>
                         {loggedInUser && (
-                            <article id="user-info">
+                            <article id="user-details">
                                 <img
                                     src={loggedInUser.photo?.asset?.url}
                                     alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
                                 />
-                                <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
-                                <p>E-post: {loggedInUser.email}</p>
-                                <p>Alder: {loggedInUser.age}</p>
+                                <aside>
+                                    <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
+                                    <p>E-post: {loggedInUser.email}</p>
+                                    <p>Alder: {loggedInUser.age}</p>
+                                </aside>
                             </article>
                         )}
                     </section>
+                    <section id="user-content-section">
+                        <h2>Brukerinnhold</h2>
+                        <section id="user-wishlist-section">
+                            {loggedInUser && (
+                                <article id="wishlist">
+                                    <h3>Ønskeliste</h3>
+                                    <ul id="wishlist-list">
+                                        {loggedInUser.wishlist?.map((event) => (
+                                            <li key={event._id}>
+
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </article>
+                            )}
+                        </section>
+                        <section id="user-purchases-section">
+                            {loggedInUser && (
+                                <article id="previous-purchases">
+                                    <h3>Tidligere kjøp</h3>
+                                    <ul id="previous-purchases-list">
+                                        {loggedInUser.previousPurchases?.map((event) => (
+                                            <li key={event._id}>
+
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </article>
+                            )}
+                        </section>
+                        <section id="friends-section">
+                            <h3>Venner av deg</h3>
+                            <ul id="friends-list">
+                            </ul>
+                        </section>
+                    </section>
+
                 </section>
             )}
         </div>
