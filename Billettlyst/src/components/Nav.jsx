@@ -9,7 +9,7 @@ export default function Nav() {
     return (
         <nav id="nav">
             <h1>Billettlyst</h1>
-            <ul class={menuOpen ? "open" : ""} id="nav-links">
+            <ul className={menuOpen ? "open" : ""} id="nav-links">
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/category:slug">Category</Link></li>
                 <li><Link to="/event/:id">Event</Link></li>
