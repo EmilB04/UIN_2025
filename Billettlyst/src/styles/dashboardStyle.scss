@@ -1,22 +1,22 @@
 // TODO: Check page alignment and responsiveness
 
 #dashboard-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    width: 100%;
     color: white;
 
     #login-section {
+        position: absolute;
         display: flex;
         flex-direction: column;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 500px;
+        max-height: 600px;
+        width: calc(230px + calc(50vw - 230px) * 0.5);
+        height: calc(230px + calc(50vh - 230px) * 0.5);
         justify-content: center;
-        align-items: center;
-        padding: 2rem;
-        width: 100%;
-        max-width: 400px;
         background: #313131;
+        padding: 2rem;;
         border-radius: 15px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
 
@@ -24,6 +24,7 @@
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 2rem;
+            white-space: wrap;
         }
 
         form {
@@ -38,6 +39,22 @@
             color: #555;
             margin-bottom: 0.5rem;
             display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background: #006c80;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+
+            &:hover {
+                background: #005566;
+            }
         }
 
         .input-wrapper {
@@ -69,30 +86,21 @@
         }
     }
 
-    button {
-        width: 100%;
-        padding: 0.8rem;
-        background: #006c80;
-        font-size: 1rem;
-        font-weight: bold;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.3s;
 
-        &:hover {
-            background: #005566;
-        }
-    }
+    #dashboard-section {
+        #dashboard-header {
+            display: flex;
+            align-items: center;
 
-    #dashboard-section{
-        h1 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
+            h1 {
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 2rem;
+            }
         }
 
-        #events-list, #users-list{
+        #events-list,
+        #users-list {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
@@ -100,6 +108,16 @@
             width: 100%;
             margin: 0;
             padding: 0;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    #dashboard-page {
+        #login-section {
+            h1{
+                margin-bottom: 3rem;
+            }
         }
     }
 }

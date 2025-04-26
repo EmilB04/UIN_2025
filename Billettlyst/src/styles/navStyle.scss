@@ -26,6 +26,7 @@
         margin: 0;
         padding: 0;
         display: none;
+        z-index: -10;
         flex-direction: column;
         position: absolute;
         top: 100%;
@@ -35,10 +36,11 @@
         width: 100%;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         border-radius: 0 0 5px 5px;
-        z-index: 10;
+        z-index: -10;
 
         &.open {
             display: flex; // Show menu when open
+            z-index: 10;
         }
 
 
@@ -48,7 +50,6 @@
             text-align: left;
 
             &:last-child {
-
                 // To get the last li to have a border radius
                 a {
                     &:hover {
