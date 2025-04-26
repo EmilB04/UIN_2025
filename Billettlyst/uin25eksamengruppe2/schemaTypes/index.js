@@ -1,4 +1,4 @@
-import bruker from './bruker';
+import user from './user';
 import event from './event';
 
-export const schemaTypes = [bruker, event];
+export const schemaTypes = [user, event];
