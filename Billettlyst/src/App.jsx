@@ -6,9 +6,9 @@ import EventPage from "./pages/EventPage";
 import CategoryPage from "./pages/CategoryPage";
 import Dashboard from "./pages/DashboardPage";
 import SanityEventDetails from './components/SanityEventDetails';
+import PageNotFound from "./pages/PageNotFound";
 //
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (

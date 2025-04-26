@@ -160,7 +160,7 @@ export default function DashboardPage() {
                     <section id="user-info-section">
                         <h2>Brukerinformasjon</h2>
                         {loggedInUser && (
-                            <div className="user-info">
+                            <article id="user-info">
                                 <img
                                     src={loggedInUser.photo?.asset?.url}
                                     alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
@@ -168,14 +168,38 @@ export default function DashboardPage() {
                                 <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
                                 <p>E-post: {loggedInUser.email}</p>
                                 <p>Alder: {loggedInUser.age}</p>
-                            </div>
+                            </article>
+                        )}
+                        {loggedInUser && (
+                            <article id="wishlist">
+                                <h2>Ønskeliste</h2>
+                                <ul id="wishlist-list">
+                                    {loggedInUser.wishlist?.map((event) => (
+                                        <li key={event._id}>
+                                            
+                                        </li>
+                                    ))}
+                                </ul>
+                            </article>
+                        )}
+                        {loggedInUser && (
+                            <article id="previous-purchases">
+                                <h2>Tidligere kjøp</h2>
+                                <ul id="previous-purchases-list">
+                                    {loggedInUser.previousPurchases?.map((event) => (
+                                        <li key={event._id}>
+                                            
+                                        </li>
+                                    ))}
+                                </ul>
+                            </article>
                         )}
                     </section>
 
                     {/* Friends Overview */}
-                    <section id="users-section">
+                    <section id="friends-section">
                         <h2>Venner av deg</h2>
-                        <ul id="users-list">
+                        <ul id="friends-list">
                         </ul>
                     </section>
                 </section>
