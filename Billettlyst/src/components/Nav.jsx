@@ -9,19 +9,17 @@ export default function Nav() {
     return (
         <nav id="nav">
             <h1>Billettlyst</h1>
-            <ul className={menuOpen ? "open" : ""} id="nav-links">
+            <ul id="nav-links" className={menuOpen ? "open" : ""}>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/category:slug">Category</Link></li>
                 <li><Link to="/event/:id">Event</Link></li>
                 <li><Link to="/dashboard">Dashboard</Link></li>
             </ul>
-            <search id="search-container">
-                {searchOpen && (
-                    <div id="search-box">
-                        <input type="text" placeholder="Search..." />
-                        <button type="submit">Search</button>
-                    </div>
-                )}
+            <search id="search-container" className={searchOpen ? "open" : ""}>
+                <div id="search-box">
+                    <input type="text" placeholder="Search..." />
+                    <button type="submit">Search</button>
+                </div>
                 <button id="search-icon" onClick={() => setSearchOpen(!searchOpen)} aria-label="Toggle search">
                     <i className="fas fa-search"></i>
                 </button>
@@ -32,6 +30,7 @@ export default function Nav() {
         </nav>
     );
 }
+
 
 /* Sources: 
     Font Awesome: https://fontawesome.com/icons
