@@ -66,52 +66,65 @@ export default function DashboardPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [loading, setLoading] = useState(false); // State to handle loading
 
     // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
-        setEmail();
-        setPassword();
+        setLoading(true); // Start loading
         try {
             const allUsers = await fetchAllUsers();
             const user = allUsers.find((u) => u.email === email);
 
             if (user) {
                 if (password === user.password) {
-                    setIsLoggedIn(true);
-                    setLoggedInUser(user);
-                    localStorage.setItem("isLoggedIn", "true");
-                    localStorage.setItem("loggedInUserId", user._id);
-                    setError("");
+                    setTimeout(() => { // Simulate delay
+                        setIsLoggedIn(true);
+                        setLoggedInUser(user);
+                        localStorage.setItem("isLoggedIn", "true");
+                        localStorage.setItem("loggedInUserId", user._id);
+                        setError("");
+                        setLoading(false); // Stop loading
+                    }, 1000); // 1-second delay
                 } else {
                     setError("Feil passord. Prøv igjen.");
+                    setLoading(false); // Stop loading
                 }
             } else {
                 setError("Bruker ikke funnet. Sjekk e-postadressen.");
+                setLoading(false); // Stop loading
             }
         } catch (error) {
             console.error("Error during login:", error);
             setError("Noe gikk galt. Prøv igjen senere.");
+            setLoading(false); // Stop loading
         }
     };
 
     // Handle logout
     const handleLogout = () => {
-        setIsLoggedIn(false);
-        setLoggedInUser(null);
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("loggedInUserId");
+        setLoading(true); // Start loading
+        setTimeout(() => { // Simulate delay
+            setIsLoggedIn(false);
+            setLoggedInUser(null);
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("loggedInUserId");
+            setLoading(false); // Stop loading
+        }, 1000); // 1-second delay
     };
 
     useEffect(() => {
         const fetchLoggedInUser = async () => {
             const userId = localStorage.getItem("loggedInUserId");
             if (userId) {
+                setLoading(true); // Start loading
                 try {
                     const user = await fetchUserById(userId);
                     setLoggedInUser(user);
                 } catch (error) {
                     console.error("Error fetching logged-in user:", error);
+                } finally {
+                    setLoading(false); // Stop loading
                 }
             }
         };
@@ -123,7 +136,12 @@ export default function DashboardPage() {
 
     return (
         <div id="dashboard-page">
-            {!isLoggedIn ? (
+            {loading ? (
+                <div className="loading-spinner">
+                    <div className="spinner"></div>
+                    <p>Laster inn...</p>
+                </div>
+            ) : !isLoggedIn ? (
                 <section id="login-section">
                     <span><i className="fas fa-sign-in-alt"></i></span>
                     <h1>Velkommen tilbake!👋 </h1>
