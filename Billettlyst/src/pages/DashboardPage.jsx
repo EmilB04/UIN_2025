@@ -103,6 +103,8 @@ export default function DashboardPage() {
 
     // Handle logout
     const handleLogout = () => {
+        setEmail();
+        setPassword();
         setLoading(true); // Start loading
         setTimeout(() => { // Simulate delay
             setIsLoggedIn(false);
