@@ -28,7 +28,7 @@ TODO:
     🔄 DOING: Karakter: A
         - På Dashboard-siden skal innholdet være delt opp i to tydelige seksjoner:
 
-        1. Brukerinformasjon 
+        1. Brukerinformasjon ✅ DONE:
         Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
         
         2. Brukerens innhold
@@ -65,12 +65,14 @@ export default function DashboardPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
     // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
+        setEmail();
+        setPassword();
         try {
-            // Fetch all users and find the user with the matching email (from input)
             const allUsers = await fetchAllUsers();
             const user = allUsers.find((u) => u.email === email);
 
@@ -79,8 +81,8 @@ export default function DashboardPage() {
                     setIsLoggedIn(true);
                     setLoggedInUser(user);
                     localStorage.setItem("isLoggedIn", "true");
-                    localStorage.setItem("loggedInUserId", user._id); // Save user ID to localStorage
-                    setError(""); // Clear any previous error
+                    localStorage.setItem("loggedInUserId", user._id);
+                    setError("");
                 } else {
                     setError("Feil passord. Prøv igjen.");
                 }
@@ -92,6 +94,7 @@ export default function DashboardPage() {
             setError("Noe gikk galt. Prøv igjen senere.");
         }
     };
+
     // Handle logout
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -99,6 +102,7 @@ export default function DashboardPage() {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("loggedInUserId");
     };
+
     useEffect(() => {
         const fetchLoggedInUser = async () => {
             const userId = localStorage.getItem("loggedInUserId");
@@ -121,7 +125,8 @@ export default function DashboardPage() {
         <div id="dashboard-page">
             {!isLoggedIn ? (
                 <section id="login-section">
-                    <h1>Velkommen tilbake!</h1>
+                    <span><i className="fas fa-sign-in-alt"></i></span>
+                    <h1>Velkommen tilbake!👋 </h1>
                     <form onSubmit={handleLogin}>
                         <div className="input-wrapper">
                             <i className="fas fa-envelope"></i>
@@ -137,47 +142,92 @@ export default function DashboardPage() {
                         <div className="input-wrapper">
                             <i className="fas fa-lock"></i>
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 id="password"
                                 placeholder="Passord"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            <button
+                                type="button"
+                                id="toggle-password"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <i className="fa-regular fa-eye"></i>
+                                ) : (
+                                    <i className="fa-regular fa-eye-slash"></i>
+                                )}
+                            </button>
                         </div>
                         {error && <p className="error-message">{error}</p>}
-                        <button type="submit">Logg inn</button>
+                        <button id="login" type="submit">Logg inn</button>
                     </form>
                 </section>
             ) : (
                 <section id="dashboard-section">
                     <section id="dashboard-header">
                         <h1>Min side</h1>
-                        <button id="logout" onClick={handleLogout}>Logg ut</button> 
+                        <button id="logout" onClick={handleLogout} aria-label="Logg ut" title="Logg ut">
+                            <i className="fas fa-sign-out-alt"></i>
+                        </button>
                     </section>
 
                     {/* User Information */}
                     <section id="user-info-section">
                         <h2>Brukerinformasjon</h2>
                         {loggedInUser && (
-                            <div className="user-info">
+                            <article id="user-details">
                                 <img
                                     src={loggedInUser.photo?.asset?.url}
                                     alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
                                 />
-                                <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
-                                <p>E-post: {loggedInUser.email}</p>
-                                <p>Alder: {loggedInUser.age}</p>
-                            </div>
+                                <aside>
+                                    <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
+                                    <p>E-post: {loggedInUser.email}</p>
+                                    <p>Alder: {loggedInUser.age}</p>
+                                </aside>
+                            </article>
                         )}
                     </section>
+                    <section id="user-content-section">
+                        <h2>Brukerinnhold</h2>
+                        <section id="user-wishlist-section">
+                            {loggedInUser && (
+                                <article id="wishlist">
+                                    <h3>Ønskeliste</h3>
+                                    <ul id="wishlist-list">
+                                        {loggedInUser.wishlist?.map((event) => (
+                                            <li key={event._id}>
 
-                    {/* Friends Overview */}
-                    <section id="users-section">
-                        <h2>Venner av deg</h2>
-                        <ul id="users-list">
-                        </ul>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </article>
+                            )}
+                        </section>
+                        <section id="user-purchases-section">
+                            {loggedInUser && (
+                                <article id="previous-purchases">
+                                    <h3>Tidligere kjøp</h3>
+                                    <ul id="previous-purchases-list">
+                                        {loggedInUser.previousPurchases?.map((event) => (
+                                            <li key={event._id}>
+
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </article>
+                            )}
+                        </section>
+                        <section id="friends-section">
+                            <h3>Venner av deg</h3>
+                            <ul id="friends-list">
+                            </ul>
+                        </section>
                     </section>
+
                 </section>
             )}
         </div>

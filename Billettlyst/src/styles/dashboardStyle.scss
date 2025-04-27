@@ -2,6 +2,7 @@
 
 #dashboard-page {
     color: white;
+    width: 100%;
 
     #login-section {
         position: absolute;
@@ -12,19 +13,33 @@
         transform: translate(-50%, -50%);
         max-width: 500px;
         max-height: 600px;
-        width: calc(230px + calc(50vw - 230px) * 0.5);
-        height: calc(230px + calc(50vh - 230px) * 0.5);
+        width: calc(230px + calc(50vw - 20px) * 0.5);
+        height: calc(300px + calc(50vh - 270px) * 0.5);
         justify-content: center;
         background: #313131;
-        padding: 2rem;;
+        padding: 2rem;
         border-radius: 15px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+
+        span {
+            font-size: 2.5rem;
+            text-align: center;
+
+            i {
+                background-color: #242424;
+                padding: 1rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+            }
+        }
 
         h1 {
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 2rem;
+            margin-top: 1rem;
             white-space: wrap;
+            text-align: center;
         }
 
         form {
@@ -41,7 +56,7 @@
             display: block;
         }
 
-        button {
+        #login {
             width: 100%;
             padding: 0.8rem;
             background: #006c80;
@@ -72,7 +87,7 @@
 
             input {
                 width: 100%;
-                padding: 0.8rem 0.8rem 0.8rem 2.5rem; // Add padding to the left to make space for the icon
+                padding: 0.8rem 0.8rem 0.8rem 2.5rem; 
                 border: 1px solid #ccc;
                 border-radius: 8px;
                 font-size: 1rem;
@@ -83,39 +98,127 @@
                     border-color: #5bafc4;
                 }
             }
+            #toggle-password {
+                position: absolute;
+                top: 50%;
+                right: 1.5rem;
+                transform: translateY(-50%);
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                color: #888;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.5rem;
+                height: 1.5rem;
+    
+                i {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+        }
+
         }
     }
-
-
     #dashboard-section {
+        width: 100%;
+    
         #dashboard-header {
             display: flex;
             align-items: center;
-
+            justify-content: center;
+            gap: 2rem;
+    
             h1 {
-                font-size: 2rem;
-                font-weight: bold;
-                margin-bottom: 2rem;
+                font-size: 3rem;
+            }
+            button {
+                background: #006c80;
+                padding: 0.8rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: background 0.3s;
+
+                &:hover {
+                    background: #005566;
+                }
+                i{
+                    font-size: 2rem;
+                    color: white;
+                }
             }
         }
 
-        #events-list,
-        #users-list {
+        #user-info-section{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-top: 1.5rem;
+                padding: 2rem;
+                background: #313131;
+                border-radius: 15px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+            h2{
+                font-size: 2rem;
+                margin: 0;
+            }
+            #user-details{
+                text-align: center;
+                img{
+                    max-width: 500px;
+                    max-height: 500px;
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+                }
+
+                h3 {
+                    font-size: 1.8rem;
+                    color: #006c80
+                }
+                p {
+                    font-size: 1rem;
+                }
+
+            }
+
+        }
+        #user-content-section {
             display: flex;
+            flex-direction: column;
             flex-wrap: wrap;
             gap: 1rem;
-            justify-content: center;
-            width: 100%;
-            margin: 0;
-            padding: 0;
+            margin-top: 1.5rem;
+            padding: 2rem;
+            background: #313131;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+
+            h2 {
+                font-size: 2rem;
+                margin: 0;
+                text-align: center;
+            }
         }
     }
 }
 
+
 @media (min-width: 768px) {
     #dashboard-page {
         #login-section {
-            h1{
+            h1 {
                 margin-bottom: 3rem;
             }
         }
