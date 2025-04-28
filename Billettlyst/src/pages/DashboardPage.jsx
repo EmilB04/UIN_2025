@@ -81,6 +81,7 @@ export default function DashboardPage() {
                     setTimeout(() => { // Simulate delay
                         setIsLoggedIn(true);
                         setLoggedInUser(user);
+                        window.location.reload(); // Reload the page to reflect changes
                         localStorage.setItem("isLoggedIn", "true");
                         localStorage.setItem("loggedInUserId", user._id);
                         setError("");
@@ -107,6 +108,7 @@ export default function DashboardPage() {
         setTimeout(() => { // Simulate delay
             setIsLoggedIn(false);
             setLoggedInUser(null);
+            window.location.reload(); // Reload the page to reflect changes
             localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("loggedInUserId");
             setLoading(false); // Stop loading
