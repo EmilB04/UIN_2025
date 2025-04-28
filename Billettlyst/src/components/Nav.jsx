@@ -16,8 +16,8 @@ export default function Nav() {
 
     return (
         <nav id="nav">
-            <Link to="/">BillettLyst</Link>
-            <ul id="nav-links" className={menuOpen ? "open" : ""}>
+            <Link to="/" id="title" onClick={() => setMenuOpen(false)}>BillettLyst</Link>
+            <ul id="nav-links" className={menuOpen ? "open" : ""} onClick={() => setMenuOpen(false)}>
                 <li><Link to="/category:slug">Musikk</Link></li>
                 <li><Link to="/category:slug">Sport</Link></li>
                 <li><Link to="/category:slug">Teater/Show</Link></li>
@@ -31,8 +31,8 @@ export default function Nav() {
             </ul>
             <search id="search-container" className={searchOpen ? "open" : ""}>
                 <div id="search-box">
-                    <input type="text" placeholder="Search..." />
-                    <button type="submit">Search</button>
+                    <input type="text" placeholder="Søk etter innhold" />
+                    <button type="submit">Søk</button>
                 </div>
                 <button id="search-icon" onClick={() => setSearchOpen(!searchOpen)} aria-label="Toggle search">
                     <i className="fas fa-search"></i>

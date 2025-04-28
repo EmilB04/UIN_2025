@@ -213,19 +213,10 @@ export default function DashboardPage() {
                     </section>
                     <section id="user-content-section">
                         <h2>Brukerinnhold</h2>
-                        <section id="user-wishlist-section">
-                            {loggedInUser && (
-                                <article id="wishlist">
-                                    <h3>Ønskeliste</h3>
-                                    <ul id="wishlist-list">
-                                        {loggedInUser.wishlist?.map((event) => (
-                                            <li key={event._id}>
-
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </article>
-                            )}
+                        <section id="friends-section">
+                            <h3>Venner av deg</h3>
+                            <ul id="friends-list">
+                            </ul>
                         </section>
                         <section id="user-purchases-section">
                             {loggedInUser && (
@@ -241,10 +232,19 @@ export default function DashboardPage() {
                                 </article>
                             )}
                         </section>
-                        <section id="friends-section">
-                            <h3>Venner av deg</h3>
-                            <ul id="friends-list">
-                            </ul>
+                        <section id="user-wishlist-section">
+                            {loggedInUser && (
+                                <article id="wishlist">
+                                    <h3>Ønskeliste</h3>
+                                    <ul id="wishlist-list">
+                                        {loggedInUser.wishlist?.map((event) => (
+                                            <li key={event._id}>
+
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </article>
+                            )}
                         </section>
                     </section>
 
