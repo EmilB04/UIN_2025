@@ -18,31 +18,10 @@ export default defineType({
             validation: (Rule) => Rule.required(),
         },
         {
-            name: 'userId',
-            title: 'Brukernavn',
-            type: 'slug',
-            options: {
-                source: async (doc, context) => {
-                    try {
-                        // Fetch the total count of users
-                        const userCount = await context.getClient({ apiVersion: '2023-10-01' }).fetch('count(*[_type == "user"])');
-                        
-                        // Ensure firstName and lastName are provided
-                        if (!doc.firstName || !doc.lastName) {
-                            return `user-${userCount}`;
-                        }
-
-                        // Generate userId based on firstName, lastName, and user count
-                        return `${doc.firstName.toLowerCase()}${doc.lastName.toLowerCase()}-${userCount}`;
-                    } catch (error) {
-                        context.log.error('Error generating userId:', error);
-                        return 'user-unknown';
-                    }
-                },
-                maxLength: 96,
-                slugify: (input) => input.toLowerCase().replace(/\s+/g, '-'),
-            },
-            validation: (Rule) => Rule.required(),
+            name: 'password',
+            title: 'Passord',
+            type: 'string',
+            validation: (Rule) => Rule.required().min(8).error('Passordet må være minst 8 tegn langt'),
         },
         {
             name: 'photo',
@@ -91,7 +70,7 @@ export default defineType({
             name: "friends",
             type: "array",
             title: "Friends",
-            of: [{ type: "reference", to: [{ type: "user" }] }],
+            of: [{ type: "reference", to: [{ type: "user" }] }], // Reference to other users
         },
         {
             name: 'previousPurchases',

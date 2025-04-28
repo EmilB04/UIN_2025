@@ -1,60 +1,87 @@
 import { client } from "./client";
 
 export async function fetchAllUsers() {
-    const data = await client.fetch( `*[_type == "user"]{
-        _id,
-        firstName,
-        lastName,
-        userId,
-        photo{
-            asset->{
-                _id,
-                url
-            }
-        },
-        email,
-        phone,
-        gender,
-        age,
-        friends[]->{
+    try {
+        const data = await client.fetch(`*[_type == "user"]{
             _id,
             firstName,
             lastName,
+            password,
             photo{
                 asset->{
+                    _id,
                     url
                 }
-            },    
-        }
-        previousPurchases[]->{
-        },
-        wishlist[]->{
-        },
-    }`);
-    return data;
-}
-
-export async function fetchUserById(userId) {
-    const data = await client.fetch(`*[_type == "user" && userId.current == $userId][0]{
-        _id,
-        firstName,
-        lastName,
-        userId,
-        photo{
-            asset->{
+            },
+            email,
+            phone,
+            gender,
+            age,
+            previousPurchases[]->{
                 _id,
-                url
+                title
+            },
+            wishlist[]->{
+                _id,
+                name
+            },
+            friends[]->{
+                _id,
+                firstName,
+                lastName,
+                photo{
+                    asset->{
+                        url
+                    }
+                }
             }
-        },
-        email,
-        phone,
-        gender,
-        age,
-        previousPurchases[]->{
-        },
-        wishlist[]->{
-        },
-    }`, { userId });
-    return data;
+        }`);
+        return data;
+    } catch (error) {
+        console.error("Error fetching all users:", error);
+        throw error;
+    }
 }
 
+export async function fetchUserById(_id) {
+    try {
+        const data = await client.fetch(`*[_type == "user" && _id == $_id][0]{
+            _id,
+            firstName,
+            lastName,
+            password,
+            photo{
+                asset->{
+                    _id,
+                    url
+                }
+            },
+            email,
+            phone,
+            gender,
+            age,
+            previousPurchases[]->{
+                _id,
+                title
+            },
+            wishlist[]->{
+                _id,
+                name
+            },
+            friends[]->{
+                _id,
+                firstName,
+                lastName,
+                photo{
+                    asset->{
+                        url
+                    }
+                }
+            }
+        }`, { _id });
+        return data;
+    } catch (error) {
+        console.error("Error fetching user by ID:", error);
+        throw error;
+    }
+}
