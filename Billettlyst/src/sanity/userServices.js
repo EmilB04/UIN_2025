@@ -16,6 +16,16 @@ export async function fetchAllUsers() {
         phone,
         gender,
         age,
+        friends[]->{
+            _id,
+            firstName,
+            lastName,
+            photo{
+                asset->{
+                    url
+                }
+            },    
+        }
         previousPurchases[]->{
         },
         wishlist[]->{
