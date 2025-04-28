@@ -86,3 +86,4 @@ export async function fetchUserById(_id) {
         console.error("Error fetching user by ID:", error);
         throw error;
     }
+}
