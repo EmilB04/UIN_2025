@@ -25,6 +25,7 @@ export async function fetchAllUsers() {
                 _id,
                 name
             },
+
             friends[]->{
                 _id,
                 firstName,
@@ -68,6 +69,7 @@ export async function fetchUserById(_id) {
                 _id,
                 name
             },
+
             friends[]->{
                 _id,
                 firstName,
@@ -84,4 +86,3 @@ export async function fetchUserById(_id) {
         console.error("Error fetching user by ID:", error);
         throw error;
     }
-}
