@@ -131,6 +131,7 @@ $hover-color: #005566;
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
+            z-index: 10;
         }
     }
     #hamburger {
@@ -183,11 +184,6 @@ $hover-color: #005566;
             margin-left: auto;
             position: relative;
             width: 9rem;
-
-            #search-box {
-                top: 4rem;
-                right: -1rem;
-            }
         }
     }
 }

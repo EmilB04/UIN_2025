@@ -30,6 +30,11 @@ export async function fetchAllUsers() {
                 _id,
                 firstName,
                 lastName,
+                wishlist[]->{
+                    _id,
+                    title,
+                    apiId,
+                },
                 photo{
                     asset->{
                         url
@@ -50,7 +55,6 @@ export async function fetchUserById(_id) {
             _id,
             firstName,
             lastName,
-            password,
             photo{
                 asset->{
                     _id,
@@ -67,13 +71,18 @@ export async function fetchUserById(_id) {
             },
             wishlist[]->{
                 _id,
-                name
+                title,
+                apiId,
             },
-
             friends[]->{
                 _id,
                 firstName,
                 lastName,
+                wishlist[]->{
+                    _id,
+                    title,
+                    apiId,
+                },
                 photo{
                     asset->{
                         url
