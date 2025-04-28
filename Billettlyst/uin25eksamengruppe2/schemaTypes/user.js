@@ -67,6 +67,12 @@ export default defineType({
             validation: (Rule) => Rule.min(0).max(150),
         },
         {
+            name: "friends",
+            type: "array",
+            title: "Friends",
+            of: [{ type: "reference", to: [{ type: "user" }] }], // Reference to other users
+        },
+        {
             name: 'previousPurchases',
             title: 'Tidligere kjøp',
             type: 'array',

@@ -25,6 +25,17 @@ export async function fetchAllUsers() {
                 _id,
                 name
             },
+
+            friends[]->{
+                _id,
+                firstName,
+                lastName,
+                photo{
+                    asset->{
+                        url
+                    }
+                }
+            }
         }`);
         return data;
     } catch (error) {
@@ -58,10 +69,20 @@ export async function fetchUserById(_id) {
                 _id,
                 name
             },
+
+            friends[]->{
+                _id,
+                firstName,
+                lastName,
+                photo{
+                    asset->{
+                        url
+                    }
+                }
+            }
         }`, { _id });
         return data;
     } catch (error) {
         console.error("Error fetching user by ID:", error);
         throw error;
     }
-}
