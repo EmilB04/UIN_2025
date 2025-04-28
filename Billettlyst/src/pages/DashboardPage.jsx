@@ -20,10 +20,11 @@ TODO:
         - På Dashboard-siden skal følgende vises:
             En oversikt over alle events lagret i Sanity
             En oversikt over alle brukere
+            
             For hver bruker skal det vises:
-            Navn og profilbilde
-            En opptelling av events brukeren har i ønskelisten og tidligere kjøp
-            En liste over disse eventene
+                Navn og profilbilde
+                En opptelling av events brukeren har i ønskelisten og tidligere kjøp
+                En liste over disse eventene
     
     🔄 DOING: Karakter: A
         - På Dashboard-siden skal innholdet være delt opp i to tydelige seksjoner:
@@ -56,6 +57,7 @@ TODO:
 import React, { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import fetch functions
+import DummyPerson from "../assets/person-dummy.jpg";
 
 export default function DashboardPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -67,6 +69,27 @@ export default function DashboardPage() {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const [loading, setLoading] = useState(false); // State to handle loading
+    
+    useEffect(() => {
+        const fetchLoggedInUser = async () => {
+            const userId = localStorage.getItem("loggedInUserId");
+            if (userId) {
+                setLoading(true); // Start loading
+                try {
+                    const user = await fetchUserById(userId);
+                    setLoggedInUser(user);
+                } catch (error) {
+                    console.error("Error fetching logged-in user:", error);
+                } finally {
+                    setLoading(false); // Stop loading
+                }
+            }
+        };
+
+        if (isLoggedIn) {
+            fetchLoggedInUser();
+        }
+    }, [isLoggedIn]);
 
     // Handle login
     const handleLogin = async (e) => {
@@ -101,7 +124,6 @@ export default function DashboardPage() {
             setLoading(false); // Stop loading
         }
     };
-
     // Handle logout
     const handleLogout = () => {
         setEmail();
@@ -114,38 +136,23 @@ export default function DashboardPage() {
             localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("loggedInUserId");
             setLoading(false); // Stop loading
-        }, 1000); // 1-second delay
+        }, 500); // 0.5-second delay
     };
-
-    useEffect(() => {
-        const fetchLoggedInUser = async () => {
-            const userId = localStorage.getItem("loggedInUserId");
-            if (userId) {
-                setLoading(true); // Start loading
-                try {
-                    const user = await fetchUserById(userId);
-                    setLoggedInUser(user);
-                } catch (error) {
-                    console.error("Error fetching logged-in user:", error);
-                } finally {
-                    setLoading(false); // Stop loading
-                }
-            }
-        };
-
-        if (isLoggedIn) {
-            fetchLoggedInUser();
-        }
-    }, [isLoggedIn]);
+    // Function to find common wishlist items between two users
+    const findCommonWishlistItems = (friendWishlist) => {
+        if (!loggedInUser || !friendWishlist) return []; // Return empty array if no user or wishlist
+        const loggedInUserWishlist = loggedInUser.wishlist || []
+        return loggedInUserWishlist.filter((item) =>
+            friendWishlist.some((friendItem) => friendItem._id === item._id)
+        );
+    };
+    // Loading spinner
+    if (loading) {
+        return <div className="loading-spinner"><div className="spinner"></div><p>Laster inn...</p></div>;
+    }
 
     return (
-        <div id="dashboard-page">
-            {loading ? (
-                <div className="loading-spinner">
-                    <div className="spinner"></div>
-                    <p>Laster inn...</p>
-                </div>
-            ) : !isLoggedIn ? (
+        <div id="dashboard-page">{!isLoggedIn ? (
                 <section id="login-section">
                     <span><i className="fas fa-sign-in-alt"></i></span>
                     <h1>Velkommen tilbake!👋 </h1>
@@ -198,11 +205,10 @@ export default function DashboardPage() {
 
                     {/* User Information */}
                     <section id="user-info-section">
-                        <h2>Brukerinformasjon</h2>
                         {loggedInUser && (
                             <article id="user-details">
                                 <img
-                                    src={loggedInUser.photo?.asset?.url}
+                                    src={loggedInUser.photo?.asset?.url || "https://placehold.co/400x400"}
                                     alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
                                 />
                                 <aside>
@@ -213,21 +219,56 @@ export default function DashboardPage() {
                             </article>
                         )}
                     </section>
+
                     <section id="user-content-section">
-                        <h2>Brukerinnhold</h2>
-                        <section id="friends-section">
-                            <h3>Venner av deg</h3>
-                            <ul id="friends-list">
+                        <section id="user-friends-section">
+                            <h2>Venner av deg</h2>
+                            {loggedInUser?.friends?.length > 0 ? (
+                                <ul id="friends-list">
+                                {loggedInUser.friends.map((friend) => {
+                                    const commonWishlistItems = findCommonWishlistItems(friend.wishlist);
+                                    return (
+                                        <li key={friend._id} className="friend-card">
+                                            <img
+                                                src={friend.photo?.asset?.url || DummyPerson}
+                                                alt={`${friend.firstName} ${friend.lastName}`}
+                                            />
+                                            <h3>{`${friend.firstName} ${friend.lastName}`}</h3>
+                                            {commonWishlistItems.length > 0 ? (
+                                                <section className="user-friends-interest">
+                                                    <p>Du og {friend.firstName} ønsker å dra på samme event. Hva med å dra sammen?:</p>
+                                                    <ul>
+                                                        {commonWishlistItems.slice(0, 3).map((item) => (
+                                                            <li key={item._id}>
+                                                                <p>{item.title}</p>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </section>
+                                            ) : (
+                                                <p>Ingen felles interesser funnet i ønskelisten.</p>
+                                            )}
+                                        </li>
+                                    );
+                                })}
                             </ul>
+                            ) : (
+                                <p>Du har ikke lagt til noen venner.</p>
+                            )}
                         </section>
                         <section id="user-purchases-section">
                             {loggedInUser && (
                                 <article id="previous-purchases">
-                                    <h3>Tidligere kjøp</h3>
+                                    <h2>Tidligere kjøp</h2>
                                     <ul id="previous-purchases-list">
                                         {loggedInUser.previousPurchases?.map((event) => (
                                             <li key={event._id}>
-
+                                                <img
+                                                    src={event.image || "https://placehold.co/400x400"}
+                                                    alt={event.name}
+                                                />
+                                                <p>{event.name}</p>
+                                                <p>{event.date}</p>
                                             </li>
                                         ))}
                                     </ul>
@@ -237,11 +278,16 @@ export default function DashboardPage() {
                         <section id="user-wishlist-section">
                             {loggedInUser && (
                                 <article id="wishlist">
-                                    <h3>Ønskeliste</h3>
+                                    <h2>Ønskeliste</h2>
                                     <ul id="wishlist-list">
                                         {loggedInUser.wishlist?.map((event) => (
                                             <li key={event._id}>
-
+                                                <img
+                                                    src={event.image} // ADD: || "https://placehold.co/400x400" or something
+                                                    alt={event.name}
+                                                />
+                                                <p>{event.name}</p>
+                                                <p>{event.date}</p>
                                             </li>
                                         ))}
                                     </ul>
