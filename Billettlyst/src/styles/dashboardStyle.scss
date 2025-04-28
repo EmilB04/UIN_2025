@@ -1,20 +1,24 @@
 // TODO: Check page alignment and responsiveness
 
+$primary-color: #006c80;
+$hover-color: #005566;
+
 #dashboard-page {
     color: white;
     width: 100%;
+    min-height: 90vh;
 
     #login-section {
         position: absolute;
         display: flex;
         flex-direction: column;
-        top: 50%;
+        top: calc(80px + 45% );
         left: 50%;
         transform: translate(-50%, -50%);
         max-width: 500px;
         max-height: 600px;
         width: calc(230px + calc(50vw - 20px) * 0.5);
-        height: calc(300px + calc(50vh - 270px) * 0.5);
+        height: calc(350px + calc(50vh - 270px) * 0.5);
         justify-content: center;
         background: #313131;
         padding: 2rem;
@@ -59,7 +63,7 @@
         #login {
             width: 100%;
             padding: 0.8rem;
-            background: #006c80;
+            background: $primary-color;
             font-size: 1rem;
             font-weight: bold;
             border: none;
@@ -68,7 +72,7 @@
             transition: background 0.3s;
 
             &:hover {
-                background: #005566;
+                background: $hover-color;
             }
         }
 
@@ -95,7 +99,7 @@
                 transition: border-color 0.3s;
 
                 &:focus {
-                    border-color: #5bafc4;
+                    border-color: $primary-color;
                 }
             }
             #toggle-password {
@@ -138,7 +142,7 @@
                 font-size: 3rem;
             }
             button {
-                background: #006c80;
+                background: $primary-color;
                 padding: 0.8rem;
                 border: none;
                 border-radius: 8px;
@@ -146,7 +150,7 @@
                 transition: background 0.3s;
 
                 &:hover {
-                    background: #005566;
+                    background: $hover-color;
                 }
                 i{
                     font-size: 2rem;
@@ -185,7 +189,7 @@
 
                 h3 {
                     font-size: 1.8rem;
-                    color: #006c80
+                    color: $primary-color
                 }
                 p {
                     font-size: 1rem;
@@ -220,13 +224,13 @@
     align-items: center;
     height: 100vh;
     font-size: 1.5rem;
-    color: #006c80;
+    color: $primary-color;
 
     .spinner {
         width: 50px;
         height: 50px;
         border: 5px solid #ccc;
-        border-top: 5px solid #006c80;
+        border-top: 5px solid $primary-color;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin-bottom: 1rem;

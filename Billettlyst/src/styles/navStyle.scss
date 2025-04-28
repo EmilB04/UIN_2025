@@ -1,3 +1,6 @@
+$primary-color: #006c80;
+$hover-color: #005566;
+
 #nav {
     display: flex;
     flex-direction: row;
@@ -8,9 +11,14 @@
     position: relative;
     border-radius: 15px;
 
-    h1 {
+    #title {
         margin: 0;
         width: 9rem;
+        text-decoration: none;
+        color: $primary-color;
+        font-weight: bold;
+        font-size: 1.5rem;
+
     }
     #nav-links {
         list-style: none;
@@ -177,8 +185,8 @@
             width: 9rem;
 
             #search-box {
-                top: 3rem;
-                right: 0;
+                top: 4rem;
+                right: -1rem;
             }
         }
     }
