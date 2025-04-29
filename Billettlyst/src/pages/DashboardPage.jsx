@@ -51,7 +51,7 @@ TODO:
         Dersom det finnes et eller flere felles arrangementer, skal det vises en melding som for eksempel:
         "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
     
-    
+    TODO: Fix mobile version for user-content-section
 */
 
 import React, { useState, useEffect } from "react";
@@ -69,7 +69,7 @@ export default function DashboardPage() {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const [loading, setLoading] = useState(false); // State to handle loading
-    
+
     useEffect(() => {
         const fetchLoggedInUser = async () => {
             const userId = localStorage.getItem("loggedInUserId");
@@ -153,78 +153,78 @@ export default function DashboardPage() {
 
     return (
         <div id="dashboard-page">{!isLoggedIn ? (
-                <section id="login-section">
-                    <span><i className="fas fa-sign-in-alt"></i></span>
-                    <h1>Velkommen tilbake!👋 </h1>
-                    <form onSubmit={handleLogin}>
-                        <div className="input-wrapper">
-                            <i className="fas fa-envelope"></i>
-                            <input
-                                type="email"
-                                id="email"
-                                placeholder="E-post"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="input-wrapper">
-                            <i className="fas fa-lock"></i>
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                id="password"
-                                placeholder="Passord"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <button
-                                type="button"
-                                id="toggle-password"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? (
-                                    <i className="fa-regular fa-eye"></i>
-                                ) : (
-                                    <i className="fa-regular fa-eye-slash"></i>
-                                )}
-                            </button>
-                        </div>
-                        {error && <p className="error-message">{error}</p>}
-                        <button id="login" type="submit">Logg inn</button>
-                    </form>
-                </section>
-            ) : (
-                <section id="dashboard-section">
-                    <section id="dashboard-header">
-                        <h1>Min side</h1>
-                        <button id="logout" onClick={handleLogout} aria-label="Logg ut" title="Logg ut">
-                            <i className="fas fa-sign-out-alt"></i>
+            <section id="login-section">
+                <span><i className="fas fa-sign-in-alt"></i></span>
+                <h1>Velkommen tilbake!👋 </h1>
+                <form onSubmit={handleLogin}>
+                    <div className="input-wrapper">
+                        <i className="fas fa-envelope"></i>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="E-post"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-wrapper">
+                        <i className="fas fa-lock"></i>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            placeholder="Passord"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <button
+                            type="button"
+                            id="toggle-password"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? (
+                                <i className="fa-regular fa-eye"></i>
+                            ) : (
+                                <i className="fa-regular fa-eye-slash"></i>
+                            )}
                         </button>
-                    </section>
+                    </div>
+                    {error && <p className="error-message">{error}</p>}
+                    <button id="login" type="submit">Logg inn</button>
+                </form>
+            </section>
+        ) : (
+            <section id="dashboard-section">
+                <section id="dashboard-header">
+                    <h1>Min side</h1>
+                    <button id="logout" onClick={handleLogout} aria-label="Logg ut" title="Logg ut">
+                        <i className="fas fa-sign-out-alt"></i>
+                    </button>
+                </section>
 
-                    {/* User Information */}
-                    <section id="user-info-section">
-                        {loggedInUser && (
-                            <article id="user-details">
-                                <img
-                                    src={loggedInUser.photo?.asset?.url || "https://placehold.co/400x400"}
-                                    alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
-                                />
-                                <aside>
-                                    <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
-                                    <p>E-post: {loggedInUser.email}</p>
-                                    <p>Alder: {loggedInUser.age}</p>
-                                </aside>
-                            </article>
-                        )}
-                    </section>
+                {/* User Information */}
+                <section id="user-info-section">
+                    {loggedInUser && (
+                        <article id="user-details">
+                            <img
+                                src={loggedInUser.photo?.asset?.url || "https://placehold.co/400x400"}
+                                alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
+                            />
+                            <aside>
+                                <h3>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</h3>
+                                <p>E-post: {loggedInUser.email}</p>
+                                <p>Alder: {loggedInUser.age}</p>
+                            </aside>
+                        </article>
+                    )}
+                </section>
 
-                    <section id="user-content-section">
-                        <section id="user-friends-section">
-                            <h2>Venner av deg</h2>
-                            {loggedInUser?.friends?.length > 0 ? (
-                                <ul id="friends-list">
+                <section id="user-content-section">
+                    <section id="user-friends-section">
+                        <h2>Venner av deg</h2>
+                        {loggedInUser?.friends?.length > 0 ? (
+                            <ul id="friends-list">
                                 {loggedInUser.friends.map((friend) => {
                                     const commonWishlistItems = findCommonWishlistItems(friend.wishlist);
                                     return (
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                                             <h3>{`${friend.firstName} ${friend.lastName}`}</h3>
                                             {commonWishlistItems.length > 0 ? (
                                                 <section className="user-friends-interest">
-                                                    <p>Du og {friend.firstName} ønsker å dra på samme event. Hva med å dra sammen?:</p>
+                                                    <p>Du og {friend.firstName} ønsker å dra på samme event. Hva med å dra sammen?</p>
                                                     <ul>
                                                         {commonWishlistItems.slice(0, 3).map((item) => (
                                                             <li key={item._id}>
@@ -252,52 +252,56 @@ export default function DashboardPage() {
                                     );
                                 })}
                             </ul>
-                            ) : (
-                                <p>Du har ikke lagt til noen venner.</p>
-                            )}
-                        </section>
-                        <section id="user-purchases-section">
-                            {loggedInUser && (
-                                <article id="previous-purchases">
-                                    <h2>Tidligere kjøp</h2>
-                                    <ul id="previous-purchases-list">
-                                        {loggedInUser.previousPurchases?.map((event) => (
-                                            <li key={event._id}>
-                                                <img
-                                                    src={event.image || "https://placehold.co/400x400"}
-                                                    alt={event.name}
-                                                />
-                                                <p>{event.name}</p>
-                                                <p>{event.date}</p>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </article>
-                            )}
-                        </section>
-                        <section id="user-wishlist-section">
-                            {loggedInUser && (
-                                <article id="wishlist">
-                                    <h2>Ønskeliste</h2>
-                                    <ul id="wishlist-list">
-                                        {loggedInUser.wishlist?.map((event) => (
-                                            <li key={event._id}>
-                                                <img
-                                                    src={event.image} // ADD: || "https://placehold.co/400x400" or something
-                                                    alt={event.name}
-                                                />
-                                                <p>{event.name}</p>
-                                                <p>{event.date}</p>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </article>
-                            )}
-                        </section>
+                        ) : (
+                            <p>Du har ikke lagt til noen venner.</p>
+                        )}
                     </section>
-
+                    <section id="user-purchases-section">
+                        <h2>Tidligere kjøp</h2>
+                        {loggedInUser && (
+                            <ul id="previous-purchases-list">
+                                <li id="previous-purchases-header">
+                                    <p>ID</p>
+                                    <p>Dato</p>
+                                    <p>Tittel</p>
+                                    <p>Land</p>
+                                </li>
+                                {loggedInUser.previousPurchases?.map((event) => (
+                                    <li key={event._id} id="previous-purchase-card">
+                                        <p>{event._id}</p>
+                                        <p>{event.date}</p>
+                                        <p>{event.title}</p>
+                                        <p>{event.country}</p>
+                                        <button>Les mer</button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                    <section id="user-wishlist-section">
+                        <h2>Ønskeliste</h2>
+                        {loggedInUser && (
+                            <ul id="wishlist-list">
+                                <li id="wishlist-header">
+                                    <p>Dato</p>
+                                    <p>Tittel</p>
+                                    <p>Land</p>
+                                </li>
+                                {loggedInUser.wishlist?.map((event) => (
+                                    <li key={event._id} id="wishlist-card">
+                                        <p>{event.date}</p>
+                                        <p>{event.title}</p>
+                                        <p>{event.country}</p>
+                                        <button>Les mer</button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
                 </section>
-            )}
+
+            </section>
+        )}
         </div>
     );
 }

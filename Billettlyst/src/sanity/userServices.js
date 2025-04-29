@@ -19,7 +19,14 @@ export async function fetchAllUsers() {
             age,
             previousPurchases[]->{
                 _id,
-                title
+                apiId,
+                image,
+                title,
+                date,
+                time,
+                country,
+                city,
+                venue,
             },
             wishlist[]->{
                 _id,
@@ -32,8 +39,14 @@ export async function fetchAllUsers() {
                 lastName,
                 wishlist[]->{
                     _id,
-                    title,
                     apiId,
+                    image,
+                    title,
+                    date,
+                    time,
+                    country,
+                    city,
+                    venue,
                 },
                 photo{
                     asset->{
@@ -67,12 +80,25 @@ export async function fetchUserById(_id) {
             age,
             previousPurchases[]->{
                 _id,
-                title
+                apiId,
+                image,
+                title,
+                date,
+                time,
+                country,
+                city,
+                venue,
             },
             wishlist[]->{
                 _id,
-                title,
                 apiId,
+                image,
+                title,
+                date,
+                time,
+                country,
+                city,
+                venue,
             },
             friends[]->{
                 _id,

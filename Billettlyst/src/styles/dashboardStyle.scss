@@ -5,6 +5,23 @@
     width: 100%;
     min-height: 90vh;
 
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin: 0;
+        text-align: left;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+        color: $primary-color;
+        font-weight: 500;
+    }
+
     #login-section {
         position: absolute;
         display: flex;
@@ -35,12 +52,10 @@
         }
 
         h1 {
-            font-size: 2rem;
             font-weight: bold;
             margin-bottom: 2rem;
             margin-top: 1rem;
             white-space: wrap;
-            text-align: center;
         }
 
         form {
@@ -138,10 +153,6 @@
             justify-content: center;
             gap: 2rem;
 
-            h1 {
-                font-size: 3rem;
-            }
-
             button {
                 background: $primary-color;
                 padding: 0.8rem;
@@ -172,11 +183,6 @@
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
 
-            h2 {
-                font-size: 2rem;
-                margin: 0;
-            }
-
             #user-details {
                 text-align: center;
 
@@ -189,11 +195,6 @@
                     border-radius: 50%;
                     object-fit: cover;
                     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
-                }
-
-                h3 {
-                    font-size: 1.8rem;
-                    color: $primary-color
                 }
 
                 p {
@@ -262,7 +263,7 @@
                                     display: flex;
                                     align-items: center;
                                     justify-content: center;
-                                    background: $primary-color;
+                                    background: #313131;
                                     color: white;
                                     padding: 0.5rem 1rem;
                                     border-radius: 8px;
@@ -284,12 +285,6 @@
                         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
                     }
 
-                    h3 {
-                        font-size: 1.5rem;
-                        color: $primary-color;
-                        font-weight: 500;
-                    }
-
                     p {
                         font-size: 1rem;
                         color: #aaa;
@@ -298,41 +293,108 @@
                 }
             }
 
-            h2 {
-                font-size: 2rem;
-                margin: 0;
-                text-align: left;
+            #user-purchases-section {
+                #previous-purchases-list {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0;
+                    background: #242424;
+                    border-radius: 15px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+
+                    #previous-purchases-header {
+                        display: grid;
+                        grid-template-columns: repeat(5, 1fr); // ChatGPT: Repeat was added instead of repeating the same 1fr 5 times
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1rem;
+                    }
+
+                    #previous-purchase-card {
+                        display: grid;
+                        grid-template-columns: repeat(5, 1fr); // ChatGPT: Repeat was added instead of repeating the same 1fr 5 times
+                        padding: 1rem;
+                        gap: 1rem;
+                        list-style: none;
+                        align-items: center;
+
+                        p {
+                            padding: 0;
+                            margin: 0;
+
+                            &:nth-child(1) {
+                                color: $primary-color;
+                            }
+                        }
+
+                        button {
+                            background: $primary-color;
+                            font-weight: bold;
+                            color: white;
+                            padding: 1rem;
+                            border: none;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            transition: background 0.3s;
+
+                            &:hover {
+                                background: $hover-color;
+                            }
+                        }
+                    }
+                }
             }
-        }
-    }
-}
 
-.loading-spinner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 1.5rem;
-    color: $primary-color;
+            #user-wishlist-section {
+                #wishlist-list {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0;
+                    background: #242424;
+                    border-radius: 15px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
 
-    .spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid #ccc;
-        border-top: 5px solid $primary-color;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 1rem;
-    }
+                    #wishlist-header {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr); // ChatGPT: Repeat was added instead of repeating the same 1fr 6 times
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1rem;
+                    }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
+                    #wishlist-card {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr); // ChatGPT: Repeat was added instead of repeating the same 1fr 6 times
+                        padding: 1rem;
+                        gap: 1rem;
+                        list-style: none;
+                        align-items: center;
 
-        100% {
-            transform: rotate(360deg);
+                        p {
+                            padding: 0;
+                            margin: 0;
+                            &:nth-child(1) {
+                                color: $primary-color;
+                            }
+                        }
+
+                        button {
+                            background: $primary-color;
+                            font-weight: bold;
+                            color: white;
+                            padding: 1rem;
+                            border: none;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            transition: background 0.3s;
+
+                            &:hover {
+                                background: $hover-color;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
