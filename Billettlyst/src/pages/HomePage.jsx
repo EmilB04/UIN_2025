@@ -1,30 +1,17 @@
 import { useEffect, useState } from "react";
 import { client } from "../sanity/client";
+import { fetchCityEvents } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss"
 
-const API_KEY = "JhVG7XhAqV9xT9vUUMWiJFzFjA5lVWG9";
-
 export default function HomePage() {
-  const [events, setEvents] = useState([]);
+  const [sanityEvents, setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
-  const fetchCityEvents = async (city) => {
-    try {
-      const response = await fetch(
-        `https://app.ticketmaster.com/discovery/v2/events.json?city=${city}&size=10&apikey=${API_KEY}`
-      );
-      const data = await response.json();
-      const events = data._embedded?.events || [];
-      setApiEvents(events);
-    } catch (error) {
-      console.error("Error fetching events:", error);
-    }
-  };
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchSanityEvents = async () => {
       const query = `*[_type == "event"]{
         _id,
         apiId,
@@ -37,16 +24,20 @@ export default function HomePage() {
         "image": image.asset->url
       }`;
       const data = await client.fetch(query);
-      setEvents(data);
+      setSanityEvents(data);
     };
 
-    fetchEvents();
+    fetchSanityEvents();
   }, []);
 
   // Fetch events for the selected city when it changes
   useEffect(() => {
+    const getEvents = async () => {
+      const events = await fetchCityEvents(selectedCity);
+      setApiEvents(events);
+    };
     if (selectedCity) {
-      fetchCityEvents(selectedCity);
+      getEvents();
     }
   }, [selectedCity]);
 
