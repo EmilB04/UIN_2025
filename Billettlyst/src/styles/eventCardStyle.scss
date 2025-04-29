@@ -1,13 +1,29 @@
-#EventCard{
-    width: clamp(200px, 15vw, 70%);
+#EventCard {
+    flex: 1 1 15vw;                    
+    max-width: 250px;                  
+    min-width: 180px;                  
     display: flex;
     flex-direction: column;
     padding: 1rem 1rem 0.5rem 1rem;
-    margin-top: 2rem;    
-    h2{
-        padding-bottom: 1rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+  
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
     }
-    p{
-        margin: 0;
+  
+    h2 {
+      padding-bottom: 1rem;
+      font-size: 1rem;
+      margin: 0;
     }
-}
+  
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+  
