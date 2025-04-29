@@ -9,6 +9,7 @@ export default defineType({
       name: 'apiId',
       title: 'API ID',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'image',
@@ -19,16 +20,27 @@ export default defineType({
       name: 'title',
       title: 'Tittel',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'date',
       title: 'Dato',
       type: 'date',
+      options: {
+        dateFormat: 'DD.MM.YYYY', // EU format
+      },
+      validation: (Rule) => Rule.required(),
     },
     {
       name: 'time',
       title: 'Tid',
       type: 'string',
+      description: 'Angi tid i formatet HH:mm (24-timers format)',
+      validation: (Rule) =>
+        Rule.regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+          name: 'time',
+          invert: false,
+        }).error('Tid må være i formatet HH:mm'),
     },
     {
       name: 'country',
