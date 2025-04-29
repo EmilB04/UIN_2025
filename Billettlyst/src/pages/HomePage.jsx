@@ -41,7 +41,7 @@ export default function HomePage() {
           <button>London</button>
           <button>Paris</button>
         </span>
-        <div className="event-grid">
+        <div id="EventsHomePage">
           {events.map((event) => (
             <EventCard 
               key={event._id}
