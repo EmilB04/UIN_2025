@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/navStyle.scss";
+import { fetchAllCategories } from "../sanity/categoryServices";
 
 export default function Nav() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         if (localStorage.getItem("isLoggedIn") === "true") {
             setIsLoggedIn(true);
         }
+
+        // Henter kategorier fra Sanity
+        fetchAllCategories()
+            .then((data) => setCategories(data))
+            .catch((error) => console.error("Feil ved henting av kategorier:", error));
     }, []);
 
 
@@ -18,9 +25,13 @@ export default function Nav() {
         <nav id="nav">
             <Link to="/" id="title" onClick={() => setMenuOpen(false)}>BillettLyst</Link>
             <ul id="nav-links" className={menuOpen ? "open" : ""} onClick={() => setMenuOpen(false)}>
-                <li><Link to="/category:slug">Musikk</Link></li>
-                <li><Link to="/category:slug">Sport</Link></li>
-                <li><Link to="/category:slug">Teater/Show</Link></li>
+                {categories?.map((cat) => (
+                    <li key={cat.categoryslug.current}>
+                        <Link to={`/category/${cat.categoryslug.current}`}>
+                            {cat.categoryname}
+                        </Link>
+                    </li>
+                ))}
                 <li>
                     {isLoggedIn ? (
                         <Link to="/dashboard">Min side</Link>
