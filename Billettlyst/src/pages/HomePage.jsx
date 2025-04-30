@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { client } from "../sanity/client";
+import { fetchSanityEvents } from "../sanity/eventServices";
 import { fetchCityEvents, getSpecificFestival } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss"
@@ -9,7 +10,6 @@ export default function HomePage() {
   const [neon, setNeon] = useState([]);
   const [skeikampen, setSkeikampen] = useState([]);
   const [tonsOfRock, setTonsOfRock] = useState([]);
-
   const [sanityEvents, setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
@@ -26,21 +26,9 @@ export default function HomePage() {
 
   useEffect(() => {
     const fetchSanityEvents = async () => {
-      const query = `*[_type == "event"]{
-        _id,
-        apiId,
-        title,
-        date,
-        time,
-        country,
-        city,
-        venue,
-        "image": image.asset->url
-      }`;
-      const data = await client.fetch(query);
+      const data = await fetchSanityEvents;
       setSanityEvents(data);
     };
-
     fetchSanityEvents();
   }, []);
 
