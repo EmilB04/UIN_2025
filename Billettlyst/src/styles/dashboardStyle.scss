@@ -340,6 +340,11 @@
                             &:hover {
                                 background: $hover-color;
                             }
+
+                            a {
+                                color: white;
+                                text-decoration: none;
+                            }
                         }
                     }
                 }
@@ -390,6 +395,11 @@
 
                             &:hover {
                                 background: $hover-color;
+                            }
+
+                            a {
+                                color: white;
+                                text-decoration: none;
                             }
                         }
                     }
