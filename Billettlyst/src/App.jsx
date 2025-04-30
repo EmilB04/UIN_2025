@@ -17,7 +17,7 @@ function App() {
         <Route path="/*" element={<PageNotFound /> } />
         <Route path="/" element={<HomePage /> } />
         <Route path="/event/:id" element={<EventPage /> } />
-        <Route path="/category:slug" element={<CategoryPage /> } />
+        <Route path="/category/:slug" element={<CategoryPage /> } />
         <Route path="/dashboard" element={<Dashboard /> } />
         <Route path="/sanity-event/:id" element={<SanityEventDetails />} />
         
