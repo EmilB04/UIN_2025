@@ -58,6 +58,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import fetch functions
 import DummyPerson from "../assets/person-dummy.jpg";
+import { Link, useNavigate } from "react-router";
 
 export default function DashboardPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -69,6 +70,7 @@ export default function DashboardPage() {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const [loading, setLoading] = useState(false); // State to handle loading
+    const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
         const fetchLoggedInUser = async () => {
@@ -85,7 +87,6 @@ export default function DashboardPage() {
                 }
             }
         };
-
         if (isLoggedIn) {
             fetchLoggedInUser();
         }
@@ -137,6 +138,11 @@ export default function DashboardPage() {
             localStorage.removeItem("loggedInUserId");
             setLoading(false); // Stop loading
         }, 500); // 0.5-second delay
+    };
+
+    // Function to handle more info button click
+    const handleMoreInfo = (event) => {
+        navigate(`/dashboard/${event._id}`, { state: { event } }); // Pass event data via state
     };
     // Function to find common wishlist items between two users
     const findCommonWishlistItems = (friendWishlist) => {
@@ -272,7 +278,7 @@ export default function DashboardPage() {
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button>Les mer</button>
+                                        <button onClick={() => handleMoreInfo(event)}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
@@ -292,7 +298,7 @@ export default function DashboardPage() {
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button>Les mer</button>
+                                        <button onClick={() => handleMoreInfo(event)}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
