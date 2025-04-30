@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react";
 import { client } from "../sanity/client";
-import { fetchCityEvents } from "../api/ticketmasterApiServices";
+import { fetchCityEvents, getSpecificFestival } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss"
 
 export default function HomePage() {
+  const [findings, setFindings] = useState([]);
+  const [neon, setNeon] = useState([]);
+  const [skeikampen, setSkeikampen] = useState([]);
+  const [tonsOfRock, setTonsOfRock] = useState([]);
+
   const [sanityEvents, setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
+  useEffect(() => {
+    const fetchFestivals = async () => {
+      setFindings(await getSpecificFestival("Findings"));
+      setNeon(await getSpecificFestival("Neon"));
+      setSkeikampen(await getSpecificFestival("Skeikampen"));
+      setTonsOfRock(await getSpecificFestival("Tons of Rock"));
+    };
+    fetchFestivals();
+  }, []);
 
   useEffect(() => {
     const fetchSanityEvents = async () => {
