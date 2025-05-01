@@ -1,55 +1,62 @@
 // TODO: Add a loading spinner while fetching data
 // DOING: Add styling to the page
-// DOING: Display users who have purchased tickets for the event
 // TODO: Add correct details for the event (see demo)
+// TODO: Fix so the 404 page doesn't show under loading.
 
 import "../styles/dashboardMoreInfoStyle.scss";
-import { useState, useEffect } from "react";
+import "../styles/app.scss"; // Import the global styles for the loading spinner
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import { fetchUsersWithCommonEvents } from "../sanity/userServices"; // Import fetch functions
 import { fetchEventById } from "../sanity/eventServices"; // Import fetch functions
 import PageNotFound from './PageNotFound';
+import Loading from "../components/Loading";
 
 export default function DashboardMoreInfoPage({ pageType }) {
     const { id } = useParams(); // Get the event ID from the URL
     const [usersWithCommonEvents, setUsersWithCommonEvents] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [currentEvent, setCurrentEvent] = useState(null);
+    const [loading, setLoading] = useState(true); // State to manage loading
+
+    const fetchUsersWithCommonEventsHandler = useCallback(async () => {
+        try {
+            const users = await fetchUsersWithCommonEvents(id);
+            setUsersWithCommonEvents(users);
+        } catch (error) {
+            console.error("Error fetching users with common events:", error);
+        }
+    }, [id]);
 
     useEffect(() => {
-        const fetchEvent = async () => {
-            setLoading(true);
+        const fetchData = async () => {
+            setLoading(true); // Start loading
             try {
-                const event = await fetchEventById(id); // Fetch the event by ID
+                // Fetch event details
+                const event = await fetchEventById(id);
                 setCurrentEvent(event);
+
+                // Fetch users with common events
+                await fetchUsersWithCommonEventsHandler();
             } catch (error) {
-                console.error("Error fetching event:", error);
+                console.error("Error fetching data:", error);
             } finally {
-                setLoading(false);
+                setLoading(false); // Stop loading after all data is fetched
             }
         };
 
         if (id) {
-            fetchEvent(); // Fetch the event when the component mounts
-            fetchUsersWithCommonEventsHandler(); // Fetch users with the event
+            fetchData();
         }
-    }, [id]);
+    }, [id, fetchUsersWithCommonEventsHandler]);
 
-    const fetchUsersWithCommonEventsHandler = async () => {
-        setLoading(true);
-        try {
-            const users = await fetchUsersWithCommonEvents(id); // Fetch users with the event
-            setUsersWithCommonEvents(users); // Update state with fetched users
-        } catch (error) {
-            console.error("Error fetching users with common events:", error);
-        } finally {
-            setLoading(false); // Stop loading
-        }
-    };
 
-    if (!currentEvent) {
-        return <PageNotFound />;
+    if (loading) {
+        return Loading();
     }
+    if (!currentEvent) {
+        return <PageNotFound />; // Show PageNotFound if event is not found
+    }
+
     return (
         <div id="dashboard-more-info-page">
             <section id="more-info-header">
@@ -68,25 +75,21 @@ export default function DashboardMoreInfoPage({ pageType }) {
                     </article>
                     <article className="more-info-event-friends">
                         <h2>Venner som har lagt til dette arrangementet i ønskelisten</h2>
-                        {loading ? (
-                            <p>Laster inn...</p>
-                        ) : (
+                        {usersWithCommonEvents.length > 0 ? (
                             <ul>
-                                {usersWithCommonEvents.length > 0 ? (
-                                    usersWithCommonEvents.map((user) => (
-                                        <li key={user._id}>
-                                            <img
-                                                src={user.photo?.asset?.url || "https://placehold.co/50x50"}
-                                                alt={`${user.firstName} ${user.lastName}`}
-                                                style={{ borderRadius: "50%", width: "50px", height: "50px" }}
-                                            />
-                                            <p>{`${user.firstName} ${user.lastName}`}</p>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li>Ingen venner har lagt til dette arrangementet i ønskelisten sin.</li>
-                                )}
+                                {usersWithCommonEvents.map((user) => (
+                                    <li key={user._id}>
+                                        <img
+                                            src={user.photo?.asset?.url || "https://placehold.co/50x50"}
+                                            alt={`${user.firstName} ${user.lastName}`}
+                                            style={{ borderRadius: "50%", width: "50px", height: "50px" }}
+                                        />
+                                        <p>{`${user.firstName} ${user.lastName}`}</p>
+                                    </li>
+                                ))}
                             </ul>
+                        ) : (
+                            <p>Ingen venner har lagt til dette arrangementet i ønskelisten sin.</p>
                         )}
                     </article>
                 </section>
@@ -103,25 +106,21 @@ export default function DashboardMoreInfoPage({ pageType }) {
                     </article>
                     <article className="more-info-event-friends">
                         <h2>Venner som har kjøpt billetter til dette arrangementet</h2>
-                        {loading ? (
-                            <p>Laster inn...</p>
-                        ) : (
+                        {usersWithCommonEvents.length > 0 ? (
                             <ul>
-                                {usersWithCommonEvents.length > 0 ? (
-                                    usersWithCommonEvents.map((user) => (
-                                        <li key={user._id}>
-                                            <img
-                                                src={user.photo?.asset?.url || "https://placehold.co/50x50"}
-                                                alt={`${user.firstName} ${user.lastName}`}
-                                                style={{ borderRadius: "50%", width: "50px", height: "50px" }}
-                                            />
-                                            <p>{`${user.firstName} ${user.lastName}`}</p>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li>Ingen venner har kjøpt billetter til dette arrangementet.</li>
-                                )}
+                                {usersWithCommonEvents.map((user) => (
+                                    <li key={user._id}>
+                                        <img
+                                            src={user.photo?.asset?.url || "https://placehold.co/50x50"}
+                                            alt={`${user.firstName} ${user.lastName}`}
+                                            style={{ borderRadius: "50%", width: "50px", height: "50px" }}
+                                        />
+                                        <p>{`${user.firstName} ${user.lastName}`}</p>
+                                    </li>
+                                ))}
                             </ul>
+                        ) : (
+                            <p>Ingen venner har kjøpt billetter til dette arrangementet.</p>
                         )}
                     </article>
                 </section>
