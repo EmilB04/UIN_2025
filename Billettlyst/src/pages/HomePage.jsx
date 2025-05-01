@@ -1,29 +1,45 @@
 import { useEffect, useState } from "react";
+import { fetchSanityEvents } from "../sanity/eventServices";
+import { Link } from "react-router-dom";
+import { fetchCityEvents, getSpecificFestival } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss";
 
-const API_KEY = "JhVG7XhAqV9xT9vUUMWiJFzFjA5lVWG9";
-
 export default function HomePage() {
+  const [findings, setFindings] = useState(null);
+  const [neon, setNeon] = useState(null);
+  const [skeikampen, setSkeikampen] = useState(null);
+  const [tonsOfRock, setTonsOfRock] = useState(null);
+  const [sanityEvents, setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
-  const fetchCityEvents = async (city) => {
-    try {
-      const response = await fetch(
-        `https://app.ticketmaster.com/discovery/v2/events.json?city=${city}&size=10&apikey=${API_KEY}`
-      );
-      const data = await response.json();
-      const events = data._embedded?.events || [];
-      setApiEvents(events);
-    } catch (error) {
-      console.error("Error fetching city events:", error);
-    }
-  };
-
+  // Hent spesifikke festivaler én gang ved oppstart
   useEffect(() => {
+    getSpecificFestival("Findings", setFindings);
+    getSpecificFestival("Neon", setNeon);
+    getSpecificFestival("Skeikampen", setSkeikampen);
+    getSpecificFestival("Tons of Rock", setTonsOfRock);
+  }, []);
+
+  // Hent sanity-events én gang
+  useEffect(() => {
+    const getSanityEvents = async () => {
+      const data = await fetchSanityEvents();
+      setSanityEvents(data);
+    };
+    getSanityEvents();
+  }, []);
+
+  // Hent events for valgt by
+  useEffect(() => {
+    const getEvents = async () => {
+      const events = await fetchCityEvents(selectedCity);
+      setApiEvents(events);
+    };
+
     if (selectedCity) {
-      fetchCityEvents(selectedCity);
+      getEvents();
     }
   }, [selectedCity]);
 
@@ -31,6 +47,20 @@ export default function HomePage() {
     <div id="HomePage">
       <section id="Festivaler">
         <h2>Sommerens festivaler!</h2>
+        <ul className="festival-cards-container">
+          {[findings, neon, skeikampen, tonsOfRock].map(
+            (festival) =>
+              festival && (
+                <li key={festival.id} className="festival-card">
+                  <img src={festival.images?.[0]?.url} alt={festival.name} />
+                  <h3>{festival.name}</h3>
+                  <Link to={`/event/${festival.id}`}>
+                    <button>Les mer om {festival.name}</button>
+                  </Link>
+                </li>
+              )
+          )}
+        </ul>
       </section>
 
       <section id="Storbyer">
