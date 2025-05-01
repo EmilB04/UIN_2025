@@ -264,7 +264,7 @@ export default function DashboardPage() {
                     </section>
                     <section id="user-purchases-section">
                         <h2>Tidligere kjøp</h2>
-                        {loggedInUser && (
+                        {loggedInUser && loggedInUser.previousPurchases?.length > 0 ? (
                             <ul id="previous-purchases-list">
                                 <li id="previous-purchases-header">
                                     <p>ID</p>
@@ -272,7 +272,7 @@ export default function DashboardPage() {
                                     <p>Tittel</p>
                                     <p>Land</p>
                                 </li>
-                                {loggedInUser.previousPurchases?.map((event) => (
+                                {loggedInUser.previousPurchases.map((event) => (
                                     <li key={event._id} id="previous-purchase-card">
                                         <p>{event._id}</p>
                                         <p>{event.date}</p>
@@ -282,11 +282,13 @@ export default function DashboardPage() {
                                     </li>
                                 ))}
                             </ul>
+                        ) : (
+                            <p>Du har ingen tidligere kjøp.</p>
                         )}
                     </section>
                     <section id="user-wishlist-section">
                         <h2>Ønskeliste</h2>
-                        {loggedInUser && (
+                        {loggedInUser ? (
                             <ul id="wishlist-list">
                                 <li id="wishlist-header">
                                     <p>Dato</p>
@@ -302,6 +304,8 @@ export default function DashboardPage() {
                                     </li>
                                 ))}
                             </ul>
+                        ) : (
+                            <p>Du har ikke lagt til noe i ønskelisten.</p>
                         )}
                     </section>
                 </section>
