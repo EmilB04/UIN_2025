@@ -33,7 +33,7 @@ TODO:
         Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
         
         2. Brukerens innhold
-        Ønskeliste og tidligere kjøp
+        Ønskeliste og tidligere kjøp ✅ DONE:
         
         Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
         Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
@@ -60,7 +60,7 @@ import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import
 import DummyPerson from "../assets/person-dummy.jpg";
 import { Link, useNavigate } from "react-router";
 
-export default function DashboardPage() {
+export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -69,7 +69,6 @@ export default function DashboardPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const [loading, setLoading] = useState(false); // State to handle loading
     const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
@@ -90,13 +89,13 @@ export default function DashboardPage() {
         if (isLoggedIn) {
             fetchLoggedInUser();
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, setLoading]);
 
     // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true); // Start loading
         try {
+            setLoading(true); // Start loading
             const allUsers = await fetchAllUsers();
             const user = allUsers.find((u) => u.email === email);
 
@@ -109,21 +108,20 @@ export default function DashboardPage() {
                         localStorage.setItem("isLoggedIn", "true");
                         localStorage.setItem("loggedInUserId", user._id);
                         setError("");
-                        setLoading(false); // Stop loading
                     }, 1000); // 1-second delay
                 } else {
                     setError("Feil passord. Prøv igjen.");
-                    setLoading(false); // Stop loading
                 }
             } else {
                 setError("Bruker ikke funnet. Sjekk e-postadressen.");
-                setLoading(false); // Stop loading
             }
         } catch (error) {
             console.error("Error during login:", error);
             setError("Noe gikk galt. Prøv igjen senere.");
-            setLoading(false); // Stop loading
+        } finally {
+            setLoading(false);
         }
+
     };
     // Handle logout
     const handleLogout = () => {
@@ -140,9 +138,10 @@ export default function DashboardPage() {
         }, 500); // 0.5-second delay
     };
 
-    // Function to handle more info button click
-    const handleMoreInfo = (event) => {
-        navigate(`/dashboard/${event._id}`, { state: { event } }); // Pass event data via state
+    const navigateToEvent = (event, type) => {
+        setPageType(type); // Set the page type (wishlist or previous purchases)
+        setEvent(event); // Set the event data
+        navigate(`/dashboard/${event._id}`); // Navigate to the details page
     };
     // Function to find common wishlist items between two users
     const findCommonWishlistItems = (friendWishlist) => {
@@ -152,10 +151,6 @@ export default function DashboardPage() {
             friendWishlist.some((friendItem) => friendItem._id === item._id)
         );
     };
-    // Loading spinner
-    if (loading) {
-        return <div className="loading-spinner"><div className="spinner"></div><p>Laster inn...</p></div>;
-    }
 
     return (
         <div id="dashboard-page">{!isLoggedIn ? (
@@ -264,7 +259,7 @@ export default function DashboardPage() {
                     </section>
                     <section id="user-purchases-section">
                         <h2>Tidligere kjøp</h2>
-                        {loggedInUser && (
+                        {loggedInUser && loggedInUser.previousPurchases?.length > 0 ? (
                             <ul id="previous-purchases-list">
                                 <li id="previous-purchases-header">
                                     <p>ID</p>
@@ -272,21 +267,23 @@ export default function DashboardPage() {
                                     <p>Tittel</p>
                                     <p>Land</p>
                                 </li>
-                                {loggedInUser.previousPurchases?.map((event) => (
+                                {loggedInUser.previousPurchases.map((event) => (
                                     <li key={event._id} id="previous-purchase-card">
                                         <p>{event._id}</p>
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button onClick={() => handleMoreInfo(event)}>Les mer</button>
+                                        <button onClick={() => navigateToEvent(event, "previousPurchases")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
+                        ) : (
+                            <p>Du har ingen tidligere kjøp.</p>
                         )}
                     </section>
                     <section id="user-wishlist-section">
                         <h2>Ønskeliste</h2>
-                        {loggedInUser && (
+                        {loggedInUser ? (
                             <ul id="wishlist-list">
                                 <li id="wishlist-header">
                                     <p>Dato</p>
@@ -298,10 +295,12 @@ export default function DashboardPage() {
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button onClick={() => handleMoreInfo(event)}>Les mer</button>
+                                        <button onClick={() => navigateToEvent(event, "wishlist")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
+                        ) : (
+                            <p>Du har ikke lagt til noe i ønskelisten.</p>
                         )}
                     </section>
                 </section>
