@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { client } from "../sanity/client";
 import { fetchSanityEvents } from "../sanity/eventServices";
+import { Link } from "react-router-dom";
 import { fetchCityEvents, getSpecificFestival } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss"
 
 export default function HomePage() {
-  const [findings, setFindings] = useState([]);
-  const [neon, setNeon] = useState([]);
-  const [skeikampen, setSkeikampen] = useState([]);
-  const [tonsOfRock, setTonsOfRock] = useState([]);
-  const [sanityEvents, setSanityEvents] = useState([]);
+  const [findings, setFindings] = useState(null);
+  const [neon, setNeon] = useState(null);
+  const [skeikampen, setSkeikampen] = useState(null);
+  const [tonsOfRock, setTonsOfRock] = useState(null);
+  const [sanityEvents ,setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
@@ -25,11 +25,11 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const fetchSanityEvents = async () => {
-      const data = await fetchSanityEvents;
+    const getSanityEvents = async () => {
+      const data = await fetchSanityEvents();
       setSanityEvents(data);
     };
-    fetchSanityEvents();
+    getSanityEvents();
   }, []);
 
   // Fetch events for the selected city when it changes
@@ -47,7 +47,18 @@ export default function HomePage() {
     <div id="HomePage">
       <section id="Festivaler">
         <h2>Sommerens festivaler!</h2>
-        {/**Her kommer festivaler */}
+        <ul className="festival-cards-container">
+          {[findings, neon, skeikampen, tonsOfRock].map((festival) =>
+          festival && (
+            <li key={festival.id} className="festival-card">
+              <img src={festival.images?.[0]?.url} alt={festival.name} />
+              <h3>{festival.name}</h3>
+              <Link to={`/event/${festival.id}`}>
+                <button>Les mer om {festival.name}</button>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
       <section id="Storbyer">
         <h2>Hva skjer i verdens storbyer!</h2>
