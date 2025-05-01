@@ -1,7 +1,5 @@
-// TODO: Add a loading spinner while fetching data
-// DOING: Add styling to the page
+
 // TODO: Add correct details for the event (see demo)
-// TODO: Fix so the 404 page doesn't show under loading.
 
 import "../styles/dashboardMoreInfoStyle.scss";
 import "../styles/app.scss"; // Import the global styles for the loading spinner
@@ -65,66 +63,45 @@ export default function DashboardMoreInfoPage({ pageType }) {
                 </button>
                 <h1>Arrangementdetaljer</h1>
             </section>
-            {pageType === "wishlist" ? (
-                <section id="more-info-wishlist" className="more-info-layout">
-                    <article className="more-info-event-details">
-                        <p><strong>Tittel:</strong> {currentEvent.title}</p>
-                        <p><strong>Dato:</strong> {currentEvent.date}</p>
-                        <p><strong>Sted:</strong> {currentEvent.location}</p>
-                        <p><strong>Beskrivelse:</strong> {currentEvent.description}</p>
-                    </article>
-                    <article className="more-info-event-friends">
-                        <h2>Venner som har lagt til dette arrangementet i ønskelisten</h2>
-                        {usersWithCommonEvents.length > 0 ? (
-                            <ul>
-                                {usersWithCommonEvents.map((user) => (
-                                    <li key={user._id}>
-                                        <img
-                                            src={user.photo?.asset?.url || "https://placehold.co/50x50"}
-                                            alt={`${user.firstName} ${user.lastName}`}
-                                            style={{ borderRadius: "50%", width: "50px", height: "50px" }}
-                                        />
-                                        <p>{`${user.firstName} ${user.lastName}`}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>Ingen venner har lagt til dette arrangementet i ønskelisten sin.</p>
-                        )}
-                    </article>
-                </section>
-            ) : (
-                <section id="more-info-purchased">
-                    <h1>Tidligere kjøp</h1>
-                    <p>Arrangementet er tidligere kjøpt.</p>
-                    <article className="more-info-event-details">
-                        <h2>Arrangementdetaljer</h2>
-                        <p><strong>Tittel:</strong> {currentEvent.title}</p>
-                        <p><strong>Dato:</strong> {currentEvent.date}</p>
-                        <p><strong>Sted:</strong> {currentEvent.location}</p>
-                        <p><strong>Beskrivelse:</strong> {currentEvent.description}</p>
-                    </article>
-                    <article className="more-info-event-friends">
-                        <h2>Venner som har kjøpt billetter til dette arrangementet</h2>
-                        {usersWithCommonEvents.length > 0 ? (
-                            <ul>
-                                {usersWithCommonEvents.map((user) => (
-                                    <li key={user._id}>
-                                        <img
-                                            src={user.photo?.asset?.url || "https://placehold.co/50x50"}
-                                            alt={`${user.firstName} ${user.lastName}`}
-                                            style={{ borderRadius: "50%", width: "50px", height: "50px" }}
-                                        />
-                                        <p>{`${user.firstName} ${user.lastName}`}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>Ingen venner har kjøpt billetter til dette arrangementet.</p>
-                        )}
-                    </article>
-                </section>
-            )}
+            <section className="more-info-details">
+                <article>
+                    <p><strong>ID:</strong> {currentEvent._id}</p>
+                    <p><strong>Tittel:</strong> {currentEvent.title}</p>
+                    <p><strong>Dato:</strong> {currentEvent.date}</p>
+                    <p><strong>Klokkeslett:</strong> {currentEvent.time}</p>
+                    <p><strong>Sted:</strong> {currentEvent.venue} - {currentEvent.city}, {currentEvent.country}</p>
+                    <p><strong>Sjanger:</strong> {currentEvent.genre || "Ikke oppgitt"}</p>
+                </article>
+                <aside>
+                    <img src={currentEvent.image || "https://placehold.co/200x200"} alt={currentEvent.title} />
+                </aside>
+            </section>
+            <article className="more-info-friends">
+                <h2>
+                    {pageType === "wishlist"
+                        ? "Personer som har lagt til dette arrangementet i ønskelisten"
+                        : "Personer som har kjøpt billetter til dette arrangementet"}
+                </h2>
+                {usersWithCommonEvents.length > 0 ? (
+                    <ul>
+                        {usersWithCommonEvents.map((user) => (
+                            <li key={user._id}>
+                                <img
+                                    src={user.photo?.asset?.url || "https://placehold.co/50x50"}
+                                    alt={`${user.firstName} ${user.lastName}`}
+                                />
+                                <p>{`${user.firstName} ${user.lastName}`}</p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>
+                        {pageType === "wishlist"
+                            ? "Ingen personer har lagt til dette arrangementet i ønskelisten sin."
+                            : "Ingen personer har kjøpt billetter til dette arrangementet."}
+                    </p>
+                )}
+            </article>
         </div>
     );
 }

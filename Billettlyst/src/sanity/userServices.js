@@ -125,7 +125,7 @@ export async function fetchUserById(_id) {
 
 export async function fetchUsersWithCommonEvents(eventId) {
     try {
-                const data = await client.fetch(`*[_type == "user" && references($eventId)]{
+        const data = await client.fetch(`*[_type == "user" && references($eventId)]{
             _id,
             firstName,
             lastName,
