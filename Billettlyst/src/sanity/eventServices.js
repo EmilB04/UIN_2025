@@ -12,6 +12,7 @@ export const fetchSanityEvents = async () => {
         venue,
         "image": image.asset->url
       }`;
+      const data = await client.fetch(query);
       return data;
     } catch (error) {
         console.error("Error fetching events from Sanity:", error);

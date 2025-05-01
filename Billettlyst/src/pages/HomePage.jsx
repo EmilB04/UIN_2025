@@ -15,13 +15,10 @@ export default function HomePage() {
   const [apiEvents, setApiEvents] = useState([]);
 
   useEffect(() => {
-    const fetchFestivals = async () => {
-      setFindings(await getSpecificFestival("Findings"));
-      setNeon(await getSpecificFestival("Neon"));
-      setSkeikampen(await getSpecificFestival("Skeikampen"));
-      setTonsOfRock(await getSpecificFestival("Tons of Rock"));
-    };
-    fetchFestivals();
+    getSpecificFestival("Findings", setFindings);
+    getSpecificFestival("Neon", setNeon);
+    getSpecificFestival("Skeikampen", setSkeikampen);
+    getSpecificFestival("Tons of Rock", setTonsOfRock);
   }, []);
 
   useEffect(() => {
