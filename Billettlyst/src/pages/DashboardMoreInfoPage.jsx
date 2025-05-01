@@ -1,6 +1,6 @@
 // TODO: Add a loading spinner while fetching data
 // DOING: Add a back button to return to the previous page
-// TODO: Add styling to the page
+// DOING: Add styling to the page
 // DOING: Differentiate between previous purchased and wishlisted events
 // DOING: Display users who have purchased tickets for the event
 // TODO: Add correct details for the event (see demo)
