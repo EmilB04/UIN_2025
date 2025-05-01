@@ -1,3 +1,4 @@
+import { client } from "./client";
 
 export const fetchSanityEvents = async () => {
     try {
