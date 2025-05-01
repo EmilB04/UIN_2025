@@ -41,12 +41,12 @@ TODO:
         Dato
         Bilde
 
-        Venner-funksjonalitet:
-        Oppdater brukerens Sanity-modell ved å legge til et nytt felt: friends
+        Venner-funksjonalitet: ✅ DONE:
+        Oppdater brukerens Sanity-modell ved å legge til et nytt felt: friends 
         Dette skal være en referanse til én eller flere andre brukere i systemet.
         I grensesnittet skal du hente ut og vise vennelisten til den innloggede brukeren.
         
-        Felles arrangementer:
+        Felles arrangementer: ✅ DONE:
         Under hver venn i visningen, skal det kontrolleres om brukeren og vennen har felles events i ønskelisten.
         Dersom det finnes et eller flere felles arrangementer, skal det vises en melding som for eksempel:
         "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
@@ -288,13 +288,13 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                                 <li id="wishlist-header">
                                     <p>Dato</p>
                                     <p>Tittel</p>
-                                    <p>Land</p>
+                                    <p>Sted</p>
                                 </li>
                                 {loggedInUser.wishlist?.map((event) => (
                                     <li key={event._id} id="wishlist-card">
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
-                                        <p>{event.country}</p>
+                                        <p>{event.venue}, {event.city}</p>
                                         <button onClick={() => navigateToEvent(event, "wishlist")}>Les mer</button>
                                     </li>
                                 ))}
