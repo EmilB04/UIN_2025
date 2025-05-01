@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getEventById, getFestivalPassesByKeyword } from "../api/ticketmasterApiServices";
 import FestivalPassCard from "../components/FestivalPassCard";
-
+import "../styles/EventPage.scss";
 
 export default function EventPage() {
     const { id } = useParams();
@@ -14,7 +14,7 @@ export default function EventPage() {
             const festival = await getEventById(id);
             setFestival(festival);
 
-            const baseName = festival.name.split(" - ")[0]; // Alt før første " - " 
+            const baseName = festival.name.split(" - ")[0]; 
             const passes = await getFestivalPassesByKeyword(baseName);
             setFestivalPasses(passes);
         };
@@ -28,10 +28,10 @@ export default function EventPage() {
             <h1>{festival.name}</h1>
 
             <h2>Sjannger:</h2>
-            <span>Musik Festival</span>
+            <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
             
             <h2>Festivalpass:</h2>
-            <section id="festivalPass">
+            <section id="festivalPassSection">
                 {festivalPasses.map((pass) => (
                     <FestivalPassCard
                     key={pass.id}

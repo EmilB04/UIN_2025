@@ -1,0 +1,41 @@
+#eventPage{
+    h1{
+
+    }
+    h2{
+
+    }
+    span{
+
+    }
+    #festivalPassSection{
+        display: flex;
+        flex-wrap: wrap;
+        #festivalPass{
+            padding: 20px;
+            max-width: 25vw;
+            img{
+                width: 100%;
+                height: auto;
+            }
+            h3{
+
+            }
+            ul{
+                list-style: none;
+                padding: 0;
+                li{
+                    
+                }
+            }
+            div{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                button{
+                    padding: 0.5rem;
+                }                
+            }
+        }
+    }
+}

@@ -4,8 +4,8 @@ export default function FestivalPassCard({ image, name, date, venue, onWishListC
             <img src={image} alt={`Bilde av ${name}`} />
             <h3>{name}</h3>
             <ul>
-                <li>{date}</li>
                 <li>{venue}</li>  
+                <li>{date}</li>
             </ul>
             <div id="festivalPassButtons">
                 <button type="button">Kjøp</button>
