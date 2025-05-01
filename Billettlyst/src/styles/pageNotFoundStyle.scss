@@ -1,4 +1,5 @@
-@import "./app.scss";
+@use "./app.scss" as *;
+
 #page-not-found {
     display: flex;
     flex-direction: column;

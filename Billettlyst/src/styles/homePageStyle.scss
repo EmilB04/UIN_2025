@@ -1,4 +1,5 @@
-@import "./app.scss";
+@use "./app.scss" as *;
+
 #Storbyer{
     margin-top: 2rem;
     h2{

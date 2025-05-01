@@ -1,4 +1,5 @@
-@import "./app.scss";
+@use "./app.scss" as *;
+
 #EventCard {
     flex: 1 1 15vw;                    
     max-width: 250px;                  

@@ -1,4 +1,4 @@
-@import "./app.scss";
+@use "./app.scss" as *;
 
 #dashboard-page {
     color: white;
