@@ -5,7 +5,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-block: 2rem;
+
 
         h1 {
             flex: 1;
@@ -31,6 +32,18 @@
                 font-size: 2rem;
                 color: white;
             }
+        }
+    }
+
+    .more-info-layout {
+        display: flex;
+        flex-direction: column;
+
+        .more-info-event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
     }
 }
