@@ -150,7 +150,7 @@
         #dashboard-header {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             gap: 2rem;
 
             button {
@@ -160,6 +160,12 @@
                 border-radius: 8px;
                 cursor: pointer;
                 transition: background 0.3s;
+                font-size: 1rem;
+                font-weight: bold;
+                color: white;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
 
                 &:hover {
                     background: $hover-color;

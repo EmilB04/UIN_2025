@@ -200,7 +200,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                 <section id="dashboard-header">
                     <h1>Min side</h1>
                     <button id="logout" onClick={handleLogout} aria-label="Logg ut" title="Logg ut">
-                        <i className="fas fa-sign-out-alt"></i>
+                        <i className="fas fa-sign-out-alt"></i>Logg ut
                     </button>
                 </section>
 
