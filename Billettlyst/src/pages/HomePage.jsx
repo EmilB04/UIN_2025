@@ -5,7 +5,7 @@ import { fetchCityEvents, getSpecificFestival } from "../api/ticketmasterApiServ
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss";
 
-export default function HomePage() {
+export default function HomePage({ setLoading}) {
   const [findings, setFindings] = useState(null);
   const [neon, setNeon] = useState(null);
   const [skeikampen, setSkeikampen] = useState(null);
@@ -31,17 +31,23 @@ export default function HomePage() {
     getSanityEvents();
   }, []);
 
-  // Hent events for valgt by
   useEffect(() => {
     const getEvents = async () => {
-      const events = await fetchCityEvents(selectedCity);
-      setApiEvents(events);
+      setLoading(true); // Start loading
+      try {
+        const events = await fetchCityEvents(selectedCity);
+        setApiEvents(events);
+      } catch (error) {
+        console.error("Error fetching city events:", error);
+      } finally {
+        setLoading(false); // Stop loading
+      }
     };
 
     if (selectedCity) {
       getEvents();
     }
-  }, [selectedCity]);
+  }, [selectedCity, setLoading]);
 
   return (
     <div id="HomePage">

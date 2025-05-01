@@ -11,6 +11,7 @@ import PageNotFound from "./pages/PageNotFound";
 import DashboardMoreInfoPage from "./pages/DashboardMoreInfoPage";
 //
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import Loading from "./components/Loading";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -21,10 +22,7 @@ function App() {
     <Layout>
       {/* Global loading spinner */}
       {loading && (
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Laster inn...</p>
-        </div>
+        Loading()
       )}
 
       <Routes>
@@ -38,7 +36,7 @@ function App() {
         />
         <Route
           path="/dashboard/:id"
-          element={<DashboardMoreInfoPage loading={loading} setLoading={setLoading} event={getEvent} pageType={getPageType} />}
+          element={<DashboardMoreInfoPage event={getEvent} pageType={getPageType} />}
         />
         <Route path="/sanity-event/:id" element={<SanityEventDetails loading={loading} setLoading={setLoading} />} />
       </Routes>
