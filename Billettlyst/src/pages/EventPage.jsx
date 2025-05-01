@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getEventById, getFestivalPassesByKeyword } from "../api/ticketmasterApiServices";
 import FestivalPassCard from "../components/FestivalPassCard";
-import "../styles/EventPage.scss";
+import "../styles/eventPage.scss";
 
 export default function EventPage() {
     const { id } = useParams();
