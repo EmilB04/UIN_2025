@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { useState } from "react";
 import "./styles/app.scss";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
@@ -12,16 +13,26 @@ import DashboardMoreInfoPage from "./pages/DashboardMoreInfoPage";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <Layout>
+      {/* Global loading spinner */}
+      {loading && (
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Laster inn...</p>
+        </div>
+      )}
+
       <Routes>
-        <Route path="/*" element={<PageNotFound />} />  
-        <Route path="/" element={<HomePage />} />
-        <Route path="/event/:id" element={<EventPage />} />
-        <Route path="/category/:slug" element={<CategoryPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/:id" element={<DashboardMoreInfoPage />} />
-        <Route path="/sanity-event/:id" element={<SanityEventDetails />} />
+        <Route path="/*" element={<PageNotFound />} />
+        <Route path="/" element={<HomePage loading={loading} setLoading={setLoading} />} />
+        <Route path="/event/:id" element={<EventPage loading={loading} setLoading={setLoading} />} />
+        <Route path="/category/:slug" element={<CategoryPage loading={loading} setLoading={setLoading} />} />
+        <Route path="/dashboard" element={<Dashboard loading={loading} setLoading={setLoading} />} />
+        <Route path="/dashboard/:id" element={<DashboardMoreInfoPage loading={loading} setLoading={setLoading} />} />
+        <Route path="/sanity-event/:id" element={<SanityEventDetails loading={loading} setLoading={setLoading} />} />
       </Routes>
     </Layout>
   );

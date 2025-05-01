@@ -33,7 +33,7 @@ TODO:
         Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
         
         2. Brukerens innhold
-        Ønskeliste og tidligere kjøp
+        Ønskeliste og tidligere kjøp ✅ DONE:
         
         Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
         Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
@@ -60,7 +60,7 @@ import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import
 import DummyPerson from "../assets/person-dummy.jpg";
 import { Link, useNavigate } from "react-router";
 
-export default function DashboardPage() {
+export default function DashboardPage({ setLoading }) {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -69,7 +69,6 @@ export default function DashboardPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const [loading, setLoading] = useState(false); // State to handle loading
     const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
@@ -90,7 +89,7 @@ export default function DashboardPage() {
         if (isLoggedIn) {
             fetchLoggedInUser();
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn , setLoading]);
 
     // Handle login
     const handleLogin = async (e) => {
@@ -152,10 +151,6 @@ export default function DashboardPage() {
             friendWishlist.some((friendItem) => friendItem._id === item._id)
         );
     };
-    // Loading spinner
-    if (loading) {
-        return <div className="loading-spinner"><div className="spinner"></div><p>Laster inn...</p></div>;
-    }
 
     return (
         <div id="dashboard-page">{!isLoggedIn ? (

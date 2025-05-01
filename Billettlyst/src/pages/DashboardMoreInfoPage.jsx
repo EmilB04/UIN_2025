@@ -8,13 +8,15 @@ import { useLocation } from "react-router-dom";
 // TODO: Display users who have purchased tickets for the event
 // TODO: Add correct details for the event (see demo)
 
-export default function DashboardMoreInfoPage() {
+export default function DashboardMoreInfoPage({ setLoading}) {
     const location = useLocation();
     const event = location.state?.event; // Retrieve the passed event data
+    
 
     if (!event) {
         return <p>Ingen data tilgjengelig for dette arrangementet.</p>;
     }
+
 
     return (
         <div className="dashboard-more-info-page">
