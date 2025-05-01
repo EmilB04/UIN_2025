@@ -14,6 +14,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function App() {
   const [loading, setLoading] = useState(false);
+  const [getPageType, setPageType] = useState(""); // Add setter for pageType
+  const [getEvent, setEvent] = useState({}); // Add setter for event
 
   return (
     <Layout>
@@ -30,8 +32,14 @@ function App() {
         <Route path="/" element={<HomePage loading={loading} setLoading={setLoading} />} />
         <Route path="/event/:id" element={<EventPage loading={loading} setLoading={setLoading} />} />
         <Route path="/category/:slug" element={<CategoryPage loading={loading} setLoading={setLoading} />} />
-        <Route path="/dashboard" element={<Dashboard loading={loading} setLoading={setLoading} />} />
-        <Route path="/dashboard/:id" element={<DashboardMoreInfoPage loading={loading} setLoading={setLoading} />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard loading={loading} setLoading={setLoading} setPageType={setPageType} setEvent={setEvent} />}
+        />
+        <Route
+          path="/dashboard/:id"
+          element={<DashboardMoreInfoPage loading={loading} setLoading={setLoading} event={getEvent} pageType={getPageType} />}
+        />
         <Route path="/sanity-event/:id" element={<SanityEventDetails loading={loading} setLoading={setLoading} />} />
       </Routes>
     </Layout>

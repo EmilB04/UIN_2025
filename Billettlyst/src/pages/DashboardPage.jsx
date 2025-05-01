@@ -60,7 +60,7 @@ import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import
 import DummyPerson from "../assets/person-dummy.jpg";
 import { Link, useNavigate } from "react-router";
 
-export default function DashboardPage({ setLoading }) {
+export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -89,13 +89,13 @@ export default function DashboardPage({ setLoading }) {
         if (isLoggedIn) {
             fetchLoggedInUser();
         }
-    }, [isLoggedIn , setLoading]);
+    }, [isLoggedIn, setLoading]);
 
     // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true); // Start loading
         try {
+            setLoading(true); // Start loading
             const allUsers = await fetchAllUsers();
             const user = allUsers.find((u) => u.email === email);
 
@@ -108,21 +108,20 @@ export default function DashboardPage({ setLoading }) {
                         localStorage.setItem("isLoggedIn", "true");
                         localStorage.setItem("loggedInUserId", user._id);
                         setError("");
-                        setLoading(false); // Stop loading
                     }, 1000); // 1-second delay
                 } else {
                     setError("Feil passord. Prøv igjen.");
-                    setLoading(false); // Stop loading
                 }
             } else {
                 setError("Bruker ikke funnet. Sjekk e-postadressen.");
-                setLoading(false); // Stop loading
             }
         } catch (error) {
             console.error("Error during login:", error);
             setError("Noe gikk galt. Prøv igjen senere.");
-            setLoading(false); // Stop loading
+        } finally {
+            setLoading(false);
         }
+
     };
     // Handle logout
     const handleLogout = () => {
@@ -139,9 +138,10 @@ export default function DashboardPage({ setLoading }) {
         }, 500); // 0.5-second delay
     };
 
-    // Function to handle more info button click
-    const handleMoreInfo = (event) => {
-        navigate(`/dashboard/${event._id}`, { state: { event } }); // Pass event data via state
+    const navigateToEvent = (event, type) => {
+        setPageType(type); // Set the page type (wishlist or previous purchases)
+        setEvent(event); // Set the event data
+        navigate(`/dashboard/${event._id}`); // Navigate to the details page
     };
     // Function to find common wishlist items between two users
     const findCommonWishlistItems = (friendWishlist) => {
@@ -273,7 +273,7 @@ export default function DashboardPage({ setLoading }) {
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button onClick={() => handleMoreInfo(event)}>Les mer</button>
+                                        <button onClick={() => navigateToEvent(event, "previousPurchases")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
@@ -295,7 +295,7 @@ export default function DashboardPage({ setLoading }) {
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button onClick={() => handleMoreInfo(event)}>Les mer</button>
+                                        <button onClick={() => navigateToEvent(event, "wishlist")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
