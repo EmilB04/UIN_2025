@@ -1,4 +1,4 @@
-# 🛠️ uin25ak3_gruppe2  
+# 🛠️ Billettlyst
 **Innleveringsrepo for eksamen**  
 📚 *UIN – Gruppe 2*
 
