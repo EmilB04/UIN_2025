@@ -15,7 +15,7 @@ import "../styles/app.scss"; // Import the global styles for the loading spinner
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import { fetchUsersWithCommonEvents } from "../sanity/userServices"; // Import fetch functions
-import { fetchEventById, getApiIdBySanityId } from "../sanity/eventServices"; // Import fetch functions
+import { getApiIdBySanityId } from "../sanity/eventServices"; // Import fetch functions
 import PageNotFound from './PageNotFound';
 import Loading from "../components/Loading";
 import { getEventById } from "../api/ticketmasterApiServices";
@@ -40,16 +40,12 @@ export default function DashboardMoreInfoPage({ pageType }) {
             setLoading(true); // Start loading
             try {
                 const ticketMasterId = await getApiIdBySanityId(id); // Get Ticketmaster ID from Sanity
-                console.log("Ticketmaster ID:", ticketMasterId); // For debugging
-                const ticketEvent = await getEventById(ticketMasterId); // This is later to be used for the event details
+                const ticketEvent = await getEventById(ticketMasterId); // Fetch event details from Ticketmaster
 
+                if (ticketEvent) {
+                    setCurrentEvent(ticketEvent); // Set the event details from Ticketmaster
+                }
 
-
-
-
-                // Fetch event details
-                const event = await fetchEventById(id);
-                setCurrentEvent(event);
                 // Fetch users with common events
                 await fetchUsersWithCommonEventsHandler();
             } catch (error) {
@@ -64,13 +60,23 @@ export default function DashboardMoreInfoPage({ pageType }) {
         }
     }, [id, fetchUsersWithCommonEventsHandler]);
 
-
     if (loading) {
         return Loading();
     }
     if (!currentEvent) {
         return <PageNotFound />; // Show PageNotFound if event is not found
     }
+
+    // Format date and time
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat("no-NB").format(date); 
+    };
+
+    const formatTime = (timeString) => {
+        const [hours, minutes] = timeString.split(":");
+        return `${hours}:${minutes}`; 
+    };
 
     return (
         <div id="dashboard-more-info-page">
@@ -82,15 +88,15 @@ export default function DashboardMoreInfoPage({ pageType }) {
             </section>
             <section className="more-info-details">
                 <article>
-                    <p><strong>ID:</strong> {currentEvent._id}</p>
-                    <p><strong>Tittel:</strong> {currentEvent.title}</p>
-                    <p><strong>Dato:</strong> {currentEvent.date}</p>
-                    <p><strong>Klokkeslett:</strong> {currentEvent.time}</p>
-                    <p><strong>Sted:</strong> {currentEvent.venue} - {currentEvent.city}, {currentEvent.country}</p>
-                    <p><strong>Sjanger:</strong> {currentEvent.genre || "Ikke oppgitt"}</p>
+                    <p><strong>ID:</strong> {currentEvent.id}</p>
+                    <p><strong>Tittel:</strong> {currentEvent.name}</p>
+                    <p><strong>Dato:</strong> {formatDate(currentEvent.dates?.start?.localDate)}</p>
+                    <p><strong>Klokkeslett:</strong> {formatTime(currentEvent.dates?.start?.localTime)}</p>
+                    <p><strong>Sted:</strong> {currentEvent._embedded?.venues?.[0]?.name} - {currentEvent._embedded?.venues?.[0]?.city?.name}, {currentEvent._embedded?.venues?.[0]?.country?.name}</p>
+                    <p><strong>Sjanger:</strong> {currentEvent.classifications?.[0]?.genre?.name || "Ikke oppgitt"}</p>
                 </article>
                 <aside>
-                    <img src={currentEvent.image || "https://placehold.co/200x200"} alt={currentEvent.title} />
+                    <img src={currentEvent.images?.[0]?.url || "https://placehold.co/200x200"} alt={currentEvent.name} />
                 </aside>
             </section>
             <article className="more-info-friends">

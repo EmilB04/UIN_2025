@@ -29,6 +29,9 @@ export const fetchCityEvents = async (city) => {
 export const getEventById = async (id) => {
   try {
     const response = await fetch(`${URL}/events/${id}.json?apikey=${API_KEY}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
     const data = await response.json();
     return data;
   } catch (error) {
