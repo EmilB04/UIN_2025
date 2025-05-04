@@ -33,7 +33,7 @@ TODO:
         Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
         
         2. Brukerens innhold
-        Ønskeliste og tidligere kjøp
+        Ønskeliste og tidligere kjøp ✅ DONE:
         
         Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
         Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
@@ -41,12 +41,12 @@ TODO:
         Dato
         Bilde
 
-        Venner-funksjonalitet:
-        Oppdater brukerens Sanity-modell ved å legge til et nytt felt: friends
+        Venner-funksjonalitet: ✅ DONE:
+        Oppdater brukerens Sanity-modell ved å legge til et nytt felt: friends 
         Dette skal være en referanse til én eller flere andre brukere i systemet.
         I grensesnittet skal du hente ut og vise vennelisten til den innloggede brukeren.
         
-        Felles arrangementer:
+        Felles arrangementer: ✅ DONE:
         Under hver venn i visningen, skal det kontrolleres om brukeren og vennen har felles events i ønskelisten.
         Dersom det finnes et eller flere felles arrangementer, skal det vises en melding som for eksempel:
         "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
@@ -58,8 +58,9 @@ import React, { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import fetch functions
 import DummyPerson from "../assets/person-dummy.jpg";
+import { Link, useNavigate } from "react-router";
 
-export default function DashboardPage() {
+export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -68,7 +69,7 @@ export default function DashboardPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const [loading, setLoading] = useState(false); // State to handle loading
+    const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
         const fetchLoggedInUser = async () => {
@@ -85,17 +86,16 @@ export default function DashboardPage() {
                 }
             }
         };
-
         if (isLoggedIn) {
             fetchLoggedInUser();
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, setLoading]);
 
     // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true); // Start loading
         try {
+            setLoading(true); // Start loading
             const allUsers = await fetchAllUsers();
             const user = allUsers.find((u) => u.email === email);
 
@@ -108,21 +108,20 @@ export default function DashboardPage() {
                         localStorage.setItem("isLoggedIn", "true");
                         localStorage.setItem("loggedInUserId", user._id);
                         setError("");
-                        setLoading(false); // Stop loading
                     }, 1000); // 1-second delay
                 } else {
                     setError("Feil passord. Prøv igjen.");
-                    setLoading(false); // Stop loading
                 }
             } else {
                 setError("Bruker ikke funnet. Sjekk e-postadressen.");
-                setLoading(false); // Stop loading
             }
         } catch (error) {
             console.error("Error during login:", error);
             setError("Noe gikk galt. Prøv igjen senere.");
-            setLoading(false); // Stop loading
+        } finally {
+            setLoading(false);
         }
+
     };
     // Handle logout
     const handleLogout = () => {
@@ -138,6 +137,12 @@ export default function DashboardPage() {
             setLoading(false); // Stop loading
         }, 500); // 0.5-second delay
     };
+
+    const navigateToEvent = (event, type) => {
+        setPageType(type); // Set the page type (wishlist or previous purchases)
+        setEvent(event); // Set the event data
+        navigate(`/dashboard/${event._id}`); // Navigate to the details page
+    };
     // Function to find common wishlist items between two users
     const findCommonWishlistItems = (friendWishlist) => {
         if (!loggedInUser || !friendWishlist) return []; // Return empty array if no user or wishlist
@@ -146,10 +151,6 @@ export default function DashboardPage() {
             friendWishlist.some((friendItem) => friendItem._id === item._id)
         );
     };
-    // Loading spinner
-    if (loading) {
-        return <div className="loading-spinner"><div className="spinner"></div><p>Laster inn...</p></div>;
-    }
 
     return (
         <div id="dashboard-page">{!isLoggedIn ? (
@@ -199,7 +200,7 @@ export default function DashboardPage() {
                 <section id="dashboard-header">
                     <h1>Min side</h1>
                     <button id="logout" onClick={handleLogout} aria-label="Logg ut" title="Logg ut">
-                        <i className="fas fa-sign-out-alt"></i>
+                        <i className="fas fa-sign-out-alt"></i>Logg ut
                     </button>
                 </section>
 
@@ -258,7 +259,7 @@ export default function DashboardPage() {
                     </section>
                     <section id="user-purchases-section">
                         <h2>Tidligere kjøp</h2>
-                        {loggedInUser && (
+                        {loggedInUser && loggedInUser.previousPurchases?.length > 0 ? (
                             <ul id="previous-purchases-list">
                                 <li id="previous-purchases-header">
                                     <p>ID</p>
@@ -266,36 +267,40 @@ export default function DashboardPage() {
                                     <p>Tittel</p>
                                     <p>Land</p>
                                 </li>
-                                {loggedInUser.previousPurchases?.map((event) => (
+                                {loggedInUser.previousPurchases.map((event) => (
                                     <li key={event._id} id="previous-purchase-card">
                                         <p>{event._id}</p>
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
-                                        <button>Les mer</button>
+                                        <button onClick={() => navigateToEvent(event, "previousPurchases")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
+                        ) : (
+                            <p>Du har ingen tidligere kjøp.</p>
                         )}
                     </section>
                     <section id="user-wishlist-section">
                         <h2>Ønskeliste</h2>
-                        {loggedInUser && (
+                        {loggedInUser ? (
                             <ul id="wishlist-list">
                                 <li id="wishlist-header">
                                     <p>Dato</p>
                                     <p>Tittel</p>
-                                    <p>Land</p>
+                                    <p>Sted</p>
                                 </li>
                                 {loggedInUser.wishlist?.map((event) => (
                                     <li key={event._id} id="wishlist-card">
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>
-                                        <p>{event.country}</p>
-                                        <button>Les mer</button>
+                                        <p>{event.venue}, {event.city}</p>
+                                        <button onClick={() => navigateToEvent(event, "wishlist")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
+                        ) : (
+                            <p>Du har ikke lagt til noe i ønskelisten.</p>
                         )}
                     </section>
                 </section>

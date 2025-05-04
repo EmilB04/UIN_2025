@@ -12,7 +12,7 @@ export const getSpecificFestival = async (festivalName, setFestival) => {
         .catch((error) => 
             console.error("Error fetching festival data:", error)
         );
-};
+ };
 
 export const fetchCityEvents = async (city) => {
     try {
@@ -88,3 +88,5 @@ export const getFestivalPassesByKeyword = async (keyword) => {
       console.error("Error fetching theatre events:", error);
     }
   };
+}
+
