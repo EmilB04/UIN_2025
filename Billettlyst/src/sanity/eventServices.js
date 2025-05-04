@@ -41,3 +41,15 @@ export async function fetchEventById(id) {
         throw error;
     }
 }
+
+// Function to get Ticketmaster ID which is stored in Sanity
+export async function getApiIdBySanityId(_id) {
+    try {
+        const query = `*[_type == "event" && _id == $_id][0]{ apiId }`;
+        const data = await client.fetch(query, { _id: _id });
+        return data?.apiId;
+    } catch (error) {
+        console.error("Error fetching API ID by Sanity ID:", error);
+        throw error;
+    }
+}

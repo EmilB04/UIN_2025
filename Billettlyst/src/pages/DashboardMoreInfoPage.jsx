@@ -15,15 +15,16 @@ import "../styles/app.scss"; // Import the global styles for the loading spinner
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom"; // Import useParams
 import { fetchUsersWithCommonEvents } from "../sanity/userServices"; // Import fetch functions
-import { fetchEventById } from "../sanity/eventServices"; // Import fetch functions
+import { fetchEventById, getApiIdBySanityId } from "../sanity/eventServices"; // Import fetch functions
 import PageNotFound from './PageNotFound';
 import Loading from "../components/Loading";
+import { getEventById } from "../api/ticketmasterApiServices";
 
 export default function DashboardMoreInfoPage({ pageType }) {
     const { id } = useParams(); // Get the event ID from the URL
     const [usersWithCommonEvents, setUsersWithCommonEvents] = useState([]);
     const [currentEvent, setCurrentEvent] = useState(null);
-    const [loading, setLoading] = useState(true); // State to manage loading
+    const [loading, setLoading] = useState(true); // State to manage loading;
 
     const fetchUsersWithCommonEventsHandler = useCallback(async () => {
         try {
@@ -38,10 +39,17 @@ export default function DashboardMoreInfoPage({ pageType }) {
         const fetchData = async () => {
             setLoading(true); // Start loading
             try {
+                const ticketMasterId = await getApiIdBySanityId(id); // Get Ticketmaster ID from Sanity
+                console.log("Ticketmaster ID:", ticketMasterId); // For debugging
+                const ticketEvent = await getEventById(ticketMasterId); // This is later to be used for the event details
+
+
+
+
+
                 // Fetch event details
                 const event = await fetchEventById(id);
                 setCurrentEvent(event);
-
                 // Fetch users with common events
                 await fetchUsersWithCommonEventsHandler();
             } catch (error) {
