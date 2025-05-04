@@ -21,7 +21,7 @@
 
 For å komme i gang med prosjektet lokalt:
 
-1. **Installer avhengigheter i: _UIN2025_eksamen_gruppe2/Billetlyst**
+1. **Installer avhengigheter i: _UIN2025_eksamen_gruppe2/Billetlyst_**
    ```bash
    npm install
 
