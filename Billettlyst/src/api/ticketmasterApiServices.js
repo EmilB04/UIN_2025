@@ -12,7 +12,7 @@ export const getSpecificFestival = async (festivalName, setFestival) => {
         .catch((error) => 
             console.error("Error fetching festival data:", error)
         );
-};
+ };
 
 export const fetchCityEvents = async (city) => {
     try {
@@ -49,3 +49,44 @@ export const getFestivalPassesByKeyword = async (keyword) => {
     return [];
   }
 }
+
+  // Funksjon for å hente alle musikk-events
+  export const fetchMusicEvents = async () => {
+    try {
+      const response = await fetch(
+        `${URL}/events.json?apikey=${API_KEY}&classificationName=Music&countryCode=NO&size=8`
+      );
+      const data = await response.json();
+      return data._embedded?.events || [];
+    } catch (error) {
+      console.error("Error fetching music events:", error);
+    }
+  };
+  
+  // Funksjon for å hente alle sport-events
+  export const fetchSportsEvents = async () => {
+    try {
+      const response = await fetch(
+        `${URL}/events.json?apikey=${API_KEY}&classificationName=Sports&countryCode=NO&size=8`
+      );
+      const data = await response.json();
+      return data._embedded?.events || [];
+    } catch (error) {
+      console.error("Error fetching music events:", error);
+    }
+  };
+  
+  // Funksjon for å hente teater/show-events
+  export const fetchTheatreEvents = async () => {
+    try {
+      const response = await fetch(
+        `${URL}/events.json?apikey=${API_KEY}&segmentId=KZFzniwnSyZfZ7v7na&countryCode=NO&size=8`
+      );
+      const data = await response.json();
+      return data._embedded?.events || [];
+    } catch (error) {
+      console.error("Error fetching theatre events:", error);
+    }
+  };
+}
+
