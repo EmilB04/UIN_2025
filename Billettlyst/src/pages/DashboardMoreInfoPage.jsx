@@ -1,6 +1,15 @@
 
 // TODO: Add correct details for the event (see demo)
 
+/*
+DOING: (Må hente fra Ticketmaster API)
+        Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
+        Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
+        Navn på eventet
+        Dato
+        Bilde
+*/
+
 import "../styles/dashboardMoreInfoStyle.scss";
 import "../styles/app.scss"; // Import the global styles for the loading spinner
 import { useState, useEffect, useCallback } from "react";

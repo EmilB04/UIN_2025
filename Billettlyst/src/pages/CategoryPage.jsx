@@ -7,10 +7,11 @@ import { fetchTheatreEvents } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/eventCardStyle.scss";
 import "../styles/categoryPageStyle.scss";
+import PageNotFound from "./PageNotFound";
 
 
 
-export default function CategoryPage() {
+export default function CategoryPage({ setLoading }) {
     const { slug } = useParams();
     const [category, setCategory] = useState(null);
     const [events, setEvents] = useState([]);
@@ -18,35 +19,37 @@ export default function CategoryPage() {
 
     const fetchEventsForCategory = (categoryName) => {
         switch (categoryName.toLowerCase()) {
-          case "musikk":
-            return fetchMusicEvents();
-          case "sport":
-            return fetchSportsEvents();
-          case "teater/show":
-            return fetchTheatreEvents();
-          default:
-            return [];
+            case "musikk":
+                return fetchMusicEvents();
+            case "sport":
+                return fetchSportsEvents();
+            case "teater/show":
+                return fetchTheatreEvents();
+            default:
+                return [];
         }
-      };
-      
-      useEffect(() => {
-        fetchCategoryBySlug(slug)
-        .then((data) => {
-            if (data.length > 0) {
-              setCategory(data[0]);
-              fetchEventsForCategory(data[0].categoryname)
-                .then(setEvents); // Sett events basert på kategori
-            } else {
-              navigate("/page-not-found");
-            }
-          })
-          .catch((error) => {
-            console.error("Feil ved henting av kategori:", error);
-            navigate("/page-not-found");
-          });
-      }, [slug, navigate]);
+    };
 
-      if (!category) return null;  // Ikke vis noe hvis ikke kategorien er lastet
+    useEffect(() => {
+        setLoading(true);
+        fetchCategoryBySlug(slug)
+            .then((data) => {
+                if (data.length > 0) {
+                    setCategory(data[0]);
+                    fetchEventsForCategory(data[0].categoryname)
+                        .then(setEvents); // Sett events basert på kategori
+                    setLoading(false);
+                } else {
+                    return <PageNotFound />;
+                }
+            })
+            .catch((error) => {
+                console.error("Feil ved henting av kategori:", error);
+                navigate("/page-not-found");
+            });
+    }, [slug, navigate, setLoading]);
+
+    if (!category) return null;  // Ikke vis noe hvis ikke kategorien er lastet
 
     return (
         <div id="CategoryPage">

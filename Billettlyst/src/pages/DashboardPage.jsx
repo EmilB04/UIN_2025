@@ -16,7 +16,8 @@ TODO:
                 En ny visning vises med overskriften "Min side"
         - Påloggingsstatusen kan håndteres ved hjelp av en state-variabel (f.eks. isLoggedIn), som endres fra false til true når brukeren sender inn skjemaet.
 
-    🔄 DOING: Karakter: B
+    ✅ DONE:Karakter: B
+        - Ikke 100% relevant
         - På Dashboard-siden skal følgende vises:
             En oversikt over alle events lagret i Sanity
             En oversikt over alle brukere
@@ -35,6 +36,7 @@ TODO:
         2. Brukerens innhold
         Ønskeliste og tidligere kjøp ✅ DONE:
         
+        DOING: (Må hente fra Ticketmaster API)
         Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
         Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
         Navn på eventet
@@ -204,7 +206,6 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                     </button>
                 </section>
 
-                {/* User Information */}
                 <section id="user-info-section">
                     {loggedInUser && (
                         <article id="user-details">
@@ -304,7 +305,6 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                         )}
                     </section>
                 </section>
-
             </section>
         )}
         </div>
