@@ -212,7 +212,6 @@
         }
 
         #user-content-section {
-
             #user-friends-section,
             #user-purchases-section,
             #user-wishlist-section {
@@ -310,7 +309,7 @@
 
                     #previous-purchases-header {
                         display: grid;
-                        grid-template-columns: repeat(5, 1fr); // ChatGPT: Repeat was added instead of repeating the same 1fr 5 times
+                        grid-template-columns: repeat(5, 1fr); // GitHub Copilot: Repeat was added instead of repeating the same 1fr 5 times
                         align-items: center;
                         gap: 1rem;
                         padding: 1rem;
@@ -318,11 +317,12 @@
 
                     #previous-purchase-card {
                         display: grid;
-                        grid-template-columns: repeat(5, 1fr); // ChatGPT: Repeat was added instead of repeating the same 1fr 5 times
+                        grid-template-columns: repeat(5, 1fr); // GitHub Copilot: Repeat was added instead of repeating the same 1fr 5 times
                         padding: 1rem;
                         gap: 1rem;
                         list-style: none;
                         align-items: center;
+                        font-size: 0.7rem;
 
                         p {
                             padding: 0;
@@ -421,6 +421,17 @@
         #login-section {
             h1 {
                 margin-bottom: 3rem;
+            }
+        }
+        #dashboard-section {
+            #user-content-section {
+                #user-purchases-section {
+                    #previous-purchases-list {
+                        #previous-purchase-card {
+                            font-size: 1rem;
+                        }
+                    }
+                }
             }
         }
     }

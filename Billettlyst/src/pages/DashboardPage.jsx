@@ -54,7 +54,6 @@ TODO:
         "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
     
     TODO: Fix mobile version for user-content-section
-    TODO: Make preview of prevoius purchases and wishlist have less details
 */
 
 import React, { useState, useEffect } from "react";
