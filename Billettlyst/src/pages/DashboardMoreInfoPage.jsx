@@ -53,7 +53,7 @@ export default function DashboardMoreInfoPage({ pageType }) {
             }
         };
 
-        if (id) {
+        if (id) { // Fetch data if id is provided
             fetchData();
         }
     }, [id, fetchUsersWithCommonEventsHandler]);
@@ -91,7 +91,7 @@ export default function DashboardMoreInfoPage({ pageType }) {
             </section>
             <section className="more-info-details">
             <article>
-                <p><strong>ID:</strong> {currentEvent.id}</p>
+                <p><strong>Ticketmaster ID:</strong> {currentEvent.id}</p>
                 <p><strong>Tittel:</strong> {currentEvent.name}</p>
                 <p><strong>Dato:</strong> {formatDate(currentEvent.dates?.start?.localDate)}</p>
                 <p><strong>Klokkeslett:</strong> {formatTime(currentEvent.dates?.start?.localTime)}</p>
