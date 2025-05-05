@@ -54,19 +54,62 @@ export default function CategoryPage({ setLoading }) {
     return (
         <div id="CategoryPage">
             <h1>{category.categoryname}</h1>
-            {events.length > 0 ? (
-                <div className="event-card-grid">
-                    {events.map((event) => (
-                        <EventCard
-                            key={event.id}
-                            image={event.images?.[0]?.url}
-                            name={event.name}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <p>Ingen events funnet for denne kategorien.</p>
-            )}
+    
+            <section>
+                <h2>Filtrert søk</h2>
+                <form>
+                    <label htmlFor="date">Dato:</label>
+                    <input type="date" name="dato"/>
+    
+                    <label htmlFor="land">Land:</label>
+                    <select name="land">
+                        <option value="">Velg et land</option>
+                        <option value="Norge">Norge</option>
+                        <option value="Sverige">Sverige</option>
+                        <option value="England">England</option>
+                        <option value="Tyskland">Tyskland</option>
+                        <option value="Frankrike">Frankrike</option>
+                    </select>
+    
+                    <label htmlFor="by">By:</label>
+                    <select name="by">
+                        <option value="">Velg en by</option>
+                        <option value="Oslo">Oslo</option>
+                        <option value="Bergen">Bergen</option>
+                        <option value="Stockholm">Stockholm</option>
+                        <option value="London">London</option>
+                        <option value="Berlin">Berlin</option>
+                        <option value="Paris">Paris</option>
+                    </select>
+                    <button type="submit">Filtrer</button>
+                </form>
+            </section>
+    
+            <section>
+                <h2>Søk</h2>
+                <form>
+                    <label htmlFor="search">Søk etter event, attraksjon eller spillested</label>
+                    <input type="text" name="search" placeholder="ex: findings" />
+                    <button type="submit">Søk</button>
+                </form>
+            </section>
+    
+            <section>
+                <h2>Attraksjoner</h2>
+                {events.length > 0 ? (
+                    <div className="event-card-grid">
+                        {events.map((event) => (
+                            <EventCard
+                                key={event.id}
+                                image={event.images?.[0]?.url}
+                                name={event.name}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p>Ingen events funnet for denne kategorien.</p>
+                )}
+            </section>
         </div>
     );
-}
+}    
