@@ -1,21 +1,23 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchCategoryBySlug } from "../sanity/categoryServices";
-import { fetchMusicEvents } from "../api/ticketmasterApiServices";
-import { fetchSportsEvents } from "../api/ticketmasterApiServices";
-import { fetchTheatreEvents } from "../api/ticketmasterApiServices";
+import { fetchMusicEvents, fetchSportsEvents, fetchTheatreEvents } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/eventCardStyle.scss";
 import "../styles/categoryPageStyle.scss";
 import PageNotFound from "./PageNotFound";
-
-
 
 export default function CategoryPage({ setLoading }) {
     const { slug } = useParams();
     const [category, setCategory] = useState(null);
     const [events, setEvents] = useState([]);
     const navigate = useNavigate();
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const [filter, setFilter] = useState({
+        dato: "",
+        land: "",
+        by: ""
+    });
 
     const fetchEventsForCategory = (categoryName) => {
         switch (categoryName.toLowerCase()) {
@@ -37,8 +39,11 @@ export default function CategoryPage({ setLoading }) {
                 if (data.length > 0) {
                     setCategory(data[0]);
                     fetchEventsForCategory(data[0].categoryname)
-                        .then(setEvents); // Sett events basert på kategori
-                    setLoading(false);
+                        .then((fetchedEvents) => {
+                            setEvents(fetchedEvents); // Sett events basert på kategori
+                            setFilteredEvents(fetchedEvents); // setter events basert på filtrering
+                            setLoading(false);
+                        })
                 } else {
                     return <PageNotFound />;
                 }
@@ -49,6 +54,31 @@ export default function CategoryPage({ setLoading }) {
             });
     }, [slug, navigate, setLoading]);
 
+    const handleFilterChange = (e) => {
+        const {name, value} = e.target;
+        setFilter((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleFilterSubmit = (e) => {
+        console.log("Aktivt filter:", filter);
+        e.preventDefault();
+
+        const newFiltered = events.filter((event) => {
+            const venue = event._embedded?.venues?.[0];
+            const eventDate = event.dates?.start?.localDate || "";
+            const eventCountry = venue?.country?.countryCode || "";
+            const eventCity = venue?.city?.name || "";
+
+            return(
+                (!filter.dato || eventDate === filter.dato) &&
+                (!filter.land || eventCountry === filter.land) &&
+                (!filter.by || eventCity === filter.by)
+            );
+        });
+        setFilteredEvents(newFiltered);
+        console.log("Events etter filtrering:", newFiltered);
+    };
+
     if (!category) return null;  // Ikke vis noe hvis ikke kategorien er lastet
 
     return (
@@ -57,29 +87,24 @@ export default function CategoryPage({ setLoading }) {
     
             <section>
                 <h2>Filtrert søk</h2>
-                <form>
+                <form onSubmit={handleFilterSubmit}>
                     <label htmlFor="date">Dato:</label>
-                    <input type="date" name="dato"/>
+                    <input type="date" name="dato" value={filter.dato} onChange={handleFilterChange}/>
     
                     <label htmlFor="land">Land:</label>
-                    <select name="land">
+                    <select name="land" value={filter.land} onChange={handleFilterChange}>
                         <option value="">Velg et land</option>
-                        <option value="Norge">Norge</option>
-                        <option value="Sverige">Sverige</option>
-                        <option value="England">England</option>
-                        <option value="Tyskland">Tyskland</option>
-                        <option value="Frankrike">Frankrike</option>
+                        <option value="NO">Norge</option>
+                        <option value="SE">Sverige</option>
+                        <option value="DK">Danmark</option>
                     </select>
-    
+
                     <label htmlFor="by">By:</label>
-                    <select name="by">
+                    <select name="by" value={filter.by} onChange={handleFilterChange}>
                         <option value="">Velg en by</option>
                         <option value="Oslo">Oslo</option>
-                        <option value="Bergen">Bergen</option>
                         <option value="Stockholm">Stockholm</option>
-                        <option value="London">London</option>
-                        <option value="Berlin">Berlin</option>
-                        <option value="Paris">Paris</option>
+                        <option value="København">København</option>
                     </select>
                     <button type="submit">Filtrer</button>
                 </form>
@@ -98,7 +123,7 @@ export default function CategoryPage({ setLoading }) {
                 <h2>Attraksjoner</h2>
                 {events.length > 0 ? (
                     <div className="event-card-grid">
-                        {events.map((event) => (
+                        {filteredEvents.slice(0, 8).map((event) => (
                             <EventCard
                                 key={event.id}
                                 image={event.images?.[0]?.url}

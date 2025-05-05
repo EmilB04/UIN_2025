@@ -5,7 +5,7 @@ export const getSpecificFestival = async (festivalName, setFestival) => {
   fetch(`${URL}/events.json?apikey=${API_KEY}&keyword=${festivalName}&countryCode=NO&locale=no-no`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(`Festival data for ${festivalName}:`, data);
+      //console.log(`Festival data for ${festivalName}:`, data);
       //console.log(`Alle treff for ${festivalName}:`, data._embedded?.events);
       setFestival(data._embedded?.events?.[0]);
     })
