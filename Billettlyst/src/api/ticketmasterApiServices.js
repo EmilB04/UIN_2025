@@ -113,7 +113,7 @@ export const fetchFilteredEvents = async ({ kategori, dato, land, by }) => {
 
     return data._embedded?.events || [];
   } catch (error) {
-    console.error("Feil ved filtrert event-kall:", error);
+    console.error("Error fetching events with filter: ", error);
     return [];
   }
 };
@@ -137,7 +137,7 @@ export const fetchSearchEvents = async ({ keyword, kategori }) => {
 
     return data._embedded?.events || [];
   } catch (error) {
-    console.error("Feil ved søk:", error);
+    console.error("Error fetching events on that search: ", error);
     return [];
   }
 };
