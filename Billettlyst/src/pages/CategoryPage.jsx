@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchCategoryBySlug } from "../sanity/categoryServices";
-import { fetchMusicEvents, fetchSportsEvents, fetchTheatreEvents } from "../api/ticketmasterApiServices";
+import { fetchMusicEvents, fetchSportsEvents, fetchTheatreEvents, fetchFilteredEvents } from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/eventCardStyle.scss";
 import "../styles/categoryPageStyle.scss";
@@ -12,7 +12,6 @@ export default function CategoryPage({ setLoading }) {
     const [category, setCategory] = useState(null);
     const [events, setEvents] = useState([]);
     const navigate = useNavigate();
-    const [filteredEvents, setFilteredEvents] = useState([]);
     const [filter, setFilter] = useState({
         dato: "",
         land: "",
@@ -38,18 +37,19 @@ export default function CategoryPage({ setLoading }) {
             .then((data) => {
                 if (data.length > 0) {
                     setCategory(data[0]);
-                    fetchEventsForCategory(data[0].categoryname)
-                        .then((fetchedEvents) => {
-                            setEvents(fetchedEvents); // Sett events basert på kategori
-                            setFilteredEvents(fetchedEvents); // setter events basert på filtrering
-                            setLoading(false);
-                        })
-                } else {
+                    return fetchEventsForCategory(data[0].categoryname);
+                } else{
                     return <PageNotFound />;
                 }
             })
+                    
+            .then((fetchedEvents) => {
+                setEvents(fetchedEvents); // Sett events basert på kategori
+                setLoading(false);
+            })
+
             .catch((error) => {
-                console.error("Feil ved henting av kategori:", error);
+                console.error("Feil ved henting av kategori eller events:", error);
                 navigate("/page-not-found");
             });
     }, [slug, navigate, setLoading]);
@@ -59,25 +59,34 @@ export default function CategoryPage({ setLoading }) {
         setFilter((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleFilterSubmit = (e) => {
-        console.log("Aktivt filter:", filter);
+    const mapCategoryToApiValue = (name) => {
+        switch (name.toLowerCase()) {
+          case "musikk":
+            return "Music";
+          case "sport":
+            return "Sports";
+          case "teater/show": // Fordi theater/show ikke er gyldig i APIet
+            return "Theatre";
+          default:
+            return "";
+        }
+      };
+      
+
+    const handleFilterSubmit = async (e) => {
         e.preventDefault();
-
-        const newFiltered = events.filter((event) => {
-            const venue = event._embedded?.venues?.[0];
-            const eventDate = event.dates?.start?.localDate || "";
-            const eventCountry = venue?.country?.countryCode || "";
-            const eventCity = venue?.city?.name || "";
-
-            return(
-                (!filter.dato || eventDate === filter.dato) &&
-                (!filter.land || eventCountry === filter.land) &&
-                (!filter.by || eventCity === filter.by)
-            );
+        setLoading(true);
+    
+        const filtered = await fetchFilteredEvents({
+          land: filter.land,
+          by: filter.by,
+          dato: filter.dato,
+          kategori: mapCategoryToApiValue(category.categoryname)
         });
-        setFilteredEvents(newFiltered);
-        console.log("Events etter filtrering:", newFiltered);
-    };
+    
+        setEvents(filtered);
+        setLoading(false);
+      };
 
     if (!category) return null;  // Ikke vis noe hvis ikke kategorien er lastet
 
@@ -122,17 +131,17 @@ export default function CategoryPage({ setLoading }) {
             <section>
                 <h2>Attraksjoner</h2>
                 {events.length > 0 ? (
-                    <div className="event-card-grid">
-                        {filteredEvents.slice(0, 8).map((event) => (
-                            <EventCard
-                                key={event.id}
-                                image={event.images?.[0]?.url}
-                                name={event.name}
-                            />
-                        ))}
-                    </div>
+                <div className="event-card-grid">
+                    {events.slice(0, 8).map((event) => (
+                    <EventCard
+                        key={event.id}
+                        image={event.images?.[0]?.url}
+                        name={event.name}
+                    />
+                    ))}
+                </div>
                 ) : (
-                    <p>Ingen events funnet for denne kategorien.</p>
+                <p>Ingen events funnet for denne kategorien.</p>
                 )}
             </section>
         </div>

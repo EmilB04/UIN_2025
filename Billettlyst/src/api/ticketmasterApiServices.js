@@ -88,3 +88,29 @@ export const fetchTheatreEvents = async () => {
     console.error("Error fetching theatre events:", error);
   }
 };
+
+export const fetchFilteredEvents = async ({ kategori, dato, land, by }) => {
+  try {
+    const baseUrl = `${URL}/events.json`;
+    const params = new URLSearchParams({
+      apikey: API_KEY,
+      size: 8,
+    });
+
+    if (kategori) params.append("classificationName", kategori);
+    if (land) params.append("countryCode", land);
+    if (by) params.append("city", by);
+    if (dato) params.append("startDateTime", `${dato}T00:00:00Z`);
+
+    const url = `${baseUrl}?${params.toString()}`;
+    console.log("Ticketmaster API URL:", url);
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data._embedded?.events || [];
+  } catch (error) {
+    console.error("Feil ved filtrert event-kall:", error);
+    return [];
+  }
+};
