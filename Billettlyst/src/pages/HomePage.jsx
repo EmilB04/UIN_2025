@@ -5,7 +5,7 @@ import { fetchCityEvents, getSpecificFestival } from "../api/ticketmasterApiServ
 import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss";
 
-export default function HomePage({ setLoading}) {
+export default function HomePage({ setLoading }) {
   const [findings, setFindings] = useState(null);
   const [neon, setNeon] = useState(null);
   const [skeikampen, setSkeikampen] = useState(null);
@@ -50,10 +50,10 @@ export default function HomePage({ setLoading}) {
   }, [selectedCity, setLoading]);
 
   return (
-    <div id="HomePage">
-      <section id="Festivaler">
-        <h2>Sommerens festivaler!</h2>
-        <ul className="festival-cards-container">
+    <div id="homePage">
+      <section id="main-festivals">
+        <h1>Sommerens festivaler!</h1>
+        <ul id="festival-cards-container">
           {[findings, neon, skeikampen, tonsOfRock].map(
             (festival) =>
               festival && (
@@ -69,35 +69,39 @@ export default function HomePage({ setLoading}) {
         </ul>
       </section>
 
-      <section id="Storbyer">
-        <h2>Hva skjer i verdens storbyer!</h2>
-        <span>
-          {["Oslo", "Stockholm", "Berlin", "London", "Paris"].map((city) => (
-            <button key={city} onClick={() => setSelectedCity(city)}>
-              {city}
-            </button>
-          ))}
-        </span>
+      <section id="city-events">
+        <header id="city-events-header">
+          <h2>Hva skjer i verdens storbyer!</h2>
+          <span>
+            {["Oslo", "Stockholm", "Berlin", "London", "Paris"].map((city) => (
+              <button key={city} onClick={() => setSelectedCity(city)}>
+                {city}
+              </button>
+            ))}
+          </span>
+        </header>
 
-        <h2>Hva skjer i {selectedCity}</h2>
-        <div id="EventsHomePage">
-          {apiEvents.length > 0 ? (
-            apiEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                image={event.images?.[0]?.url}
-                name={event.name}
-                date={event.dates?.start?.localDate}
-                time={event.dates?.start?.localTime}
-                country={event._embedded?.venues?.[0]?.country?.name}
-                city={event._embedded?.venues?.[0]?.city?.name}
-                venue={event._embedded?.venues?.[0]?.name}
-              />
-            ))
-          ) : (
-            <p>No events found for this city.</p>
-          )}
-        </div>
+        <section id="city-events-list">
+          <h2>Hva skjer i {selectedCity}</h2>
+          <ul className="event-cards-container">
+            {apiEvents.length > 0 ? (
+              apiEvents.map((event) => (
+                <EventCard
+                  key={event.id}
+                  image={event.images?.[0]?.url}
+                  name={event.name}
+                  date={event.dates?.start?.localDate}
+                  time={event.dates?.start?.localTime}
+                  country={event._embedded?.venues?.[0]?.country?.name}
+                  city={event._embedded?.venues?.[0]?.city?.name}
+                  venue={event._embedded?.venues?.[0]?.name}
+                />
+              ))
+            ) : (
+              <p>No events found for this city.</p>
+            )}
+          </ul>
+        </section>
       </section>
     </div>
   );
