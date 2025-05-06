@@ -79,12 +79,24 @@ export default function CategoryPage({ setLoading }) {
     
         const filtered = await fetchFilteredEvents({
           land: filter.land,
-          by: filter.by,
+          by: "",
           dato: filter.dato,
           kategori: mapCategoryToApiValue(category.categoryname)
         });
+
+        let byFilter = filter.by;
+        // Filtrerer lokalt for København
+        if (byFilter === "København") {
+            const result = filtered.filter(event => 
+                event._embedded?.venues?.some(venue =>
+                    venue.city?.name?.includes("København" )
+                )
+            );
     
-        setEvents(filtered);
+        setEvents(result);
+        } else {
+            setEvents(filtered);
+        }
         setLoading(false);
       };
 
