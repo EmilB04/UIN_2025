@@ -93,13 +93,13 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
         }
     }, [isLoggedIn, setLoading]);
 
-    // Handle login
+
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true); // Start loading
         try {
-            setLoading(true); // Start loading
-            const allUsers = await fetchAllUsers();
-            const user = allUsers.find((u) => u.email === email);
+            const allUsers = await fetchAllUsers(); // From Sanity
+            const user = allUsers.find((user) => user.email === email);
 
             if (user) {
                 if (password === user.password) {
@@ -111,25 +111,29 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                         localStorage.setItem("loggedInUserId", user._id);
                         setError("");
                     }, 1000); // 1-second delay
-                } else {
+                }
+                else {
                     setError("Feil passord. Prøv igjen.");
                 }
-            } else {
+            }
+            else {
                 setError("Bruker ikke funnet. Sjekk e-postadressen.");
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Error during login:", error);
             setError("Noe gikk galt. Prøv igjen senere.");
-        } finally {
+        }
+        finally {
             setLoading(false);
         }
 
     };
-    // Handle logout
+
     const handleLogout = () => {
+        setLoading(true); // Start loading
         setEmail();
         setPassword();
-        setLoading(true); // Start loading
         setTimeout(() => { // Simulate delay
             setIsLoggedIn(false);
             setLoggedInUser(null);
