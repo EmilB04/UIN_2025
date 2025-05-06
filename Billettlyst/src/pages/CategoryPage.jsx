@@ -165,7 +165,7 @@ export default function CategoryPage({ setLoading }) {
                 <h2>Attraksjoner</h2>
                 {events.length > 0 ? (
                 <div className="event-card-grid">
-                    {(showingSearch ? searchResults : events).slice(0, 8).map((event) => (
+                    {(showingSearch ? searchResults : events).slice(0, 15).map((event) => (
                     <EventCard
                         key={event.id}
                         image={event.images?.[0]?.url}
