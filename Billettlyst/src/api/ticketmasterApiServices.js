@@ -114,3 +114,29 @@ export const fetchFilteredEvents = async ({ kategori, dato, land, by }) => {
     return [];
   }
 };
+
+export const fetchSearchEvents = async ({ keyword, kategori }) => {
+  try {
+    const baseUrl = `${URL}/events.json`;
+    const params = new URLSearchParams({
+      apikey: API_KEY,
+      size: 8,
+      keyword: keyword,
+    });
+
+    if (kategori) params.append("classificationName", kategori);
+
+    const url = `${baseUrl}?${params.toString()}`;
+    console.log("Søk URL:", url);
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data._embedded?.events || [];
+  } catch (error) {
+    console.error("Feil ved søk:", error);
+    return [];
+  }
+};
+
+

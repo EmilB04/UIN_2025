@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchCategoryBySlug } from "../sanity/categoryServices";
-import { fetchMusicEvents, fetchSportsEvents, fetchTheatreEvents, fetchFilteredEvents } from "../api/ticketmasterApiServices";
+import { fetchMusicEvents, fetchSportsEvents, fetchTheatreEvents, fetchFilteredEvents, fetchSearchEvents} from "../api/ticketmasterApiServices";
 import EventCard from "../components/EventCard";
 import "../styles/eventCardStyle.scss";
 import "../styles/categoryPageStyle.scss";
@@ -17,6 +17,10 @@ export default function CategoryPage({ setLoading }) {
         land: "",
         by: ""
     });
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [showingSearch, setShowingSearch] = useState(false);
+
 
     const fetchEventsForCategory = (categoryName) => {
         switch (categoryName.toLowerCase()) {
@@ -73,32 +77,47 @@ export default function CategoryPage({ setLoading }) {
       };
       
 
-    const handleFilterSubmit = async (e) => {
+      const handleFilterSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-    
+        setShowingSearch(false); 
+      
         const filtered = await fetchFilteredEvents({
           land: filter.land,
           by: "",
           dato: filter.dato,
           kategori: mapCategoryToApiValue(category.categoryname)
         });
-
+      
         let byFilter = filter.by;
-        // Filtrerer lokalt for København
         if (byFilter === "København") {
-            const result = filtered.filter(event => 
-                event._embedded?.venues?.some(venue =>
-                    venue.city?.name?.includes("København" )
-                )
-            );
-    
-        setEvents(result);
+          const result = filtered.filter(event =>
+            event._embedded?.venues?.some(venue =>
+              venue.city?.name?.includes("København")
+            )
+          );
+          setEvents(result);
         } else {
-            setEvents(filtered);
+          setEvents(filtered);
         }
+      
         setLoading(false);
       };
+
+      const handleSearchSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setShowingSearch(true);
+      
+        const results = await fetchSearchEvents({
+          keyword: searchTerm,
+          kategori: mapCategoryToApiValue(category.categoryname)
+        });
+      
+        setSearchResults(results);
+        setLoading(false);
+      };
+      
 
     if (!category) return null;  // Ikke vis noe hvis ikke kategorien er lastet
 
@@ -133,9 +152,11 @@ export default function CategoryPage({ setLoading }) {
     
             <section>
                 <h2>Søk</h2>
-                <form>
+                <form onSubmit={handleSearchSubmit}>
                     <label htmlFor="search">Søk etter event, attraksjon eller spillested</label>
-                    <input type="text" name="search" placeholder="ex: findings" />
+                    <input type="text" name="search" placeholder="ex: findings" value={searchTerm} 
+                        onChange={(e) => setSearchTerm(e.target.value)} 
+                    />
                     <button type="submit">Søk</button>
                 </form>
             </section>
@@ -144,7 +165,7 @@ export default function CategoryPage({ setLoading }) {
                 <h2>Attraksjoner</h2>
                 {events.length > 0 ? (
                 <div className="event-card-grid">
-                    {events.slice(0, 8).map((event) => (
+                    {(showingSearch ? searchResults : events).slice(0, 8).map((event) => (
                     <EventCard
                         key={event.id}
                         image={event.images?.[0]?.url}
