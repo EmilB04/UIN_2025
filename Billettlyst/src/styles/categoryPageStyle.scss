@@ -18,3 +18,43 @@
     gap: 1.5rem;
     justify-content: space-between;
   }
+
+#filterSearch{
+  form{
+    display: flex;
+    flex-direction: row;
+    input, select{
+      margin: 0;
+      border: none;
+      margin: 0 1rem 0 2px;
+    }
+    button{
+      border: none;
+    }
+    button:hover{
+      background-color: white;
+      color: black;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+
+#keywordSearch{
+  form{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    input{
+      margin: 0;
+      border: none;
+    }
+    button{
+      border: none;
+    }
+    button:hover{
+      background-color: white;
+      color: black;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}

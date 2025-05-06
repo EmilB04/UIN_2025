@@ -125,7 +125,7 @@ export default function CategoryPage({ setLoading }) {
         <div id="CategoryPage">
             <h1>{category.categoryname}</h1>
     
-            <section>
+            <section id="filterSearch">
                 <h2>Filtrert søk</h2>
                 <form onSubmit={handleFilterSubmit}>
                     <label htmlFor="date">Dato:</label>
@@ -150,7 +150,7 @@ export default function CategoryPage({ setLoading }) {
                 </form>
             </section>
     
-            <section>
+            <section id="keywordSearch">
                 <h2>Søk</h2>
                 <form onSubmit={handleSearchSubmit}>
                     <label htmlFor="search">Søk etter event, attraksjon eller spillested</label>
