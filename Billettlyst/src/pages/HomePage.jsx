@@ -49,6 +49,13 @@
       }
     }, [selectedCity, setLoading]);
 
+    const cleanFestivalName = (name) => {
+      name = name.split(/[-|]/)[0].trim()
+      name = name.replace("2025", "").trim()
+      name = name.replace("at the Fortress", "").trim()
+      return name
+    }
+
     return (
       <div id="HomePage">
         <section id="Festivaler">
@@ -59,9 +66,9 @@
                 festival && (
                   <li key={festival.id} className="festival-card">
                     <img src={festival.images?.[0]?.url} alt={festival.name} />
-                    <h3>{festival.name}</h3>
+                    <h3>{cleanFestivalName(festival.name)}</h3>
                     <Link to={`/event/${festival.id}`} className="festival-button">
-                      Les mer om {festival.name}
+                      Les mer om {cleanFestivalName(festival.name)}
                     </Link>
                   </li>
                 )
