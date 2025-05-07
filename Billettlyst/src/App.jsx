@@ -15,8 +15,8 @@ import Loading from "./components/Loading";
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [getPageType, setPageType] = useState(""); // Add setter for pageType
-  const [getEvent, setEvent] = useState({}); // Add setter for event
+  const [getPageType, setPageType] = useState("");
+  const [getEvent, setEvent] = useState({});
 
   return (
     <Layout>
