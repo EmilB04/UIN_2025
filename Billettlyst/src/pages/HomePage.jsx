@@ -53,6 +53,9 @@
       name = name.split(/[-|]/)[0].trim()
       name = name.replace("2025", "").trim()
       name = name.replace("at the Fortress", "").trim()
+      if (name === "NEON") {
+        name = "NEON Festival"
+      }
       return name
     }
 
