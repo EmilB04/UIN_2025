@@ -1,23 +1,5 @@
 @use "./app.scss" as *;
 
-#EventCard {
-  padding: 0;
-
-  img {
-    height: 100%;
-    object-fit: cover;
-  }
-
-  
-}
-  
-
-.event-card-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: space-between;
-  }
 
 #filterSearch{
   form{
