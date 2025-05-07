@@ -1,20 +1,23 @@
 @use "./app.scss" as *;
 
-#EventCard {
-    flex: 1 1 15vw;                    
-    max-width: 250px;                  
-    min-width: 180px;                  
+#eventCard {
+    max-width: 250px;
+    min-width: 130px;
+    width: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
-    padding: 1rem 1rem 0.5rem 1rem;
-    margin-top: 2rem;
-    border-radius: 8px;
+    justify-content: space-between;
+    border-radius: 16px;
+    background: #242424;
+    padding: 1rem;
   
     img {
       width: 100%;
       height: auto;
       border-radius: 4px;
       margin-bottom: 0.5rem;
+      aspect-ratio: 4/3;
     }
   
     h2 {

@@ -10,7 +10,7 @@ export default function HomePage({ setLoading }) {
   const [neon, setNeon] = useState(null);
   const [skeikampen, setSkeikampen] = useState(null);
   const [tonsOfRock, setTonsOfRock] = useState(null);
-  const [sanityEvents, setSanityEvents] = useState([]);
+  const [setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
@@ -29,7 +29,7 @@ export default function HomePage({ setLoading }) {
       setSanityEvents(data);
     };
     getSanityEvents();
-  }, []);
+  }, [setSanityEvents]);
 
   useEffect(() => {
     const getEvents = async () => {
@@ -83,10 +83,10 @@ export default function HomePage({ setLoading }) {
 
         <section id="city-events-list">
           <h2>Hva skjer i {selectedCity}</h2>
-          <ul className="event-cards-container">
+          <div className="event-cards-container">
             {apiEvents.length > 0 ? (
               apiEvents.map((event) => (
-                <EventCard
+                <EventCard className="event-card"
                   key={event.id}
                   image={event.images?.[0]?.url}
                   name={event.name}
@@ -100,7 +100,7 @@ export default function HomePage({ setLoading }) {
             ) : (
               <p>No events found for this city.</p>
             )}
-          </ul>
+          </div>
         </section>
       </section>
     </div>
