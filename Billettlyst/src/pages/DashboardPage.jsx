@@ -60,7 +60,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import fetch functions
 import DummyPerson from "../assets/person-dummy.jpg";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -71,8 +71,9 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
+    // Fectches the logged in user from sanity by checking the local storage for the logged in user id
     useEffect(() => {
         const fetchLoggedInUser = async () => {
             const userId = localStorage.getItem("loggedInUserId");
@@ -94,6 +95,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     }, [isLoggedIn, setLoading]);
 
 
+    // Method to handle login. Checks if the user exists in Sanity and if the email and password match.
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true); // Start loading
@@ -110,7 +112,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                         localStorage.setItem("isLoggedIn", "true");
                         localStorage.setItem("loggedInUserId", user._id);
                         setError("");
-                    }, 1000); // 1-second delay
+                    }, 1000);
                 }
                 else {
                     setError("Feil passord. Prøv igjen.");
@@ -125,11 +127,12 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
             setError("Noe gikk galt. Prøv igjen senere.");
         }
         finally {
-            setLoading(false);
+            setLoading(false); // Stop loading
         }
 
     };
 
+    // Method to handle logout. Sets the logged in user to null and reloads the page to reflect changes.
     const handleLogout = () => {
         setLoading(true); // Start loading
         setEmail();
@@ -141,15 +144,19 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
             localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("loggedInUserId");
             setLoading(false); // Stop loading
-        }, 500); // 0.5-second delay
+        }, 500);
     };
 
+    // Method to navigate to the event details page. Sets the page type and event data.
+    // PageType can be either "wishlist" or "previousPurchases"
+    // Event is the event data to be passed to the details page. Later used to fetch the event details from the API.
     const navigateToEvent = (event, type) => {
-        setPageType(type); // Set the page type (wishlist or previous purchases)
-        setEvent(event); // Set the event data
+        setPageType(type);
+        setEvent(event);
         navigate(`/dashboard/${event._id}`); // Navigate to the details page
     };
-    // Function to find common wishlist items between two users
+
+    // Function to find common wishlist items between the logged-in user and friends.
     const findCommonWishlistItems = (friendWishlist) => {
         if (!loggedInUser || !friendWishlist) return []; // Return empty array if no user or wishlist
         const loggedInUserWishlist = loggedInUser.wishlist || []
@@ -158,6 +165,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
         );
     };
 
+    // If the user is not logged in, show the login form, otherwise show the dashboard.
     return (
         <div id="dashboard-page">{!isLoggedIn ? (
             <section id="login-section">
@@ -214,7 +222,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                     {loggedInUser && (
                         <article id="user-details">
                             <img
-                                src={loggedInUser.photo?.asset?.url || "https://placehold.co/400x400"}
+                                src={loggedInUser.photo?.asset?.url || "https://placehold.co/400x400?text=Ingen+bilde"}
                                 alt={`${loggedInUser.firstName} ${loggedInUser.lastName}`}
                             />
                             <aside>
@@ -236,7 +244,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                                     return (
                                         <li key={friend._id} className="friend-card">
                                             <img
-                                                src={friend.photo?.asset?.url || DummyPerson}
+                                                src={friend.photo?.asset?.url || DummyPerson} // Show dummy image if no photo
                                                 alt={`${friend.firstName} ${friend.lastName}`}
                                             />
                                             <h3>{`${friend.firstName} ${friend.lastName}`}</h3>
@@ -288,14 +296,14 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                     </section>
                     <section id="user-wishlist-section">
                         <h2>Ønskeliste</h2>
-                        {loggedInUser ? (
+                        {loggedInUser && loggedInUser.wishlist?.length > 0 ? (
                             <ul id="wishlist-list">
                                 <li id="wishlist-header">
                                     <p>Dato</p>
                                     <p>Tittel</p>
                                     <p>Sted</p>
                                 </li>
-                                {loggedInUser.wishlist?.map((event) => (
+                                {loggedInUser.wishlist.map((event) => (
                                     <li key={event._id} id="wishlist-card">
                                         <p>{event.date}</p>
                                         <p>{event.title}</p>

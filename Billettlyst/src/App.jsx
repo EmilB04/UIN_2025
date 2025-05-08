@@ -6,7 +6,6 @@ import HomePage from "./pages/HomePage";
 import EventPage from "./pages/EventPage";
 import CategoryPage from "./pages/CategoryPage";
 import Dashboard from "./pages/DashboardPage";
-import SanityEventDetails from './components/SanityEventDetails';
 import PageNotFound from "./pages/PageNotFound";
 import DashboardMoreInfoPage from "./pages/DashboardMoreInfoPage";
 //
@@ -38,7 +37,6 @@ function App() {
           path="/dashboard/:id"
           element={<DashboardMoreInfoPage event={getEvent} pageType={getPageType} />}
         />
-        <Route path="/sanity-event/:id" element={<SanityEventDetails loading={loading} setLoading={setLoading} />} />
       </Routes>
     </Layout>
   );
