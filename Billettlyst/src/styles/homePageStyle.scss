@@ -1,63 +1,90 @@
 @use "./app.scss" as *;
 
-#Storbyer{
-    margin-top: 2rem;
-    h2{
-        margin: 2rem 0;
-    }
-    span{
-        display: flex ;
-        flex-direction: row;
-        gap: 1rem;
-        button{
-            background-color: #808588;
-            padding: 0.5rem 1rem;
-            border: none;
+#homePage {
+    #main-festivals {
+        h2 {
+            font-size: 2rem;
+            text-align: left;
         }
-    }
-}
 
-.festival-cards-container {
-    display: flex; 
-    flex-wrap: wrap;
-    gap: 2rem; 
-    padding: 1rem;
-    list-style: none;
-    margin: 0; 
-
-    li.festival-card {
-        max-width: 350px;
-        display: flex;
-        flex-direction: column;
-
-        .festival-button {
-            background: $primary-color;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-size: 1rem;
-            font-weight: bold;
-            color: white;
+        .festival-cards-container {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            align-self: start;
-            
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 1rem;
+            list-style: none;
+            margin: 0;
 
-            &:hover {
-                background: $hover-color;
+            li.festival-card {
+                max-width: 350px;
+                display: flex;
+                flex-direction: column;
+
+                .festival-button {
+                    background: $primary-color;
+                    padding: 0.8rem;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: background 0.3s;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    text-decoration: none;
+                    align-self: start;
+
+                    &:hover {
+                        background: $hover-color;
+                    }
+                }
             }
         }
     }
-}
 
-#EventsHomePage{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: left;
-    padding: 1rem;
+    #city-events {
+        margin-top: 2rem;
+
+        #city-events-header {
+            h2 {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            span {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 0.5rem;
+
+                button {
+                    background-color: $primary-color;
+                    padding: 0.8rem 2rem;
+                    border: none;
+                    color: white;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: background 0.3s;
+
+                    &:hover {
+                        background-color: $hover-color;
+                    }
+                }
+            }
+        }
+
+        #city-events-list {
+            .event-card-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                justify-content: left;
+                padding: 1rem;
+            }
+        }
+    }
 }
