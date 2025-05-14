@@ -6,20 +6,20 @@ import EventCard from "../components/EventCard";
 import "../styles/homePageStyle.scss";
 
 export default function HomePage({ setLoading }) {
-  const [findings, setFindings] = useState(null);
-  const [neon, setNeon] = useState(null);
-  const [skeikampen, setSkeikampen] = useState(null);
-  const [tonsOfRock, setTonsOfRock] = useState(null);
+  const [findingsFestival, setFindingsFestival] = useState(null);
+  const [neonFestival, setNeonFestival] = useState(null);
+  const [skeikampenFestival, setSkeikampenFestival] = useState(null);
+  const [tonsOfRockFestival, setTonsOfRockFestival] = useState(null);
   const [sanityEvents, setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
   // Hent spesifikke festivaler én gang ved oppstart
   useEffect(() => {
-    getSpecificFestival("Findings", setFindings);
-    getSpecificFestival("Neon", setNeon);
-    getSpecificFestival("Skeikampen", setSkeikampen);
-    getSpecificFestival("Tons of Rock", setTonsOfRock);
+    getSpecificFestival("Findings Festival", setFindingsFestival);
+    getSpecificFestival("Neon Festival", setNeonFestival);
+    getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
+    getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
   }, []);
 
   // Hent sanity-events én gang
@@ -49,29 +49,19 @@ export default function HomePage({ setLoading }) {
     }
   }, [selectedCity, setLoading]);
 
-  const cleanFestivalName = (name) => {
-    name = name.split(/[-|]/)[0].trim()
-    name = name.replace("2025", "").trim()
-    name = name.replace("at the Fortress", "").trim()
-    if (name === "NEON") {
-      name = "NEON Festival"
-    }
-    return name
-  }
-
   return (
     <div id="homePage">
       <section id="main-festivals">
         <h2>Sommerens festivaler!</h2>
         <ul className="festival-cards-container">
-          {[findings, neon, skeikampen, tonsOfRock].map(
+          {[findingsFestival, neonFestival, skeikampenFestival, tonsOfRockFestival].map(
             (festival) =>
               festival && (
                 <li key={festival.id} className="festival-card">
                   <img src={festival.images?.[0]?.url} alt={festival.name} />
-                  <h3>{cleanFestivalName(festival.name)}</h3>
+                  <h3>{festival.name}</h3>
                   <Link to={`/event/${festival.id}`} className="festival-button">
-                    Les mer om {cleanFestivalName(festival.name)}
+                    Les mer om {festival.name}
                   </Link>
                 </li>
               )

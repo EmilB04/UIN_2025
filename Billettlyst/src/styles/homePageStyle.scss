@@ -17,8 +17,14 @@
 
             li.festival-card {
                 max-width: 350px;
+                min-width: 350px;
                 display: flex;
                 flex-direction: column;
+
+                img {
+                    height: 200px;
+                    width: 100%;
+                }
 
                 .festival-button {
                     background: $primary-color;
