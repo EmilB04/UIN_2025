@@ -94,3 +94,32 @@
         }
     }
 }
+
+@media (min-width: 768px) {
+    #homePage {
+        #main-festivals {
+            h2 {
+                text-align: center;
+            }
+            .festival-cards-container {
+                li.festival-card {
+                    flex: 1 1 45%;
+                }
+            }
+        }
+
+        #city-events {
+            #city-events-header {
+                span {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+            #city-events-list {
+                .event-card-container {
+                    justify-content: flex-start;
+                }
+            }
+        }
+    }
+}
