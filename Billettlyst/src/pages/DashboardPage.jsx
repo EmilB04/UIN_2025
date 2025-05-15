@@ -44,40 +44,64 @@ export default function DashboardPage({ setLoading, setPageType }) {
         }
     }, [isLoggedIn, setLoading]);
 
-    // Fetches the wishlist and previous purchases events from Ticketmaster API by checking the logged in user
-    // and fetching the events from the API by their IDs
-    // The IDs are fetched from the logged in user object, which contains the wishlist and previous purchases IDs
     useEffect(() => {
-        const fetchUserEvents = async () => {
-            if (!loggedInUser) return;
+    const fetchUserEvents = async () => {
+        if (!loggedInUser) return;
+        setLoading(true);
+        try {
+            const wishlistSanityIds = loggedInUser.wishlist.map(e => e._id);
+            const purchasesSanityIds = loggedInUser.previousPurchases.map(e => e._id);
+            setSanityWishlistIds(wishlistSanityIds);
+            setSanityPurchasesIds(purchasesSanityIds);
 
-            setLoading(true);
-            try {
-                const wishlistSanityIds = loggedInUser.wishlist.map(e => e._id);
-                const purchasesSanityIds = loggedInUser.previousPurchases.map(e => e._id);
-                setSanityWishlistIds(wishlistSanityIds);
-                setSanityPurchasesIds(purchasesSanityIds);
-
-                const wishlistApiIds = await Promise.all(wishlistSanityIds.map(id => getApiIdBySanityId(id)));
-                const purchasesApiIds = await Promise.all(purchasesSanityIds.map(id => getApiIdBySanityId(id)));
-
-                const wishlistFetched = await Promise.all(wishlistApiIds.map(id => getEventById(id)));
-                const purchasesFetched = await Promise.all(purchasesApiIds.map(id => getEventById(id)));
-
-                setWishlistEvents(wishlistFetched);
-                setPurchaseEvents(purchasesFetched);
-
-            } catch (error) {
-                console.error("Error fetching wishlist or previous purchases details:", error);
-            } finally {
-                setLoading(false);
+            // Hent API-id-er én etter én
+            const wishlistApiIds = [];
+            for (const id of wishlistSanityIds) {
+                const apiId = await getApiIdBySanityId(id);
+                wishlistApiIds.push(apiId);
             }
-        };
 
-        if (loggedInUser && loggedInUser.wishlist && loggedInUser.previousPurchases) {
-            fetchUserEvents();
+            const purchasesApiIds = [];
+            for (const id of purchasesSanityIds) {
+                const apiId = await getApiIdBySanityId(id);
+                purchasesApiIds.push(apiId);
+            }
+
+            // Hent event-data én etter én (unngår overbelastning og 429-feil)
+            const wishlistFetched = [];
+            for (const id of wishlistApiIds) {
+                try {
+                    const event = await getEventById(id);
+                    if (event) wishlistFetched.push(event);
+                } catch (error) {
+                    console.warn(`Kunne ikke hente wishlist-event med id ${id}:`, error);
+                }
+            }
+
+            const purchasesFetched = [];
+            for (const id of purchasesApiIds) {
+                try {
+                    const event = await getEventById(id);
+                    if (event) purchasesFetched.push(event);
+                } catch (error) {
+                    console.warn(`Kunne ikke hente purchase-event med id ${id}:`, error);
+                }
+            }
+
+            setWishlistEvents(wishlistFetched);
+            setPurchaseEvents(purchasesFetched);
+
+        } catch (error) {
+            console.error("Feil under henting av events:", error);
+        } finally {
+            setLoading(false);
         }
-    }, [loggedInUser, setLoading]);
+    };
+
+    if (loggedInUser && loggedInUser.wishlist && loggedInUser.previousPurchases) {
+        fetchUserEvents();
+    }
+}, [loggedInUser, setLoading]);
 
 
 
