@@ -17,11 +17,13 @@ $hover-color: #005566;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
   -moz-osx-font-smoothing: grayscale;
 
   scrollbar-color: $primary-color #242424;
   scrollbar-width: thin;
   scroll-behavior: smooth;
+  scroll-snap-align: start;
 }
 
 // Github Copilot made most of this loading-spinner:
