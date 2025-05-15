@@ -83,7 +83,7 @@ export default function HomePage({ setLoading }) {
 
         <section id="city-events-list">
           <h2>Hva skjer i {selectedCity}</h2>
-          <div class="event-card-container">
+          <div className="event-card-container">
             {apiEvents.length > 0 ? (
               apiEvents.map((event) => (
                 <EventCard

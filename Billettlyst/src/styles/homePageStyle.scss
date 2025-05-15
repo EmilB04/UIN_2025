@@ -111,13 +111,49 @@
         #city-events {
             #city-events-header {
                 span {
-                    flex-direction: column;
                     align-items: center;
                 }
             }
             #city-events-list {
                 .event-card-container {
                     justify-content: flex-start;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    #homePage {
+        #main-festivals {
+            h2 {
+                text-align: center;
+            }
+
+            .festival-cards-container {
+                li.festival-card {
+                    flex: 1 1 80%;
+                }
+            }
+        }
+
+        #city-events {
+            #city-events-header {
+                span {
+                    flex-direction: row;
+                    flex-wrap: wrap;;
+                    align-items: center;
+
+                    button {
+                        width: 100px;
+                        padding: 0.8rem 0.9rem;
+                    }
+                }
+            
+            }
+            #city-events-list {
+                .event-card-container {
+                    justify-content: center;
                 }
             }
         }
