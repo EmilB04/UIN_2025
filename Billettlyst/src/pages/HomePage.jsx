@@ -52,7 +52,7 @@ export default function HomePage({ setLoading }) {
   return (
     <div id="homePage">
       <section id="main-festivals">
-        <h2>Sommerens festivaler!</h2>
+        <h1>Sommerens festivaler!</h1>
         <ul className="festival-cards-container">
           {[findingsFestival, neonFestival, skeikampenFestival, tonsOfRockFestival].map(
             (festival) =>

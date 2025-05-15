@@ -2,7 +2,7 @@
 
 #homePage {
     #main-festivals {
-        h2 {
+        h1 {
             font-size: 2rem;
             text-align: left;
         }
@@ -98,7 +98,7 @@
 @media (min-width: 768px) {
     #homePage {
         #main-festivals {
-            h2 {
+            h1 {
                 text-align: center;
             }
             .festival-cards-container {
@@ -126,7 +126,7 @@
 @media (max-width: 768px) {
     #homePage {
         #main-festivals {
-            h2 {
+            h1 {
                 text-align: center;
             }
 
