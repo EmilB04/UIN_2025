@@ -3,38 +3,9 @@ TODO:
 ⬜ 
 🔄 DOING:
 ✅ DONE:
-    ✅ DONE: Karakter: E
-        - Skal inneholde et innloggingsskjema (uten krav til reell funksjonalitet). 
 
-    ✅ DONE: Karakter: D
-        - Ikke relevant
-
-    ✅ DONE: Karakter: C
-        - Innloggingsskjema (ikke funksjonalitet - backend)
-        - Når brukeren fyller ut skjemaet og "logger inn", skal:
-                Innloggingsskjemaet skjules
-                En ny visning vises med overskriften "Min side"
-        - Påloggingsstatusen kan håndteres ved hjelp av en state-variabel (f.eks. isLoggedIn), som endres fra false til true når brukeren sender inn skjemaet.
-
-    ✅ DONE:Karakter: B
-        - Ikke 100% relevant
-        - På Dashboard-siden skal følgende vises:
-            En oversikt over alle events lagret i Sanity
-            En oversikt over alle brukere
-            
-            For hver bruker skal det vises:
-                Navn og profilbilde
-                En opptelling av events brukeren har i ønskelisten og tidligere kjøp
-                En liste over disse eventene
-    
     🔄 DOING: Karakter: A
-        - På Dashboard-siden skal innholdet være delt opp i to tydelige seksjoner:
 
-        1. Brukerinformasjon ✅ DONE:
-        Viser kun informasjon om den innloggede brukeren (f.eks. navn, e-post, bilde, alder)
-        
-        2. Brukerens innhold
-        Ønskeliste og tidligere kjøp ✅ DONE:
         
         DOING: (Må hente fra Ticketmaster API)
         Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
@@ -42,23 +13,14 @@ TODO:
         Navn på eventet
         Dato
         Bilde
-
-        Venner-funksjonalitet: ✅ DONE:
-        Oppdater brukerens Sanity-modell ved å legge til et nytt felt: friends 
-        Dette skal være en referanse til én eller flere andre brukere i systemet.
-        I grensesnittet skal du hente ut og vise vennelisten til den innloggede brukeren.
-        
-        Felles arrangementer: ✅ DONE:
-        Under hver venn i visningen, skal det kontrolleres om brukeren og vennen har felles events i ønskelisten.
-        Dersom det finnes et eller flere felles arrangementer, skal det vises en melding som for eksempel:
-        "Du og [Navn] har samme event i ønskelisten – hva med å dra sammen på [Eventnavn]?"
     
-    TODO: Fix mobile version for user-content-section
+    TODO: Fix mobile version for user-content-section¨
+    TODO: Change fetching from Sanity ti fetching from Ticketmaster API if needed
 */
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
-import { fetchAllUsers, fetchUserById } from "../sanity/userServices"; // Import fetch functions
+import { fetchAllUsers, fetchUserById } from "../sanity/userServices";
 import DummyPerson from "../assets/person-dummy.jpg";
 import { useNavigate } from "react-router";
 
@@ -76,9 +38,9 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     // Fectches the logged in user from sanity by checking the local storage for the logged in user id
     useEffect(() => {
         const fetchLoggedInUser = async () => {
+            setLoading(true); // Start loading
             const userId = localStorage.getItem("loggedInUserId");
             if (userId) {
-                setLoading(true); // Start loading
                 try {
                     const user = await fetchUserById(userId);
                     setLoggedInUser(user);
@@ -108,9 +70,9 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                     setTimeout(() => { // Simulate delay
                         setIsLoggedIn(true);
                         setLoggedInUser(user);
-                        window.location.reload(); // Reload the page to reflect changes
                         localStorage.setItem("isLoggedIn", "true");
                         localStorage.setItem("loggedInUserId", user._id);
+                        window.location.reload(); // Reload the page to reflect changes
                         setError("");
                     }, 1000);
                 }
@@ -135,14 +97,14 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     // Method to handle logout. Sets the logged in user to null and reloads the page to reflect changes.
     const handleLogout = () => {
         setLoading(true); // Start loading
-        setEmail();
-        setPassword();
+        setEmail(); // Clear email field
+        setPassword(); // Clear password field
         setTimeout(() => { // Simulate delay
             setIsLoggedIn(false);
             setLoggedInUser(null);
-            window.location.reload(); // Reload the page to reflect changes
             localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("loggedInUserId");
+            window.location.reload(); // Reload the page to reflect changes
             setLoading(false); // Stop loading
         }, 500);
     };
@@ -156,7 +118,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
         navigate(`/dashboard/${event._id}`); // Navigate to the details page
     };
 
-    // Function to find common wishlist items between the logged-in user and friends.
+    // Method to find common wishlist items between the logged-in user and friends.
     const findCommonWishlistItems = (friendWishlist) => {
         if (!loggedInUser || !friendWishlist) return []; // Return empty array if no user or wishlist
         const loggedInUserWishlist = loggedInUser.wishlist || []

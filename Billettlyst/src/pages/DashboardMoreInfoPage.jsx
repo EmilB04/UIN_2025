@@ -11,11 +11,10 @@ DOING: (Må hente fra Ticketmaster API)
 */
 
 import "../styles/dashboardMoreInfoStyle.scss";
-import "../styles/app.scss"; // Import the global styles for the loading spinner
 import { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
-import { fetchUsersWithCommonEvents } from "../sanity/userServices"; // Import fetch functions
-import { getApiIdBySanityId } from "../sanity/eventServices"; // Import fetch functions
+import { useParams } from "react-router-dom";
+import { fetchUsersWithCommonEvents } from "../sanity/userServices";
+import { getApiIdBySanityId } from "../sanity/eventServices";
 import PageNotFound from './PageNotFound';
 import Loading from "../components/Loading";
 import { getEventById } from "../api/ticketmasterApiServices";

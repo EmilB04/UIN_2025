@@ -21,6 +21,10 @@ $hover-color: #005566;
   -moz-osx-font-smoothing: grayscale;
 }
 
+// Github Copilot made most of this loading-spinner:
+// Prompt: "Create a simple loading spinner"
+// Result: Created the folowwing code and classes (.loading-spinner, .spinner and @keyframes spin)
+
 .loading-spinner {
   display: flex;
   flex-direction: column;
