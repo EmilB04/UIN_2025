@@ -42,7 +42,7 @@ export default function Nav() {
             </ul>
             <search id="search-container" className={searchOpen ? "open" : ""}>
                 <div id="search-box">
-                    <input type="text" placeholder="Søk etter innhold" />
+                    <input type="text" placeholder="Ikke funksjonelt søk" />
                     <button type="submit">Søk</button>
                 </div>
                 <button id="search-icon" onClick={() => setSearchOpen(!searchOpen)} aria-label="Toggle search">
