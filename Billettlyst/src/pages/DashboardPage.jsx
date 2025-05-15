@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 import { fetchAllUsers, fetchUserById } from "../sanity/userServices";
+import { getEventById } from "../api/ticketmasterApiServices";
+import { getApiIdBySanityId } from "../sanity/eventServices";
 import DummyPerson from "../assets/person-dummy.jpg";
 import { useNavigate } from "react-router";
 
-export default function DashboardPage({ setLoading, setPageType, setEvent }) {
+
+export default function DashboardPage({ setLoading, setPageType }) {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -15,26 +18,67 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const navigate = useNavigate();
 
+    const [wishlistEvents, setWishlistEvents] = useState([]);
+    const [purchaseEvents, setPurchaseEvents] = useState([]);
+    const [sanityWishlistIds, setSanityWishlistIds] = useState([]);
+    const [sanityPurchasesIds, setSanityPurchasesIds] = useState([]);
     // Fectches the logged in user from sanity by checking the local storage for the logged in user id
     useEffect(() => {
         const fetchLoggedInUser = async () => {
-            setLoading(true); // Start loading
+            setLoading(true);
             const userId = localStorage.getItem("loggedInUserId");
-            if (userId) {
+            if (userId && isLoggedIn) {
                 try {
                     const user = await fetchUserById(userId);
                     setLoggedInUser(user);
                 } catch (error) {
                     console.error("Error fetching logged-in user:", error);
                 } finally {
-                    setLoading(false); // Stop loading
+                    setLoading(false);
                 }
             }
         };
+
         if (isLoggedIn) {
             fetchLoggedInUser();
         }
     }, [isLoggedIn, setLoading]);
+
+    // Fetches the wishlist and previous purchases events from Ticketmaster API by checking the logged in user
+    // and fetching the events from the API by their IDs
+    // The IDs are fetched from the logged in user object, which contains the wishlist and previous purchases IDs
+    useEffect(() => {
+        const fetchUserEvents = async () => {
+            if (!loggedInUser) return;
+
+            setLoading(true);
+            try {
+                const wishlistSanityIds = loggedInUser.wishlist.map(e => e._id);
+                const purchasesSanityIds = loggedInUser.previousPurchases.map(e => e._id);
+                setSanityWishlistIds(wishlistSanityIds);
+                setSanityPurchasesIds(purchasesSanityIds);
+
+                const wishlistApiIds = await Promise.all(wishlistSanityIds.map(id => getApiIdBySanityId(id)));
+                const purchasesApiIds = await Promise.all(purchasesSanityIds.map(id => getApiIdBySanityId(id)));
+
+                const wishlistFetched = await Promise.all(wishlistApiIds.map(id => getEventById(id)));
+                const purchasesFetched = await Promise.all(purchasesApiIds.map(id => getEventById(id)));
+
+                setWishlistEvents(wishlistFetched);
+                setPurchaseEvents(purchasesFetched);
+
+            } catch (error) {
+                console.error("Error fetching wishlist or previous purchases details:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (loggedInUser && loggedInUser.wishlist && loggedInUser.previousPurchases) {
+            fetchUserEvents();
+        }
+    }, [loggedInUser, setLoading]);
+
 
 
     // Method to handle login. Checks if the user exists in Sanity and if the email and password match.
@@ -92,10 +136,9 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
     // Method to navigate to the event details page. Sets the page type and event data.
     // PageType can be either "wishlist" or "previousPurchases"
     // Event is the event data to be passed to the details page. Later used to fetch the event details from the API.
-    const navigateToEvent = (event, type) => {
+    const navigateToEvent = (sanityId, type) => {
         setPageType(type);
-        setEvent(event);
-        navigate(`/dashboard/${event._id}`); // Navigate to the details page
+        navigate(`/dashboard/${sanityId}`);
     };
 
     // Method to find common wishlist items between the logged-in user and friends.
@@ -109,7 +152,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
-            const date = new Date(dateString);
+        const date = new Date(dateString);
         if (isNaN(date)) return dateString;
         const options = { year: "numeric", month: "2-digit", day: "2-digit" };
         const formattedDate = date.toLocaleDateString("no-NO", options);
@@ -226,18 +269,19 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                         {loggedInUser && loggedInUser.previousPurchases?.length > 0 ? (
                             <ul id="previous-purchases-list">
                                 <li id="previous-purchases-header">
-                                    <p>ID</p>
                                     <p>Dato</p>
                                     <p>Tittel</p>
                                     <p>Land</p>
                                 </li>
-                                {loggedInUser.previousPurchases.map((event) => (
-                                    <li key={event._id} id="previous-purchase-card">
-                                        <p>{event._id}</p>
-                                        <p>{formatDate(event.date)}</p>
-                                        <p>{event.title}</p>
-                                        <p>{event.country}</p>
-                                        <button onClick={() => navigateToEvent(event, "previousPurchases")}>Les mer</button>
+                                {purchaseEvents.map((event, idx) => (
+                                    <li key={sanityPurchasesIds[idx]} id="previous-purchase-card">
+                                        <p>{formatDate(event.dates?.start?.localDate)}</p>
+                                        <p>{event.name}</p>
+                                        <p>
+                                            {event._embedded?.venues?.[0]?.country?.name ?? "Ukjent land"},{" "}
+                                            {event._embedded?.venues?.[0]?.city?.name ?? "Ukjent by"}
+                                        </p>
+                                        <button onClick={() => navigateToEvent(sanityPurchasesIds[idx], "previousPurchases")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
@@ -254,12 +298,15 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                                     <p>Tittel</p>
                                     <p>Sted</p>
                                 </li>
-                                {loggedInUser.wishlist.map((event) => (
-                                    <li key={event._id} id="wishlist-card">
-                                        <p>{formatDate(event.date)}</p>
-                                        <p>{event.title}</p>
-                                        <p>{event.venue}, {event.city}</p>
-                                        <button onClick={() => navigateToEvent(event, "wishlist")}>Les mer</button>
+                                {wishlistEvents.map((event, idx) => (
+                                    <li key={sanityWishlistIds[idx]} id="wishlist-card">
+                                        <p>{formatDate(event.dates?.start?.localDate)}</p>
+                                        <p>{event.name}</p>
+                                        <p>
+                                            {event._embedded?.venues?.[0]?.name ?? "Ukjent sted"},{" "}
+                                            {event._embedded?.venues?.[0]?.city?.name ?? "Ukjent by"}
+                                        </p>
+                                        <button onClick={() => navigateToEvent(sanityWishlistIds[idx], "wishlist")}>Les mer</button>
                                     </li>
                                 ))}
                             </ul>
