@@ -22,6 +22,7 @@ export default function DashboardPage({ setLoading, setPageType }) {
     const [purchaseEvents, setPurchaseEvents] = useState([]);
     const [sanityWishlistIds, setSanityWishlistIds] = useState([]);
     const [sanityPurchasesIds, setSanityPurchasesIds] = useState([]);
+
     // Fectches the logged in user from sanity by checking the local storage for the logged in user id
     useEffect(() => {
         const fetchLoggedInUser = async () => {
@@ -54,7 +55,7 @@ export default function DashboardPage({ setLoading, setPageType }) {
             setSanityWishlistIds(wishlistSanityIds);
             setSanityPurchasesIds(purchasesSanityIds);
 
-            // Hent API-id-er én etter én
+            // Fetch event-data one by one (avoid overloading and 429 errors)
             const wishlistApiIds = [];
             for (const id of wishlistSanityIds) {
                 const apiId = await getApiIdBySanityId(id);
@@ -67,7 +68,7 @@ export default function DashboardPage({ setLoading, setPageType }) {
                 purchasesApiIds.push(apiId);
             }
 
-            // Hent event-data én etter én (unngår overbelastning og 429-feil)
+            // Fetch event-data one by one (avoid overloading and 429 errors)
             const wishlistFetched = [];
             for (const id of wishlistApiIds) {
                 try {
@@ -98,7 +99,7 @@ export default function DashboardPage({ setLoading, setPageType }) {
         }
     };
 
-    if (loggedInUser && loggedInUser.wishlist && loggedInUser.previousPurchases) {
+    if (loggedInUser) {
         fetchUserEvents();
     }
 }, [loggedInUser, setLoading]);
