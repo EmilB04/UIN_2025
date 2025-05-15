@@ -6,11 +6,6 @@ export const fetchSanityEvents = async () => {
             _id,
             apiId,
             title,
-            date,
-            time,
-            country,
-            city,
-            venue,
             "image": image.asset->url
         }`;
         const data = await client.fetch(query);
@@ -27,11 +22,6 @@ export async function fetchEventById(id) {
             _id,
             apiId,
             title,
-            date,
-            time,
-            country,
-            city,
-            venue,
             "image": image.asset->url
         }`;
         const data = await client.fetch(query, { _id: id });
