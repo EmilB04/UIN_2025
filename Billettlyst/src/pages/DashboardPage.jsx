@@ -107,6 +107,15 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
         );
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+            const date = new Date(dateString);
+        if (isNaN(date)) return dateString;
+        const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+        const formattedDate = date.toLocaleDateString("no-NO", options);
+        return formattedDate;
+    };
+
     // If the user is not logged in, show the login form, otherwise show the dashboard.
     return (
         <div id="dashboard-page">{!isLoggedIn ? (
@@ -186,7 +195,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                                     return (
                                         <li key={friend._id} className="friend-card">
                                             <img
-                                                src={friend.photo?.asset?.url || DummyPerson} // Show dummy image if no photo
+                                                src={friend.photo?.asset?.url || DummyPerson}
                                                 alt={`${friend.firstName} ${friend.lastName}`}
                                             />
                                             <h3>{`${friend.firstName} ${friend.lastName}`}</h3>
@@ -225,7 +234,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                                 {loggedInUser.previousPurchases.map((event) => (
                                     <li key={event._id} id="previous-purchase-card">
                                         <p>{event._id}</p>
-                                        <p>{event.date}</p>
+                                        <p>{formatDate(event.date)}</p>
                                         <p>{event.title}</p>
                                         <p>{event.country}</p>
                                         <button onClick={() => navigateToEvent(event, "previousPurchases")}>Les mer</button>
@@ -247,7 +256,7 @@ export default function DashboardPage({ setLoading, setPageType, setEvent }) {
                                 </li>
                                 {loggedInUser.wishlist.map((event) => (
                                     <li key={event._id} id="wishlist-card">
-                                        <p>{event.date}</p>
+                                        <p>{formatDate(event.date)}</p>
                                         <p>{event.title}</p>
                                         <p>{event.venue}, {event.city}</p>
                                         <button onClick={() => navigateToEvent(event, "wishlist")}>Les mer</button>

@@ -206,9 +206,7 @@
                 p {
                     font-size: 1rem;
                 }
-
             }
-
         }
 
         #user-content-section {
@@ -254,8 +252,8 @@
                         background: #242424;
                         border-radius: 15px;
                         padding: 1rem;
-                        width: 350px;
-                        height: 500px;
+                        width: 280px;
+                        height: 450px;
 
                         .user-friends-interest {
                             ul {
@@ -388,6 +386,7 @@
                         gap: 1rem;
                         list-style: none;
                         align-items: center;
+                        font-size: 0.7rem;
 
                         p {
                             padding: 0;
@@ -435,6 +434,23 @@
 
         #dashboard-section {
             #user-content-section {
+                #user-friends-section {
+                    #friends-list {
+                        .friend-card {
+                            width: 320px;
+                            height: 480px;
+                        }
+                    }
+                }
+
+                #user-wishlist-section {
+                    #wishlist-list {
+                        #wishlist-card {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+
                 #user-purchases-section {
                     #previous-purchases-list {
                         #previous-purchase-card {
