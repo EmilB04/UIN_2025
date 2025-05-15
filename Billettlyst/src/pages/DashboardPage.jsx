@@ -1,19 +1,4 @@
-/*
-TODO: 
-⬜ 
-🔄 DOING:
-✅ DONE:
-
-    🔄 DOING: Karakter: A
-
-        
-        DOING: (Må hente fra Ticketmaster API)
-        Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
-        Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
-        Navn på eventet
-        Dato
-        Bilde
-    
+/*    
     TODO: Fix mobile version for user-content-section¨
     TODO: Change fetching from Sanity ti fetching from Ticketmaster API if needed
 */
