@@ -1,8 +1,3 @@
-/*    
-    TODO: Fix mobile version for user-content-section¨
-    TODO: Change fetching from Sanity ti fetching from Ticketmaster API if needed
-*/
-
 import { useState, useEffect } from "react";
 import "../styles/dashboardStyle.scss";
 import { fetchAllUsers, fetchUserById } from "../sanity/userServices";
