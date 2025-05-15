@@ -1,0 +1,188 @@
+@use "./app.scss" as *;
+
+#nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    background-color: #333;
+    color: white;
+    position: relative;
+    border-radius: 15px;
+
+    #title {
+        margin: 0;
+        width: 9rem;
+        text-decoration: none;
+        color: $primary-color;
+        font-weight: bold;
+        font-size: 1.5rem;
+
+    }
+    #nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #444;
+        max-width: 300px;
+        width: 100%;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: max-height 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+        border-radius: 0 15px 15px 15px;
+        z-index: 10;
+
+        &.open {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        li {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+
+            &:last-child {
+                a {
+                    &:hover {
+                        border-radius: 0 0 5px 5px;
+                    }
+                }
+            }
+
+            a {
+                text-decoration: none;
+                color: white;
+                display: block;
+                padding: 1rem 0.5rem;
+
+                &:hover {
+                    background-color: #555;
+                }
+            }
+        }
+    }
+    #search-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        position: relative;
+        width: 100%;
+
+        #search-icon {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.3s ease;
+        }
+
+        #search-box {
+            position: absolute;
+            top: -0.5rem;
+            right: 2.5rem;
+            background: #444;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+
+            input {
+                padding: 0.5rem;
+                border-radius: 5px;
+                border: none;
+                outline: none;
+                width: 150px;
+            }
+
+            button {
+                padding: 0.5rem 1rem;
+                background: #555;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background: #666;
+                }
+            }
+        }
+
+        &.open #search-box {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            z-index: 10;
+        }
+    }
+    #hamburger {
+        // Hamburger menu icon
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+}
+
+@media (min-width: 768px) {
+    #nav {
+        #hamburger {
+            display: none;
+        }
+
+        #nav-links {
+            max-width: none;
+            justify-content: center;
+            position: static; // Not absolute
+            flex-direction: row;
+            background: transparent;
+            max-height: none;
+            opacity: 1;
+            transform: none;
+            display: flex;
+            align-items: center;
+            gap: 0rem;
+            transition: none;
+
+            li a {
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #555;
+                }
+
+                &:last-child {
+                    border-radius: 5px !important;
+                }
+            }
+        }
+
+        #search-container {
+            margin-left: auto;
+            position: relative;
+            width: 9rem;
+        }
+    }
+}
