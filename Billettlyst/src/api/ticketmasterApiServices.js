@@ -9,16 +9,38 @@ const mapCategoryName = (name) => {
 };
 
 export const getSpecificFestival = async (festivalName, setFestival) => {
-  fetch(`${URL}/attractions?apikey=${API_KEY}&keyword=${festivalName}&locale=no-no&preferredCountry=no`)
-    .then((response) => response.json())
-    .then((data) => {
-      //console.log(`Festival data for ${festivalName}:`, data);
-      //console.log(`Alle treff for ${festivalName}:`, data._embedded?.attractions);
-      setFestival(data._embedded?.attractions?.[0]);
-    })
-    .catch((error) =>
-      console.error("Error fetching festival data:", error)
-    );
+  try {
+    const attractionResponse = await fetch(`${URL}/attractions?apikey=${API_KEY}&keyword=${festivalName}&locale=no-no&preferredCountry=no`);
+    const attractionData = await attractionResponse.json();
+    const attraction = attractionData._embedded?.attractions?.[0];
+
+    if (!attraction) {
+      console.error(`Attraction not found for: ${festivalName}`);
+      return;
+    }
+
+    const eventResponse = await fetch(`${URL}/events.json?apikey=${API_KEY}&keyword=${festivalName}&locale=no-no`);
+    const eventData = await eventResponse.json();
+    const event = eventData._embedded?.events?.[0];
+
+    if (!event) {
+      console.error(`Event not found for: ${festivalName}`);
+      return;
+    }
+
+    // Combining the event and attraction data
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+    const attractionAndEventData = {
+      ...attraction,
+      id: event.id,
+    };
+
+    setFestival(attractionAndEventData);
+
+  } catch (error) {
+    console.error("Error fetching festival data using GetSpecificFestival: ", error);
+  }
+   
 };
 
 export const fetchCityEvents = async (city) => {
