@@ -296,14 +296,14 @@ export default function DashboardPage({ setLoading, setPageType }) {
                                 <li id="previous-purchases-header">
                                     <p>Dato</p>
                                     <p>Tittel</p>
-                                    <p>Land</p>
+                                    <p>Sted</p>
                                 </li>
                                 {purchaseEvents.map((event, idx) => (
                                     <li key={sanityPurchasesIds[idx]} id="previous-purchase-card">
                                         <p>{formatDate(event.dates?.start?.localDate)}</p>
                                         <p>{event.name}</p>
                                         <p>
-                                            {event._embedded?.venues?.[0]?.country?.name ?? "Ukjent land"},{" "}
+                                            {event._embedded?.venues?.[0]?.name ?? "Ukjent sted"},{" "}
                                             {event._embedded?.venues?.[0]?.city?.name ?? "Ukjent by"}
                                         </p>
                                         <button onClick={() => navigateToEvent(sanityPurchasesIds[idx], "previousPurchases")}>Les mer</button>
