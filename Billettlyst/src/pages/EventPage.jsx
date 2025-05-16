@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getEventById, getFestivalPassesByKeyword } from "../api/ticketmasterApiServices";
 import FestivalPassCard from "../components/FestivalPassCard";
 import "../styles/eventPage.scss";
+import ArtistCard from "../components/ArtistCard";
 
 export default function EventPage() {
     const { id } = useParams();
@@ -24,25 +25,40 @@ export default function EventPage() {
     if (!festival) return <p>Laster festival ...</p>
 
     return (
-        <div id="eventPage">
-            <h1>{festival.name}</h1>
+        <>
+            <div id="eventPage">
+                <h1>{festival.name}</h1>
 
-            <h2>Sjannger:</h2>
-            <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
-            
-            <h2>Festivalpass:</h2>
-            <section id="festivalPassSection">
-                {festivalPasses.map((pass) => (
-                    <FestivalPassCard
-                    key={pass.id}
-                    image={pass.images[0]?.url}
-                    name={pass.name}
-                    date={pass.dates.start.localDate}
-                    venue={pass._embedded.venues[0].name}
-                    onWishListClick={() => console.log(`Added ${pass.name} to wishlist`)} 
-                    />
-                ))}
+                <h2>Sjanger:</h2>
+                <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
+                
+                <h2>Festivalpass:</h2>
+                <section id="festivalPassSection">
+                    {festivalPasses.map((pass) => (
+                        <FestivalPassCard
+                        key={pass.id}
+                        image={pass.images[0]?.url}
+                        name={pass.name}
+                        date={pass.dates.start.localDate}
+                        venue={pass._embedded.venues[0].name}
+                        onWishListClick={() => console.log(`Added ${pass.name} to wishlist`)} 
+                        />
+                    ))}
+                </section>
+            </div>
+
+            <section id="artist-section">
+                <h2>Artister</h2>
+                <div className="artist-cards-container">
+                    {festival._embedded?.attractions?.map((artist) => (
+                        <ArtistCard
+                            key={artist.id}
+                            name={artist.name}
+                            image={artist.images?.[0]?.url}
+                        />
+                    ))}
+                </div>
             </section>
-        </div>
+        </>
     );
 }
