@@ -1,19 +1,22 @@
 .artist-card {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    flex: 1 1 15vw;
+    flex: 1 1 calc(33.333% - 2rem);
+    padding: 10px;
+    max-width: 350px;
   
 
     img {
-        max-width: 350px;
+        width: 100%;
         min-width: 350px;
+        max-height: 200px;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
     }
 
     h3 {
         font-size: 1rem;
         margin-top: 1rem;
-        flex-grow: 1;
         color: #fff;
     }
 }
