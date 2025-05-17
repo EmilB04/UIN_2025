@@ -2,10 +2,20 @@
 const API_KEY = import.meta.env.VITE_TICKETMASTER_API_KEY;
 const URL = import.meta.env.VITE_TICKETMASTER_BASE_URL;
 
-const mapCategoryName = (name) => {
-  const lower = name.toLowerCase();
-  if (lower === "teater/show") return "Arts & Theatre";
-  return name;
+/*
+  Maps Norwegian category names to Ticketmaster's classification values
+*/
+export const mapCategoryToApiValue = (name) => {
+  switch (name.toLowerCase()) {
+    case "musikk":
+      return "Music";
+    case "sport":
+      return "Sports";
+    case "teater/show":
+      return "Arts & Theatre";
+    default:
+      return "";
+  }
 };
 
 export const getSpecificFestival = async (festivalName, setFestival) => {
@@ -82,64 +92,102 @@ export const getFestivalPassesByKeyword = async (keyword) => {
   }
 }
 
-// Generisk event-henter basert på kategori
-export const fetchEventsByCategory = async (category) => {
-  const categoryParam = mapCategoryName(category);
+/*
+  Unified data fetching function for CategoryPage
+  Originally, fetching events, venues, and attractions was split across 3 different functions.
+  I used ChatGPT to combine these into one efficient function that still supported filtering by:
+
+  - category (classificationName)
+  - date (start/endDateTime)
+  - country (countryCode)
+  - city (city), with special handling for "København"
+  - keyword (for search functionality)
+
+  ChatGPT helped restructure the logic to ensure:
+  - Filter combinations are supported via URLSearchParams
+  - Deduplication of venues and attractions using Map objects
+  - A cleaner and DRY solution overall
+  - All functionality from the separate functions stayed the same.
+*/
+export const fetchCategoryPageData = async ({ kategori, dato, land, by, keyword }) => {
   try {
-    const response = await fetch(
-      `${URL}/events.json?apikey=${API_KEY}&classificationName=${categoryParam}&countryCode=NO&locale=no-no&size=50`
-    );
+    const params = new URLSearchParams({
+      apikey: API_KEY,
+      size: 12,
+    });
+
+    if (kategori) params.append("classificationName", kategori);
+    if (land) params.append("countryCode", land);
+    if (keyword) params.append("keyword", keyword);
+
+    /*
+      ChatGPT-assisted solution:
+      The Ticketmaster API separates parts of Copenhagen into different sub-names like 
+      "København S", "København N", "København K", and "København V", so filtering by just 
+      "København" returns incomplete results. I asked ChatGPT how to ensure I capture all 
+      of Copenhagen when filtering by city. Pompt:
+      
+      "How can I filter events from Ticketmaster API that are located in all parts of 
+      Copenhagen, like København S, N, K, and V, if the API doesn't treat 'København' 
+      as a single city?"
+      
+      Based on that, the solution below was generated:
+    */
+    if (by && by.toLowerCase() === "københavn") {
+      ["København S", "København N", "København K", "København V"].forEach(city =>
+        params.append("city", city)
+      );
+    } else if (by) {
+      params.append("city", by);
+    }
+
+    if (dato) {
+      // Format date for Ticketmaster API: ISO with full day range
+      params.append("startDateTime", `${dato}T00:00:00Z`);
+      params.append("endDateTime", `${dato}T23:59:59Z`);
+    }
+
+    const response = await fetch(`${URL}/events.json?${params.toString()}`);
     const data = await response.json();
-    return data._embedded?.events || [];
-  } catch (error) {
-    console.error(`Error fetching ${category} events:`, error);
-    return [];
-  }
-};
+    const events = data._embedded?.events || [];
 
-
-// Funksjon for å hente alle attraksjoner
-export const fetchAttractions = async (categoryName) => {
-  try {
-    const response = await fetch(
-      `${URL}/attractions.json?apikey=${API_KEY}&classificationName=${categoryName}&countryCode=NO&locale=no-no&size=8`
-    );
-    const data = await response.json();
-    return data._embedded?.attractions || [];
-  } catch (error) {
-    console.error("Error fetching attractions:", error);
-    return [];
-  }
-};
-
-
-// Funksjon for å hente spillesteder for en hvilken som helst kategori
-export const fetchVenues = async (categoryName) => {
-  try {
-    const response = await fetch(
-      `${URL}/events.json?apikey=${API_KEY}&classificationName=${categoryName}&countryCode=NO&locale=no-no&size=8`
-    );
-    const data = await response.json();
-    const venues = data._embedded?.events?.map(event => event._embedded?.venues?.[0]);
-    
-    // Fjern duplikater basert på venue-id
+    // Use Maps to store only unique venues and attractions by ID
     const uniqueVenues = new Map();
-    venues?.forEach(venue => {
+    const uniqueAttractions = new Map();
+
+    events.forEach(event => {
+      const venue = event._embedded?.venues?.[0];
       if (venue && !uniqueVenues.has(venue.id)) {
         uniqueVenues.set(venue.id, venue);
       }
+
+      event._embedded?.attractions?.forEach(attr => {
+        if (attr && !uniqueAttractions.has(attr.id)) {
+          uniqueAttractions.set(attr.id, attr);
+        }
+      });
     });
 
-    return Array.from(uniqueVenues.values());
+    return {
+      events,
+      venues: Array.from(uniqueVenues.values()).filter(v => v?.name),
+      attractions: Array.from(uniqueAttractions.values()).filter(a => a?.name),
+    };
   } catch (error) {
-    console.error("Error fetching venues:", error);
-    return [];
+    console.error("Error fetching category page data:", error);
+    return {
+      events: [],
+      venues: [],
+      attractions: [],
+    };
   }
 };
 
-// Hent attraksjoner, events og venues basert på suggest-endepunktet
+/*
+  Fetches search suggestions (events, attractions, venues) based on keyword
+*/
 export const fetchSuggestions = async (keyword) => {
-  const keywordParam = mapCategoryName(keyword);
+  const keywordParam = mapCategoryToApiValue(keyword);
   try {
     const response = await fetch(
       `${URL}/suggest.json?apikey=${API_KEY}&keyword=${keywordParam}`
@@ -152,151 +200,26 @@ export const fetchSuggestions = async (keyword) => {
   }
 };
 
-export const fetchFilteredEvents = async ({ kategori, dato, land, by }) => {
-  try {
-    const baseUrl = `${URL}/events.json`;
-    const params = new URLSearchParams({
-      apikey: API_KEY,
-      size: 15,
-    });
-
-    if (kategori) params.append("classificationName", kategori);
-    if (land) params.append("countryCode", land);
-
-    // Hvis by er "København", inkluder alle bydeler
-    if (by && by.toLowerCase() === "københavn") {
-      const neighborhoods = ["København S", "København N", "København K", "København V"];
-      neighborhoods.forEach((neighborhood) => {
-        params.append("city", neighborhood);  // Legg til hver bydel
-      });
-    } else if (by) {
-      // Hvis det er en annen spesifikk by, filtrer på den
-      params.append("city", by);
-    }
-
-    if (dato) {
-      const startDate = `${dato}T00:00:00Z`;
-      const endDate = `${dato}T23:59:59Z`;
-      params.append("startDateTime", startDate);
-      params.append("endDateTime", endDate);
-    }
-
-    const url = `${baseUrl}?${params.toString()}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    return data._embedded?.events || [];
-  } catch (error) {
-    console.error("Error fetching events with filter: ", error);
-    return [];
-  }
-};
-
+/*
+  Fetch events matching a keyword and optionally a category
+*/
 export const fetchSearchEvents = async ({ keyword, kategori }) => {
   try {
-    const baseUrl = `${URL}/events.json`;
     const params = new URLSearchParams({
       apikey: API_KEY,
-      size: 15,
-      keyword: keyword,
+      size: 12,
+      keyword,
     });
 
-    if (kategori) params.append("classificationName", kategori);
+    if (kategori) {
+      params.append("classificationName", kategori);
+    }
 
-    const url = `${baseUrl}?${params.toString()}`;
-    const response = await fetch(url);
+    const response = await fetch(`${URL}/events.json?${params.toString()}`);
     const data = await response.json();
-
     return data._embedded?.events || [];
   } catch (error) {
-    console.error("Error fetching events on that search: ", error);
-    return [];
-  }
-};
-
-export const fetchFilteredVenues = async ({ land, by, keyword }) => {
-  try {
-    const baseUrl = `${URL}/events.json`;
-    const params = new URLSearchParams({
-      apikey: API_KEY,
-      size: 50,
-    });
-
-    if (land) params.append("countryCode", land);
-
-    // Hvis by er "København", inkluder alle bydeler
-    if (by && by.toLowerCase() === "københavn") {
-      const neighborhoods = ["København S", "København N", "København K", "København V"];
-      neighborhoods.forEach((neighborhood) => {
-        params.append("city", neighborhood);  // Legg til hver bydel
-      });
-    } else if (by) {
-      // Hvis det er en annen spesifikk by, filtrer på den
-      params.append("city", by);
-    }
-
-    if (keyword) params.append("keyword", keyword);
-
-    const url = `${baseUrl}?${params.toString()}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    const venues = data._embedded?.events?.map(event => event._embedded?.venues?.[0])
-      .filter(venue => venue?.name);
-
-    const uniqueVenues = new Map();
-    venues?.forEach(venue => {
-      if (venue && !uniqueVenues.has(venue.id)) {
-        uniqueVenues.set(venue.id, venue);
-      }
-    });
-
-    return Array.from(uniqueVenues.values());
-  } catch (error) {
-    console.error("Error fetching filtered venues:", error);
-    return [];
-  }
-};
-
-export const fetchFilteredAttractions = async ({ dato, land, by, keyword }) => {
-  try {
-    const baseUrl = `${URL}/events.json`;
-    const params = new URLSearchParams({
-      apikey: API_KEY,
-      size: 50,
-    });
-
-    if (dato) params.append("startDateTime", `${dato}T00:00:00Z`);
-    if (land) params.append("countryCode", land);
-
-    // Hvis by er "København", inkluder alle bydeler
-    if (by && by.toLowerCase() === "københavn") {
-      const neighborhoods = ["København S", "København N", "København K", "København V"];
-      neighborhoods.forEach((neighborhood) => {
-        params.append("city", neighborhood);  // Legg til hver bydel
-      });
-    } else if (by) {
-      // Hvis det er en annen spesifikk by, filtrer på den
-      params.append("city", by);
-    }
-
-    if (keyword) params.append("keyword", keyword);
-
-    const url = `${baseUrl}?${params.toString()}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    const attractions = data._embedded?.events?.flatMap(event => event._embedded?.attractions || []);
-    const uniqueAttractions = new Map();
-    attractions?.forEach(attr => {
-      if (attr && !uniqueAttractions.has(attr.id)) {
-        uniqueAttractions.set(attr.id, attr);
-      }
-    });
-
-    return Array.from(uniqueAttractions.values());
-  } catch (error) {
-    console.error("Error fetching filtered attractions:", error);
+    console.error("Error fetching events on that search:", error);
     return [];
   }
 };
