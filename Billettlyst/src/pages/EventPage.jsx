@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getEventById, getFestivalPassesByKeyword } from "../api/ticketmasterApiServices";
 import FestivalPassCard from "../components/FestivalPassCard";
 import "../styles/eventPage.scss";
+import "../styles/artistCardStyle.scss";
 import ArtistCard from "../components/ArtistCard";
 
 export default function EventPage() {

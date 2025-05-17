@@ -1,0 +1,25 @@
+.artist-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 1 1 15vw;
+  
+
+    img {
+        max-width: 350px;
+        min-width: 350px;
+    }
+
+    h3 {
+        font-size: 1rem;
+        margin-top: 20px;
+        flex-grow: 1;
+        color: #fff;
+    }
+}
+.artist-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem;
+};
