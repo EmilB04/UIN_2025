@@ -1,19 +1,21 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  fetchEventsByCategory,
+  fetchCategoryPageData,
   fetchSuggestions,
-  fetchFilteredEvents,
   fetchSearchEvents,
-  fetchFilteredAttractions,
-  fetchFilteredVenues
+  mapCategoryToApiValue,
 } from "../api/ticketmasterApiServices";
 import { fetchCategoryBySlug } from "../sanity/categoryServices";
-import CategoryCard from "../components/CategoryCard";
+import EventCard from "../components/EventCard";
 import PageNotFound from "./PageNotFound";
+import "../styles/categoryPageStyle.scss";
 
 export default function CategoryPage({ setLoading }) {
-  const { slug } = useParams();
+  const { slug } = useParams(); // get the slug from the URL
+  const navigate = useNavigate();
+
+  // Component state
   const [category, setCategory] = useState(null);
   const [events, setEvents] = useState([]);
   const [attractions, setAttractions] = useState([]);
@@ -29,178 +31,147 @@ export default function CategoryPage({ setLoading }) {
   const [showingSearch, setShowingSearch] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
-  const navigate = useNavigate();
+  // Retrieve userId from localStorage
+  const [userId, setUserId] = useState(() => localStorage.getItem("loggedInUserId"));
 
-  // Function to remove duplicates from an array
-  const removeDuplicatesByKey = (arr, key) => {
-    const uniqueMap = new Map();
-    arr.forEach((item) => {
-      const value = item?.[key];
-      if (value && !uniqueMap.has(value)) {
-        uniqueMap.set(value, item);
-      }
-    });
-    return Array.from(uniqueMap.values());
-  };
-
-  // Handle changes in filter inputs
+  /*
+    Update filter state when dropdowns or inputs change
+  */
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Map category names to API values
-  const mapCategoryToApiValue = (name) => {
-    switch (name.toLowerCase()) {
-      case "musikk":
-        return "Music";
-      case "sport":
-        return "Sports";
-      case "teater/show":
-        return "Theatre";
-      default:
-        return "";
-    }
-  };
-
-  // Handle the submission of filters
-const handleFilterSubmit = async (e) => {
+  /*
+    Apply filters to fetch category data (events, venues, attractions)
+  */
+  const handleFilterSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setShowingSearch(false);
-  
-    // Hent filtrerte arrangementer
-    const filtered = await fetchFilteredEvents({
-      land: filter.land,
-      by: filter.by,
-      dato: filter.dato,
-      kategori: mapCategoryToApiValue(category.categoryname),
-    });
-  
-    let filteredEvents = filtered.filter((event) => {
-      if (filter.dato) {
-        return event.dates?.start?.localDate === filter.dato;
-      }
-      return true;
-    });
-    
-    // Ekstra filtrering for København
-    if (filter.by === "København") {
-      // Filtrer arrangementer som har en venue i en bydel i København
-      filteredEvents = filteredEvents.filter((event) =>
-        event._embedded?.venues?.some((venue) => {
-          const cityName = venue.city?.name?.toLowerCase();
-          // Sjekk om cityName inneholder en av de ønskede bydelene
-          return (
-            cityName?.includes("københavn s") ||
-            cityName?.includes("københavn n") ||
-            cityName?.includes("københavn k") ||
-            cityName?.includes("københavn v")
-          );
-        })
-      );
-    }
-  
-    setEvents(filteredEvents);
-  
-    // Oppdater attraksjoner og spillesteder etter filtrering
-    const filteredAttractions = await fetchFilteredAttractions({
+
+    const kategori = mapCategoryToApiValue(category.categoryname);
+    const { events, attractions, venues } = await fetchCategoryPageData({
+      kategori,
       dato: filter.dato,
       land: filter.land,
       by: filter.by,
       keyword: "",
     });
-    setAttractions(removeDuplicatesByKey(filteredAttractions, "name").slice(0, 12));
-  
-    const filteredVenues = await fetchFilteredVenues({
-      land: filter.land,
-      by: filter.by,
-      keyword: "",
-    });
-    setVenues(removeDuplicatesByKey(filteredVenues, "id").slice(0, 12));
-  
+
+    setEvents(events);
+    setAttractions(attractions);
+    setVenues(venues);
     setLoading(false);
   };
-  
 
-  // Handle the submission of search
+  /*
+    Search by keyword in current category
+  */
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setShowingSearch(true);
 
+    const kategori = mapCategoryToApiValue(category.categoryname);
+
     const results = await fetchSearchEvents({
       keyword: searchTerm,
-      kategori: mapCategoryToApiValue(category.categoryname),
+      kategori,
     });
-
     setSearchResults(results);
 
-    const filteredAttractions = await fetchFilteredAttractions({
-      dato: "",
-      land: filter.land,
-      by: filter.by,
+    const { attractions, venues } = await fetchCategoryPageData({
+      kategori,
       keyword: searchTerm,
     });
-    setAttractions(removeDuplicatesByKey(filteredAttractions, "name").slice(0, 12));
 
-    const filteredVenues = await fetchFilteredVenues({
-      land: filter.land,
-      by: filter.by,
-      keyword: searchTerm,
-    });
-    setVenues(removeDuplicatesByKey(filteredVenues, "id").slice(0, 12));
-
+    setAttractions(attractions);
+    setVenues(venues);
     setLoading(false);
   };
 
-  // Toggle event wishlist status
+  /*
+    Wishlist management logic
+
+    Originally, I implemented wishlist functionality using useState only, which worked well
+    as long as the user only changed category pages. However, refreshing the page would reset the state
+    and all saved items were lost.
+
+    To solve this, I updated the implementation to also store the wishlist in localStorage.
+    This made it persistent across reloads, but introduced a new problem: when one user
+    hearted an item, it remained saved even after logging out and switching to another user.
+
+    To fix this, I used ChatGPT to help me implement per-user storage. Now, the wishlist is
+    saved in localStorage using a key based on the logged-in user's ID (e.g. "wishlist_user123").
+    If no user is logged in, it falls back to a "wishlist_guest" key.
+
+    This ensures each user has their own separate and persistent wishlist.
+  */
+  /*
+    Add/remove an item from the wishlist, and store it in localStorage
+  */
   const toggleWishlist = (id) => {
-    setWishlist((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    setWishlist((prev) => {
+      const updated = prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id];
+      const key = userId ? `wishlist_${userId}` : "wishlist_guest";
+      localStorage.setItem(key, JSON.stringify(updated));
+      return updated;
+    });
   };
 
-  // Check if an event is wishlisted
+  /*
+    Check if a card is in the wishlist
+  */
   const isWishlisted = (id) => wishlist.includes(id);
 
-  // Fetch category data and related events when the component mounts
+  /*
+    Load wishlist from localStorage on mount or when userId changes
+  */
+  useEffect(() => {
+    const key = userId ? `wishlist_${userId}` : "wishlist_guest";
+    const stored = localStorage.getItem(key);
+    setWishlist(stored ? JSON.parse(stored) : []);
+  }, [userId]);
+
+  /*
+    Fetch category from slug, fallback to PageNotFound if not valid
+  */
   useEffect(() => {
     setLoading(true);
+
     fetchCategoryBySlug(slug)
       .then((data) => {
         if (data.length === 0) {
           setNotFound(true);
+          setLoading(false);
           return;
         }
 
         const categoryData = data[0];
         setCategory(categoryData);
+        setShowingSearch(false);
+        setSearchTerm("");
+        setSearchResults([]);
 
-        // Fetch events for the category
-        fetchEventsByCategory(categoryData.categoryname).then((fetchedEvents) => {
-          const uniqueEvents = removeDuplicatesByKey(fetchedEvents, "name").slice(0, 12);
-          setEvents(uniqueEvents);
-
-          // Fetch suggestions for attractions and venues
-          fetchSuggestions(categoryData.categoryname).then((suggested) => {
-            const suggestedAttractions = suggested.attractions || [];
-            const suggestedVenues = suggested.venues || [];
-            setAttractions(removeDuplicatesByKey(suggestedAttractions, "name").slice(0, 12));
-            setVenues(removeDuplicatesByKey(suggestedVenues, "id").slice(0, 12));
-          });
+        // Fetch default content suggestions for category
+        fetchSuggestions(categoryData.categoryname).then((suggested) => {
+          setEvents(suggested.events || []);
+          setAttractions(suggested.attractions || []);
+          setVenues(suggested.venues || []);
+          setLoading(false);
         });
       })
       .catch((error) => {
         console.error("Feil ved henting av kategori:", error);
         navigate("/page-not-found");
-      })
-      .finally(() => {
         setLoading(false);
       });
   }, [slug, navigate, setLoading]);
 
-  // If category is not found, show PageNotFound component
+  // Render fallback page if category not found
   if (notFound) return <PageNotFound />;
   if (!category) return null;
 
@@ -208,7 +179,7 @@ const handleFilterSubmit = async (e) => {
     <div id="CategoryPage">
       <h1>{category.categoryname}</h1>
 
-      {/* Filter and Search Section */}
+      {/* Filter form */}
       <section id="filterSearch">
         <h2>Filtrert søk</h2>
         <form onSubmit={handleFilterSubmit}>
@@ -220,6 +191,7 @@ const handleFilterSubmit = async (e) => {
             value={filter.dato}
             onChange={handleFilterChange}
           />
+
           <label htmlFor="land">Land:</label>
           <select
             id="land"
@@ -232,6 +204,7 @@ const handleFilterSubmit = async (e) => {
             <option value="SE">Sverige</option>
             <option value="DK">Danmark</option>
           </select>
+
           <label htmlFor="by">By:</label>
           <select
             id="by"
@@ -244,11 +217,12 @@ const handleFilterSubmit = async (e) => {
             <option value="Stockholm">Stockholm</option>
             <option value="København">København</option>
           </select>
+
           <button type="submit">Filtrer</button>
         </form>
       </section>
 
-      {/* Search Section */}
+      {/* Keyword search */}
       <section id="keywordSearch">
         <h2>Søk</h2>
         <form onSubmit={handleSearchSubmit}>
@@ -265,17 +239,18 @@ const handleFilterSubmit = async (e) => {
         </form>
       </section>
 
-      {/* Attractions Section */}
+      {/* Attractions */}
       <section>
         <h2>Attraksjoner</h2>
         <div className="event-card-grid">
           {attractions?.map((attr) => (
-            <CategoryCard
+            <EventCard
               key={attr.id}
               id={attr.id}
               name={attr.name}
               image={attr.images?.[0]?.url}
               type="attraction"
+              showWishlist={true}
               isWishlisted={isWishlisted(attr.id)}
               onWishlistToggle={() => toggleWishlist(attr.id)}
             />
@@ -283,12 +258,12 @@ const handleFilterSubmit = async (e) => {
         </div>
       </section>
 
-      {/* Events Section */}
+      {/* Events */}
       <section>
         <h2>Arrangementer</h2>
         <div className="event-card-grid">
           {(showingSearch ? searchResults : events).map((event) => (
-            <CategoryCard
+            <EventCard
               key={event.id}
               id={event.id}
               name={event.name}
@@ -299,6 +274,7 @@ const handleFilterSubmit = async (e) => {
               venue={event._embedded?.venues?.[0]?.name}
               image={event.images?.[0]?.url}
               type="event"
+              showWishlist={true}
               isWishlisted={isWishlisted(event.id)}
               onWishlistToggle={() => toggleWishlist(event.id)}
             />
@@ -306,17 +282,20 @@ const handleFilterSubmit = async (e) => {
         </div>
       </section>
 
-      {/* Venues Section */}
+      {/* Venues */}
       <section>
         <h2>Spillesteder</h2>
         <div className="event-card-grid">
           {venues?.map((venue) => (
-            <CategoryCard
+            <EventCard
               key={venue.id}
               id={venue.id}
               name={venue.name}
               image={venue.images?.[0]?.url}
               type="venue"
+              country={venue.country?.name}
+              city={venue.city?.name}
+              showWishlist={true}
               isWishlisted={isWishlisted(venue.id)}
               onWishlistToggle={() => toggleWishlist(venue.id)}
             />
