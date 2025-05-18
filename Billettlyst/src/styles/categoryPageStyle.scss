@@ -60,3 +60,12 @@
   flex-wrap: wrap;
   gap: 1.5rem;
 }
+
+@media (max-width: 768px) {
+  .event-card-grid {
+    justify-content: center;
+  }
+  .card-type-headline {
+    text-align: center;
+  }
+}

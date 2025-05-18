@@ -241,7 +241,7 @@ export default function CategoryPage({ setLoading }) {
 
       {/* Attractions */}
       <section>
-        <h2>Attraksjoner</h2>
+        <h2 className="card-type-headline">Attraksjoner</h2>
         <div className="event-card-grid">
           {attractions.length > 0 ? (
             attractions.map((attr) => (
@@ -264,7 +264,7 @@ export default function CategoryPage({ setLoading }) {
 
       {/* Events */}
       <section>
-        <h2>Arrangementer</h2>
+        <h2 className="card-type-headline">Arrangementer</h2>
         <div className="event-card-grid">
           {(showingSearch ? searchResults : events).length > 0 ? (
             (showingSearch ? searchResults : events).map((event) => (
@@ -292,7 +292,7 @@ export default function CategoryPage({ setLoading }) {
 
       {/* Venues */}
       <section>
-        <h2>Spillesteder</h2>
+        <h2 className="card-type-headline">Spillesteder</h2>
         <div className="event-card-grid">
           {venues.length > 0 ? (
             venues.map((venue) => (
