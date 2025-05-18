@@ -1,15 +1,3 @@
-
-// TODO: Add correct details for the event (see demo)
-
-/*
-DOING: (Må hente fra Ticketmaster API)
-        Vis en opplisting av events fra både ønskelisten og tidligere kjøp, hentet fra brukerens tilknyttede data i Sanity.
-        Hver event skal vises som et kort, med informasjon hentet fra Ticketmaster API:
-        Navn på eventet
-        Dato
-        Bilde
-*/
-
 import "../styles/dashboardMoreInfoStyle.scss";
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
@@ -23,7 +11,7 @@ export default function DashboardMoreInfoPage({ pageType }) {
     const { id } = useParams(); // Get the sanity-event-ID from the URL
     const [usersWithCommonEvents, setUsersWithCommonEvents] = useState([]);
     const [currentEvent, setCurrentEvent] = useState(null);
-    const [loading, setLoading] = useState(true); // State to manage loading. Starts as true, since we want to show loading spinner while fetching API data.
+    const [loading, setLoading] = useState(true); // Own state to manage loading. Starts as true, since we want to show loading spinner while fetching API data.
 
     // Method to fetch users with common events. Checks every user.
     const fetchUsersWithCommonEventsHandler = useCallback(async () => {
@@ -74,7 +62,7 @@ export default function DashboardMoreInfoPage({ pageType }) {
     // Result: Returned to methods/functions "formatDate" and "formatTime"
     const formatDate = (dateString) => {
         if (!dateString) return "";
-            const date = new Date(dateString);
+        const date = new Date(dateString);
         if (isNaN(date)) return dateString;
         const options = { year: "numeric", month: "2-digit", day: "2-digit" };
         const formattedDate = date.toLocaleDateString("no-NO", options);

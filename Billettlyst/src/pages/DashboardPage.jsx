@@ -45,66 +45,70 @@ export default function DashboardPage({ setLoading, setPageType }) {
         }
     }, [isLoggedIn, setLoading]);
 
+    // Fetches the wishlist and previous purchases from the logged in user.
     useEffect(() => {
-    const fetchUserEvents = async () => {
-        if (!loggedInUser) return;
-        setLoading(true);
-        try {
-            const wishlistSanityIds = loggedInUser.wishlist.map(e => e._id);
-            const purchasesSanityIds = loggedInUser.previousPurchases.map(e => e._id);
-            setSanityWishlistIds(wishlistSanityIds);
-            setSanityPurchasesIds(purchasesSanityIds);
+        const fetchUserEvents = async () => {
+            if (!loggedInUser) return;
+            setLoading(true);
+            try {
+                const wishlistSanityIds = loggedInUser.wishlist.map(e => e._id);
+                const purchasesSanityIds = loggedInUser.previousPurchases.map(e => e._id);
+                setSanityWishlistIds(wishlistSanityIds);
+                setSanityPurchasesIds(purchasesSanityIds);
 
-            // Fetch event-data one by one (avoid overloading and 429 errors)
-            const wishlistApiIds = [];
-            for (const id of wishlistSanityIds) {
-                const apiId = await getApiIdBySanityId(id);
-                wishlistApiIds.push(apiId);
-            }
+                // Help from ChatGPT
+                // Prompt: I get the error "429 Too Many Requests" when I try to fetch data from an API. How can I avoid this error?
+                // Answer: "To avoid the "429 Too Many Requests" error, you can fetch data in smaller batches or one by one, with a delay between each request. This will help prevent overwhelming the server and reduce the chances of hitting the rate limit."
+                // Result: (After declaring React/JSX as language) Suggested to useage of for, of, await and try/catch to fetch data one by one.
 
-            const purchasesApiIds = [];
-            for (const id of purchasesSanityIds) {
-                const apiId = await getApiIdBySanityId(id);
-                purchasesApiIds.push(apiId);
-            }
-
-            // Fetch event-data one by one (avoid overloading and 429 errors)
-            const wishlistFetched = [];
-            for (const id of wishlistApiIds) {
-                try {
-                    const event = await getEventById(id);
-                    if (event) wishlistFetched.push(event);
-                } catch (error) {
-                    console.warn(`Kunne ikke hente wishlist-event med id ${id}:`, error);
+                // Fetch event-data one by one (avoid overloading and 429 errors)
+                const wishlistApiIds = [];
+                for (const id of wishlistSanityIds) {
+                    const apiId = await getApiIdBySanityId(id);
+                    wishlistApiIds.push(apiId);
                 }
-            }
 
-            const purchasesFetched = [];
-            for (const id of purchasesApiIds) {
-                try {
-                    const event = await getEventById(id);
-                    if (event) purchasesFetched.push(event);
-                } catch (error) {
-                    console.warn(`Kunne ikke hente purchase-event med id ${id}:`, error);
+                const purchasesApiIds = [];
+                for (const id of purchasesSanityIds) {
+                    const apiId = await getApiIdBySanityId(id);
+                    purchasesApiIds.push(apiId);
                 }
+
+                // Fetch event-data one by one (avoid overloading and 429 errors)
+                const wishlistFetched = [];
+                for (const id of wishlistApiIds) {
+                    try {
+                        const event = await getEventById(id);
+                        if (event) wishlistFetched.push(event);
+                    } catch (error) {
+                        console.warn(`Kunne ikke hente wishlist-event med id ${id}:`, error);
+                    }
+                }
+
+                const purchasesFetched = [];
+                for (const id of purchasesApiIds) {
+                    try {
+                        const event = await getEventById(id);
+                        if (event) purchasesFetched.push(event);
+                    } catch (error) {
+                        console.warn(`Kunne ikke hente purchase-event med id ${id}:`, error);
+                    }
+                }
+
+                setWishlistEvents(wishlistFetched);
+                setPurchaseEvents(purchasesFetched);
+
+            } catch (error) {
+                console.error("Feil under henting av events:", error);
+            } finally {
+                setLoading(false);
             }
+        };
 
-            setWishlistEvents(wishlistFetched);
-            setPurchaseEvents(purchasesFetched);
-
-        } catch (error) {
-            console.error("Feil under henting av events:", error);
-        } finally {
-            setLoading(false);
+        if (loggedInUser) {
+            fetchUserEvents();
         }
-    };
-
-    if (loggedInUser) {
-        fetchUserEvents();
-    }
-}, [loggedInUser, setLoading]);
-
-
+    }, [loggedInUser, setLoading]);
 
     // Method to handle login. Checks if the user exists in Sanity and if the email and password match.
     const handleLogin = async (e) => {
@@ -175,6 +179,9 @@ export default function DashboardPage({ setLoading, setPageType }) {
         );
     };
 
+    // Generated by GitHub Copilot
+    // Prompt: "Create a method to format date to EU/Norwegian format (DD.MM.YYYY)"
+    // Result: Created method "formatDate" to format date to EU/Norwegian format (DD.MM.YYYY)
     const formatDate = (dateString) => {
         if (!dateString) return "";
         const date = new Date(dateString);
