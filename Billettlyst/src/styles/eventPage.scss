@@ -1,15 +1,6 @@
 @use "./app.scss" as *;
 
 #eventPage{
-    h1{
-
-    }
-    h2{
-
-    }
-    span{
-
-    }
     #festivalPassSection{
         display: flex;
         flex-wrap: wrap;
@@ -26,9 +17,6 @@
             ul{
                 list-style: none;
                 padding: 0;
-                li{
-                    
-                }
             }
             div{
                 display: flex;

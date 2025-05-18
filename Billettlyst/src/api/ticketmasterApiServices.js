@@ -26,6 +26,7 @@ export const fetchCityEvents = async (city) => {
       `${URL}/events.json?city=${city}&size=10&apikey=${API_KEY}`
     );
     const data = await response.json();
+    //console.log("Første event:", data._embedded?.events?.[0]);
     return data._embedded?.events || [];
   } catch (error) {
     console.error("Error fetching events:", error);

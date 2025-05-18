@@ -58,6 +58,7 @@ export default defineType({
       type: 'string',
     }
   ],
+  // Added a preview for better sanity studio experience
   preview: {
     select: {
       media: 'image',
