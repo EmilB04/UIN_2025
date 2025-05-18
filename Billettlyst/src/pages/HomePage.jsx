@@ -82,7 +82,7 @@ useEffect(() => {
       </section>
 
       <section id="city-events">
-        <header id="city-events-header">
+        <section id="city-events-header">
           <h2>Hva skjer i verdens storbyer!</h2>
           <span>
             {["Oslo", "Stockholm", "Berlin", "London", "Paris"].map((city) => (
@@ -91,11 +91,11 @@ useEffect(() => {
               </button>
             ))}
           </span>
-        </header>
+        </section>
 
         <section id="city-events-list">
           <h2>Hva skjer i {selectedCity}</h2>
-          <div className="event-card-container">
+          <section className="event-card-container">
             {apiEvents.length > 0 ? (
               apiEvents.map((event) => (
                 <EventCard
@@ -113,7 +113,7 @@ useEffect(() => {
             ) : (
               <p>No events found for this city.</p>
             )}
-          </div>
+          </section>
         </section>
       </section>
     </div>

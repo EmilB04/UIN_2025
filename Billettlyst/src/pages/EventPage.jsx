@@ -30,28 +30,25 @@ export default function EventPage() {
     if (!festival) return <p>Laster festival ...</p>
 
     return (
-        <>
-            <div id="eventPage">
-                <h1>{cleanName}</h1>
+        <div id="eventPage">
+            <h1>{cleanName}</h1>
 
-                <h2>Sjanger:</h2>
-                <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
+            <h2>Sjanger:</h2>
+            <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
                 
-                <h2>Festivalpass:</h2>
-                <section id="festivalPassSection">
-                    {festivalPasses.map((pass) => (
-                        <FestivalPassCard
-                        key={pass.id}
-                        image={pass.images[0]?.url}
-                        name={pass.name}
-                        date={pass.dates.start.localDate}
-                        venue={pass._embedded.venues[0].name}
-                        onWishListClick={() => console.log(`Added ${pass.name} to wishlist`)} 
-                        />
-                    ))}
-                </section>
-            </div>
-
+            <h2>Festivalpass:</h2>
+            <section id="festivalPassSection">
+                {festivalPasses.map((pass) => (
+                    <FestivalPassCard
+                    key={pass.id}
+                    image={pass.images[0]?.url}
+                    name={pass.name}
+                    date={pass.dates.start.localDate}
+                    venue={pass._embedded.venues[0].name}
+                    onWishListClick={() => console.log(`Added ${pass.name} to wishlist`)} 
+                    />
+                ))}
+            </section>
             <section id="artist-section">
                 <h2>Artister</h2>
                 <div className="artist-cards-container">
@@ -64,6 +61,6 @@ export default function EventPage() {
                     ))}
                 </div>
             </section>
-        </>
+            </div>
     );
 }
