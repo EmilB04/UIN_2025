@@ -14,15 +14,26 @@ export default function HomePage({ setLoading }) {
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
-  // Hent spesifikke festivaler én gang ved oppstart
+  // Get specific festivals once when starting.
   useEffect(() => {
-    getSpecificFestival("Findings Festival", setFindingsFestival);
-    getSpecificFestival("Neon Festival", setNeonFestival);
-    getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
-    getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
+    setTimeout(() => {
+      getSpecificFestival("Findings Festival", setFindingsFestival);
+    }, 0);
+  
+    setTimeout(() => {
+      getSpecificFestival("Neon Festival", setNeonFestival);
+    }, 30);
+  
+    setTimeout(() => {
+      getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
+    }, 40);
+  
+    setTimeout(() => {
+      getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
+    }, 50);
   }, []);
 
-  // Hent sanity-events én gang
+  // Get Sanity events once when starting.
   useEffect(() => {
     const getSanityEvents = async () => {
       const data = await fetchSanityEvents();
