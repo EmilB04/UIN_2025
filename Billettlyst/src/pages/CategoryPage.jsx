@@ -243,18 +243,22 @@ export default function CategoryPage({ setLoading }) {
       <section>
         <h2>Attraksjoner</h2>
         <div className="event-card-grid">
-          {attractions?.map((attr) => (
-            <EventCard
-              key={attr.id}
-              id={attr.id}
-              name={attr.name}
-              image={attr.images?.[0]?.url}
-              type="attraction"
-              showWishlist={true}
-              isWishlisted={isWishlisted(attr.id)}
-              onWishlistToggle={() => toggleWishlist(attr.id)}
-            />
-          ))}
+          {attractions.length > 0 ? (
+            attractions.map((attr) => (
+              <EventCard
+                key={attr.id}
+                id={attr.id}
+                name={attr.name}
+                image={attr.images?.[0]?.url}
+                type="attraction"
+                showWishlist={true}
+                isWishlisted={isWishlisted(attr.id)}
+                onWishlistToggle={() => toggleWishlist(attr.id)}
+              />
+            ))
+          ) : (
+            <p>Ingen attraksjoner funnet.</p>
+          )}
         </div>
       </section>
 
@@ -262,23 +266,27 @@ export default function CategoryPage({ setLoading }) {
       <section>
         <h2>Arrangementer</h2>
         <div className="event-card-grid">
-          {(showingSearch ? searchResults : events).map((event) => (
-            <EventCard
-              key={event.id}
-              id={event.id}
-              name={event.name}
-              date={event.dates?.start?.localDate}
-              time={event.dates?.start?.localTime}
-              country={event._embedded?.venues?.[0]?.country?.name}
-              city={event._embedded?.venues?.[0]?.city?.name}
-              venue={event._embedded?.venues?.[0]?.name}
-              image={event.images?.[0]?.url}
-              type="event"
-              showWishlist={true}
-              isWishlisted={isWishlisted(event.id)}
-              onWishlistToggle={() => toggleWishlist(event.id)}
-            />
-          ))}
+          {(showingSearch ? searchResults : events).length > 0 ? (
+            (showingSearch ? searchResults : events).map((event) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                name={event.name}
+                date={event.dates?.start?.localDate}
+                time={event.dates?.start?.localTime}
+                country={event._embedded?.venues?.[0]?.country?.name}
+                city={event._embedded?.venues?.[0]?.city?.name}
+                venue={event._embedded?.venues?.[0]?.name}
+                image={event.images?.[0]?.url}
+                type="event"
+                showWishlist={true}
+                isWishlisted={isWishlisted(event.id)}
+                onWishlistToggle={() => toggleWishlist(event.id)}
+              />
+            ))
+          ) : (
+            <p>Ingen arrangementer funnet.</p>
+          )}
         </div>
       </section>
 
@@ -286,20 +294,24 @@ export default function CategoryPage({ setLoading }) {
       <section>
         <h2>Spillesteder</h2>
         <div className="event-card-grid">
-          {venues?.map((venue) => (
-            <EventCard
-              key={venue.id}
-              id={venue.id}
-              name={venue.name}
-              image={venue.images?.[0]?.url}
-              type="venue"
-              country={venue.country?.name}
-              city={venue.city?.name}
-              showWishlist={true}
-              isWishlisted={isWishlisted(venue.id)}
-              onWishlistToggle={() => toggleWishlist(venue.id)}
-            />
-          ))}
+          {venues.length > 0 ? (
+            venues.map((venue) => (
+              <EventCard
+                key={venue.id}
+                id={venue.id}
+                name={venue.name}
+                image={venue.images?.[0]?.url}
+                type="venue"
+                country={venue.country?.name}
+                city={venue.city?.name}
+                showWishlist={true}
+                isWishlisted={isWishlisted(venue.id)}
+                onWishlistToggle={() => toggleWishlist(venue.id)}
+              />
+            ))
+          ) : (
+            <p>Ingen spillesteder funnet.</p>
+          )}
         </div>
       </section>
     </div>
