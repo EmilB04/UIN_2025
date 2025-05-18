@@ -1,19 +1,24 @@
 @use "./app.scss" as *;
 
-
-#filterSearch{
-  form{
+/*
+  Filter section styling
+*/
+#filterSearch {
+  form {
     display: flex;
     flex-direction: row;
-    input, select{
-      margin: 0;
-      border: none;
+
+    input,
+    select {
       margin: 0 1rem 0 2px;
-    }
-    button{
       border: none;
     }
-    button:hover{
+
+    button {
+      border: none;
+    }
+
+    button:hover {
       background-color: white;
       color: black;
       transition: 0.3s ease-in-out;
@@ -21,22 +26,37 @@
   }
 }
 
-#keywordSearch{
-  form{
+/*
+  Keyword search section styling
+*/
+#keywordSearch {
+  form {
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    input{
+
+    input {
       margin: 0;
       border: none;
     }
-    button{
+
+    button {
       border: none;
     }
-    button:hover{
+
+    button:hover {
       background-color: white;
       color: black;
       transition: 0.3s ease-in-out;
     }
   }
+}
+
+/*
+  Grid layout for cards used for attractions, events and venues
+*/
+.event-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }

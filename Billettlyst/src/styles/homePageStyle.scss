@@ -1,94 +1,32 @@
 @use "./app.scss" as *;
 
 #homePage {
-
-    h1,
-    #city-events-header h2:first-child {
-        font-size: 2rem;
-        text-align: center;
-        margin: 0;
-    }
-
     #main-festivals {
-        margin-block: 2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        list-style: none;
-        padding: 2rem;
-        background: #313131;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
+        h1 {
+            font-size: 2rem;
+            text-align: left;
+        }
 
-        #festival-cards-container {
+        .festival-cards-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             gap: 2rem;
             padding: 1rem;
             list-style: none;
             margin: 0;
-            padding: 0;
 
             li.festival-card {
-                max-width: 250px;
+                max-width: 350px;
+                min-width: 350px;
                 display: flex;
                 flex-direction: column;
 
                 img {
+                    height: 200px;
                     width: 100%;
-                    height: auto;
-                    border-radius: 8px;
                 }
 
-                h3 {
-                    font-size: 1.5rem;
-                    margin-top: 0.5rem;
-                }
-
-                p {
-                    font-size: 1rem;
-                    color: #555;
-                }
-
-                a {
-                    button {
-                        background: $primary-color;
-                        padding: 0.8rem;
-                        border: none;
-                        border-radius: 8px;
-                        cursor: pointer;
-                        transition: background 0.3s;
-                        font-size: 1rem;
-                        font-weight: bold;
-                        color: white;
-
-                        &:hover {
-                            background: $hover-color;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    #city-events {
-        background: #313131;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.377);
-        padding: 2rem;
-        #city-events-header {
-            span {
-                font-size: 1.5rem;
-                font-weight: bold;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                align-items: center;
-                gap: 1rem;
-                margin-block: 2rem;
-
-                button {
+                .festival-button {
                     background: $primary-color;
                     padding: 0.8rem;
                     border: none;
@@ -98,6 +36,11 @@
                     font-size: 1rem;
                     font-weight: bold;
                     color: white;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    text-decoration: none;
+                    align-self: start;
 
                     &:hover {
                         background: $hover-color;
@@ -105,17 +48,113 @@
                 }
             }
         }
+    }
+
+    #city-events {
+        margin-top: 2rem;
+
+        #city-events-header {
+            h2 {
+                font-size: 2rem;
+                text-align: center;
+            }
+
+            span {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 0.5rem;
+
+                button {
+                    background-color: $primary-color;
+                    padding: 0.8rem 2rem;
+                    border: none;
+                    color: white;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: background 0.3s;
+
+                    &:hover {
+                        background-color: $hover-color;
+                    }
+                }
+            }
+        }
 
         #city-events-list {
-            .event-cards-container {
+            .event-card-container {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 1rem;
-                padding: 0rem;
-                list-style: none;
-                margin: 0;
-                flex-basis: 100%;
-                justify-content: space-between;
+                gap: 2rem;
+                justify-content: left;
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    #homePage {
+        #main-festivals {
+            h1 {
+                text-align: center;
+            }
+            .festival-cards-container {
+                li.festival-card {
+                    flex: 1 1 45%;
+                }
+            }
+        }
+
+        #city-events {
+            #city-events-header {
+                span {
+                    align-items: center;
+                }
+            }
+            #city-events-list {
+                .event-card-container {
+                    justify-content: flex-start;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    #homePage {
+        #main-festivals {
+            h1 {
+                text-align: center;
+            }
+
+            .festival-cards-container {
+                li.festival-card {
+                    flex: 1 1 70%;
+                }
+            }
+        }
+
+        #city-events {
+            #city-events-header {
+                span {
+                    flex-direction: row;
+                    flex-wrap: wrap;;
+                    align-items: center;
+
+                    button {
+                        width: 100px;
+                        padding: 0.8rem 0.9rem;
+                    }
+                }
+            
+            }
+            #city-events-list {
+                .event-card-container {
+                    justify-content: center;
+                }
             }
         }
     }

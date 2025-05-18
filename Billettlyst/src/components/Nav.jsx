@@ -14,7 +14,7 @@ export default function Nav() {
             setIsLoggedIn(true);
         }
 
-        // Henter kategorier fra Sanity
+        // Fetch categories from Sanity
         fetchAllCategories()
             .then((data) => setCategories(data))
             .catch((error) => console.error("Feil ved henting av kategorier:", error));
@@ -34,15 +34,16 @@ export default function Nav() {
                 ))}
                 <li>
                     {isLoggedIn ? (
-                        <Link to="/dashboard">Min side</Link>
+                        <Link to="/dashboard">Min side</Link> // Shows "Min side" if logged in
                     ) : (
-                        <Link to="/dashboard">Logg inn</Link>
+                        <Link to="/dashboard">Logg inn</Link> // Shows "Logg inn" if not logged in
                     )}
                 </li>
             </ul>
+            {/* Non functional search. Just for decoration*/}
             <search id="search-container" className={searchOpen ? "open" : ""}>
                 <div id="search-box">
-                    <input type="text" placeholder="Søk etter innhold" />
+                    <input type="text" placeholder="Ikke funksjonelt søk" />
                     <button type="submit">Søk</button>
                 </div>
                 <button id="search-icon" onClick={() => setSearchOpen(!searchOpen)} aria-label="Toggle search">
@@ -55,9 +56,3 @@ export default function Nav() {
         </nav>
     );
 }
-
-
-/* Sources: 
-    Font Awesome: https://fontawesome.com/icons
-
-*/

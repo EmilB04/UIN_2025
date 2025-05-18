@@ -22,11 +22,6 @@ export async function fetchAllUsers() {
                 apiId,
                 image,
                 title,
-                date,
-                time,
-                country,
-                city,
-                venue,
             },
             wishlist[]->{
                 _id,
@@ -42,11 +37,6 @@ export async function fetchAllUsers() {
                     apiId,
                     image,
                     title,
-                    date,
-                    time,
-                    country,
-                    city,
-                    venue,
                 },
                 photo{
                     asset->{

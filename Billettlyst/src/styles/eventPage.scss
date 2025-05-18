@@ -4,15 +4,19 @@
     #festivalPassSection{
         display: flex;
         flex-wrap: wrap;
-        #festivalPass{
-            padding: 20px;
-            max-width: 25vw;
+        gap: 4rem;
+        .festivalPass{
+            max-width: 350px;
+            flex: 1 1 calc(33.333% - 2rem);
+
+            h3{
+                min-height: 3.5rem;
+            }
             img{
                 width: 100%;
-                height: auto;
-            }
-            h3{
-
+                max-height: 250px;
+                aspect-ratio: 4 / 3;
+                object-fit: cover;
             }
             ul{
                 list-style: none;

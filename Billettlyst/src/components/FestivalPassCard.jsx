@@ -1,6 +1,6 @@
 export default function FestivalPassCard({ image, name, date, venue, onWishListClick }) {
     return (
-        <article id="festivalPass">
+        <article className="festivalPass">
             <img src={image} alt={`Bilde av ${name}`} />
             <h3>{name}</h3>
             <ul>
