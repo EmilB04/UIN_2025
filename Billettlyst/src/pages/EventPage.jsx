@@ -7,20 +7,23 @@ import "../styles/artistCardStyle.scss";
 import ArtistCard from "../components/ArtistCard";
 
 export default function EventPage() {
-    const { id } = useParams();
-    const [festival, setFestival] = useState(null);
-    const [festivalPasses, setFestivalPasses] = useState([]);
-    const [cleanName, setCleanName] = useState("");
+    const { id } = useParams(); // The event ID from the API
+    const [festival, setFestival] = useState(null); // Holds detailed data about the selected festival/event
+    const [festivalPasses, setFestivalPasses] = useState([]); // Holds related festival pass options for the selected festival
+    const [cleanName, setCleanName] = useState(""); // To store the cleaned festival name 
 
     useEffect(() => {
         const fetchData = async () => {
+            //Fetch the full event (festival) by ID from the Ticketmaster API
             const festival = await getEventById(id);
             setFestival(festival);
 
+            // Clean the festival name by removing extra text (e.g., after "-" or "|")
             const baseName = festival.name;
-            const clean = baseName.split(/[-|]/)[0].trim(); // To show only the festival name
+            const clean = baseName.split(/[-|]/)[0].trim(); 
             setCleanName(clean);
 
+            // Fetch related festival passes using the cleaned name as a keyword
             const passes = await getFestivalPassesByKeyword(clean);
             setFestivalPasses(passes);
         };
@@ -36,6 +39,7 @@ export default function EventPage() {
             <h2>Sjanger:</h2>
             <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
                 
+            {/* Section listing available festival passes for the event */}
             <h2>Festivalpass:</h2>
             <section id="festivalPassSection">
                 {festivalPasses.map((pass) => (
@@ -49,6 +53,8 @@ export default function EventPage() {
                     />
                 ))}
             </section>
+
+            {/* Section listing the artists performing at the event */}
             <section id="artist-section">
                 <h2>Artister</h2>
                 <div className="artist-cards-container">
