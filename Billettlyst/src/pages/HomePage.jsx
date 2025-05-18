@@ -22,15 +22,15 @@ export default function HomePage({ setLoading }) {
   
     setTimeout(() => {
       getSpecificFestival("Neon Festival", setNeonFestival);
-    }, 30);
+    }, 200);
   
     setTimeout(() => {
       getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
-    }, 40);
+    }, 300);
   
     setTimeout(() => {
       getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
-    }, 50);
+    }, 400);
   }, []);
 
   // Get Sanity events once when starting.
