@@ -10,14 +10,18 @@ export default function EventPage() {
     const { id } = useParams();
     const [festival, setFestival] = useState(null);
     const [festivalPasses, setFestivalPasses] = useState([]);
+    const [cleanName, setCleanName] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
             const festival = await getEventById(id);
             setFestival(festival);
 
-            const baseName = festival.name.split(" - ")[0]; 
-            const passes = await getFestivalPassesByKeyword(baseName);
+            const baseName = festival.name;
+            const clean = baseName.split(/[-|]/)[0].trim(); // To show only the festival name
+            setCleanName(clean);
+
+            const passes = await getFestivalPassesByKeyword(clean);
             setFestivalPasses(passes);
         };
         fetchData();
@@ -28,7 +32,7 @@ export default function EventPage() {
     return (
         <>
             <div id="eventPage">
-                <h1>{festival.name}</h1>
+                <h1>{cleanName}</h1>
 
                 <h2>Sjanger:</h2>
                 <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
