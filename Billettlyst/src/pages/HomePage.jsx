@@ -16,22 +16,17 @@ export default function HomePage({ setLoading }) {
 
   // Get specific festivals once when starting.
   useEffect(() => {
-    setTimeout(() => {
-      getSpecificFestival("Findings Festival", setFindingsFestival);
-    }, 0);
-  
-    setTimeout(() => {
-      getSpecificFestival("Neon Festival", setNeonFestival);
-    }, 200);
-  
-    setTimeout(() => {
-      getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
-    }, 300);
-  
-    setTimeout(() => {
-      getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
-    }, 400);
-  }, []);
+  const fetchFestivals = async () => {
+    await getSpecificFestival("Findings Festival", setFindingsFestival);
+    await new Promise(res => setTimeout(res, 200));
+    await getSpecificFestival("Neon Festival", setNeonFestival);
+    await new Promise(res => setTimeout(res, 300));
+    await getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
+    await new Promise(res => setTimeout(res, 500));
+    await getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
+  };
+  fetchFestivals();
+}, []);
 
   // Get Sanity events once when starting.
   useEffect(() => {
