@@ -15,17 +15,23 @@ export default function HomePage({ setLoading }) {
   const [apiEvents, setApiEvents] = useState([]);
 
   // Get specific festivals once when starting.
-  useEffect(() => {
-  const fetchFestivals = async () => {
-    await getSpecificFestival("Findings Festival", setFindingsFestival);
-    await new Promise(res => setTimeout(res, 200));
-    await getSpecificFestival("Neon Festival", setNeonFestival);
-    await new Promise(res => setTimeout(res, 300));
-    await getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
-    await new Promise(res => setTimeout(res, 500));
-    await getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
-  };
+  const festivals = [
+    { name: "Findings Festival", setter: setFindingsFestival },
+    { name: "Neon Festival", setter: setNeonFestival },
+    { name: "Skeikampenfestivalen", setter: setSkeikampenFestival },
+    { name: "Tons of Rock", setter: setTonsOfRockFestival }
+  ];
+
+const fetchFestivals = async () => {
+  for (const fest of festivals) {
+    await getSpecificFestival(fest.name, fest.setter);
+    await new Promise(res => setTimeout(res, 200)); // 600ms delay between requests
+  }
+};
+
+useEffect(() => {
   fetchFestivals();
+  // eslint-disable-next-line
 }, []);
 
   // Get Sanity events once when starting.
