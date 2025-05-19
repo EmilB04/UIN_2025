@@ -5,7 +5,7 @@ export default function Footer() {
         <footer id='footer'>
             {/*https://elementor.com/blog/noopener-noreferrer/ */}
             <p>Data er hentet fra&nbsp;
-                <a href="https://developer.ticketmaster.com/" target="_blank" rel="noopener noreferrer">
+                <a href="https://developer.ticketmaster.com/products-and-docs/apis/discovery-api/v2/" target="_blank" rel="noopener noreferrer">
                     Ticketmaster API
                 </a>
             </p>
