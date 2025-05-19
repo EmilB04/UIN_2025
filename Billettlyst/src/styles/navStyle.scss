@@ -17,8 +17,8 @@
         color: $primary-color;
         font-weight: bold;
         font-size: 1.5rem;
-
     }
+
     #nav-links {
         list-style: none;
         margin: 0;
@@ -71,6 +71,7 @@
             }
         }
     }
+
     #search-container {
         display: flex;
         flex-direction: row;
@@ -133,6 +134,7 @@
             z-index: 10;
         }
     }
+
     #hamburger {
         // Hamburger menu icon
         font-size: 1.5rem;

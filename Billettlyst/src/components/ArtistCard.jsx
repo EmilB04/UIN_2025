@@ -1,7 +1,8 @@
-export default function ArtistCard() {
+export default function ArtistCard({ name, image }) {
     return (
-        <h1>
-            ArtistCard
-        </h1>
+        <article className="artist-card">
+            <img src={image} alt={`Bilde av ${name}`} />
+            <h3>{name}</h3>
+        </article>
     )
 }

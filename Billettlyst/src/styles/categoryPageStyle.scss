@@ -1,42 +1,116 @@
 @use "./app.scss" as *;
 
-
-#filterSearch{
-  form{
+#filterSearch {
+  form {
     display: flex;
     flex-direction: row;
-    input, select{
-      margin: 0;
-      border: none;
-      margin: 0 1rem 0 2px;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+
+
+    label {
+      font-weight: bold;
     }
-    button{
+
+    input {
+      padding: 0.41rem;
+      border-radius: 0.5rem;
       border: none;
     }
-    button:hover{
-      background-color: white;
-      color: black;
+
+    select {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+
+      &:focus {
+        border: 1px $hover-color;
+        transition: 0.3s ease-in-out;
+      }
+
+      &:hover {
+        border: 1px $hover-color;
+        transition: 0.3s ease-in-out;
+      }
+    }
+
+    button {
+      padding: 0.5rem;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 0.54rem 1rem;
+
+      &:hover {
+        background-color: $hover-color;
+        transition: 0.3s ease-in-out;
+      }
+    }
+  }
+}
+
+/*
+  Keyword search section styling
+*/
+#keywordSearch {
+  form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+
+    input {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+    }
+
+    button {
+      border: none;
+      background-color: $primary-color;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold
+    }
+
+    button:hover {
+      background-color: $hover-color;
       transition: 0.3s ease-in-out;
     }
   }
 }
 
-#keywordSearch{
-  form{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    input{
-      margin: 0;
-      border: none;
-    }
-    button{
-      border: none;
-    }
-    button:hover{
-      background-color: white;
-      color: black;
-      transition: 0.3s ease-in-out;
-    }
+/*
+  Grid layout for cards used for attractions, events and venues
+*/
+.event-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .event-card-grid {
+    justify-content: center;
+  }
+
+  .card-type-headline {
+    text-align: center;
   }
 }

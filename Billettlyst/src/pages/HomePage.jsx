@@ -10,19 +10,31 @@ export default function HomePage({ setLoading }) {
   const [neonFestival, setNeonFestival] = useState(null);
   const [skeikampenFestival, setSkeikampenFestival] = useState(null);
   const [tonsOfRockFestival, setTonsOfRockFestival] = useState(null);
-  const [sanityEvents, setSanityEvents] = useState([]);
+  const [setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
-  // Hent spesifikke festivaler én gang ved oppstart
-  useEffect(() => {
-    getSpecificFestival("Findings Festival", setFindingsFestival);
-    getSpecificFestival("Neon Festival", setNeonFestival);
-    getSpecificFestival("Skeikampenfestivalen", setSkeikampenFestival);
-    getSpecificFestival("Tons of Rock", setTonsOfRockFestival);
-  }, []);
+  // Get specific festivals once when starting.
+  const festivals = [
+    { name: "Findings Festival", setter: setFindingsFestival },
+    { name: "Neon Festival", setter: setNeonFestival },
+    { name: "Skeikampenfestivalen", setter: setSkeikampenFestival },
+    { name: "Tons of Rock", setter: setTonsOfRockFestival }
+  ];
 
-  // Hent sanity-events én gang
+const fetchFestivals = async () => {
+  for (const fest of festivals) {
+    await getSpecificFestival(fest.name, fest.setter);
+    await new Promise(res => setTimeout(res, 200)); // 600ms delay between requests
+  }
+};
+
+useEffect(() => {
+  fetchFestivals();
+  // eslint-disable-next-line
+}, []);
+
+  // Get Sanity events once when starting.
   useEffect(() => {
     const getSanityEvents = async () => {
       const data = await fetchSanityEvents();
@@ -58,8 +70,17 @@ export default function HomePage({ setLoading }) {
             (festival) =>
               festival && (
                 <li key={festival.id} className="festival-card">
-                  <img src={festival.images?.[0]?.url} alt={festival.name} />
-                  <h3>{festival.name}</h3>
+                  <EventCard
+                  id={festival.id}
+                  name={festival.name}
+                  image={festival.images?.[0]?.url}
+                  date={null}
+                  time={null}
+                  country={null}
+                  city={null}
+                  venue={null}
+                  showWishlist={false}
+                  />
                   <Link to={`/event/${festival.id}`} className="festival-button">
                     Les mer om {festival.name}
                   </Link>
@@ -70,7 +91,7 @@ export default function HomePage({ setLoading }) {
       </section>
 
       <section id="city-events">
-        <header id="city-events-header">
+        <section id="city-events-header">
           <h2>Hva skjer i verdens storbyer!</h2>
           <span>
             {["Oslo", "Stockholm", "Berlin", "London", "Paris"].map((city) => (
@@ -79,11 +100,11 @@ export default function HomePage({ setLoading }) {
               </button>
             ))}
           </span>
-        </header>
+        </section>
 
         <section id="city-events-list">
           <h2>Hva skjer i {selectedCity}</h2>
-          <div className="event-card-container">
+          <section className="event-card-container">
             {apiEvents.length > 0 ? (
               apiEvents.map((event) => (
                 <EventCard
@@ -101,7 +122,7 @@ export default function HomePage({ setLoading }) {
             ) : (
               <p>No events found for this city.</p>
             )}
-          </div>
+          </section>
         </section>
       </section>
     </div>

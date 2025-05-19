@@ -15,6 +15,10 @@
             list-style: none;
             margin: 0;
 
+            #eventCard {
+                all: unset;
+            }
+
             li.festival-card {
                 max-width: 350px;
                 min-width: 350px;
@@ -101,6 +105,7 @@
             h1 {
                 text-align: center;
             }
+
             .festival-cards-container {
                 li.festival-card {
                     flex: 1 1 45%;
@@ -114,6 +119,7 @@
                     align-items: center;
                 }
             }
+
             #city-events-list {
                 .event-card-container {
                     justify-content: flex-start;
@@ -141,7 +147,8 @@
             #city-events-header {
                 span {
                     flex-direction: row;
-                    flex-wrap: wrap;;
+                    flex-wrap: wrap;
+                    ;
                     align-items: center;
 
                     button {
@@ -149,8 +156,9 @@
                         padding: 0.8rem 0.9rem;
                     }
                 }
-            
+
             }
+
             #city-events-list {
                 .event-card-container {
                     justify-content: center;
