@@ -125,6 +125,15 @@ export default function CategoryPage({ setLoading }) {
     setWishlist(stored ? JSON.parse(stored) : []);
   }, [userId]);
 
+  // Reset filters when slug changes
+  useEffect(() => {
+    setFilter({
+      dato: "",
+      land: "",
+      by: "",
+    });
+  }, [slug]);
+
     // Fetch category from slug, fallback to PageNotFound if not valid
   useEffect(() => {
     setLoading(true);
