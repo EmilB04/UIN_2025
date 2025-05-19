@@ -16,6 +16,7 @@ export default function EventPage() {
         const fetchData = async () => {
             //Fetch the full event (festival) by ID from the Ticketmaster API
             const festival = await getEventById(id);
+            //console.log(festival);
             setFestival(festival);
 
             // Clean the festival name by removing extra text (e.g., after "-" or "|")
@@ -37,7 +38,23 @@ export default function EventPage() {
             <h1>{cleanName}</h1>
 
             <h2>Sjanger:</h2>
-            <span>{festival.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</span>
+            {/* 
+                Used ChatGPT to solve the issue where "Ukjent sjanger" kept showing for the "Tons of Rock" festival.
+
+                Prompt:
+                "When I click into the 'Tons of Rock' festival, it shows 'Unknown genre'. Can you help me find out why?"
+
+                Result:
+                AI identified that the genre was missing from the API response.
+                This was confirmed by inspecting the festival object via console.log().
+                It suggested using segment.name as a fallback.
+                Suggested added code: festival.classifications?.[0]?.segment?.name
+            */}
+            <span>
+                {festival.classifications?.[0]?.genre?.name ??
+                festival.classifications?.[0]?.segment?.name ??
+                "Ukjent sjanger"}
+            </span>
                 
             {/* Section listing available festival passes for the event */}
             <h2>Festivalpass:</h2>
