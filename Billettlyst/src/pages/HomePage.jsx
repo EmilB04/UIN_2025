@@ -70,8 +70,17 @@ useEffect(() => {
             (festival) =>
               festival && (
                 <li key={festival.id} className="festival-card">
-                  <img src={festival.images?.[0]?.url} alt={festival.name} />
-                  <h3>{festival.name}</h3>
+                  <EventCard
+                  id={festival.id}
+                  name={festival.name}
+                  image={festival.images?.[0]?.url}
+                  date={null}
+                  time={null}
+                  country={null}
+                  city={null}
+                  venue={null}
+                  showWishlist={false}
+                  />
                   <Link to={`/event/${festival.id}`} className="festival-button">
                     Les mer om {festival.name}
                   </Link>

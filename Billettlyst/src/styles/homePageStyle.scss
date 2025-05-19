@@ -15,6 +15,10 @@
             list-style: none;
             margin: 0;
 
+            #eventCard {
+                all: unset;
+            }
+
             li.festival-card {
                 max-width: 350px;
                 min-width: 350px;
