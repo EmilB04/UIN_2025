@@ -1,4 +1,3 @@
-import React from 'react';
 import "../styles/app.scss"; // Import the global styles for the loading spinner
 
 export default function Loading() {

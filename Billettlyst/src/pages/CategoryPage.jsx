@@ -32,19 +32,15 @@ export default function CategoryPage({ setLoading }) {
   const [notFound, setNotFound] = useState(false);
 
   // Retrieve userId from localStorage
-  const [userId, setUserId] = useState(() => localStorage.getItem("loggedInUserId"));
+  const [userId] = useState(() => localStorage.getItem("loggedInUserId"));
 
-  /*
-    Update filter state when dropdowns or inputs change
-  */
+  // Update filter state when dropdowns or inputs change
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilter((prev) => ({ ...prev, [name]: value }));
   };
 
-  /*
-    Apply filters to fetch category data (events, venues, attractions)
-  */
+  // Apply filters to fetch category data (events, venues, attractions)
   const handleFilterSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -65,9 +61,7 @@ export default function CategoryPage({ setLoading }) {
     setLoading(false);
   };
 
-  /*
-    Search by keyword in current category
-  */
+  // Search by keyword in current category
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -108,9 +102,8 @@ export default function CategoryPage({ setLoading }) {
 
     This ensures each user has their own separate and persistent wishlist.
   */
-  /*
-    Add/remove an item from the wishlist, and store it in localStorage
-  */
+  
+  // Add/remove an item from the wishlist, and store it in localStorage
   const toggleWishlist = (id) => {
     setWishlist((prev) => {
       const updated = prev.includes(id)
@@ -122,23 +115,17 @@ export default function CategoryPage({ setLoading }) {
     });
   };
 
-  /*
-    Check if a card is in the wishlist
-  */
+  // Check if a card is in the wishlist
   const isWishlisted = (id) => wishlist.includes(id);
 
-  /*
-    Load wishlist from localStorage on mount or when userId changes
-  */
+  // Load wishlist from localStorage on mount or when userId changes
   useEffect(() => {
     const key = userId ? `wishlist_${userId}` : "wishlist_guest";
     const stored = localStorage.getItem(key);
     setWishlist(stored ? JSON.parse(stored) : []);
   }, [userId]);
 
-  /*
-    Fetch category from slug, fallback to PageNotFound if not valid
-  */
+    // Fetch category from slug, fallback to PageNotFound if not valid
   useEffect(() => {
     setLoading(true);
 

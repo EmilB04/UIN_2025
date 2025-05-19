@@ -10,7 +10,7 @@ export default function HomePage({ setLoading }) {
   const [neonFestival, setNeonFestival] = useState(null);
   const [skeikampenFestival, setSkeikampenFestival] = useState(null);
   const [tonsOfRockFestival, setTonsOfRockFestival] = useState(null);
-  const [sanityEvents, setSanityEvents] = useState([]);
+  const [setSanityEvents] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Oslo");
   const [apiEvents, setApiEvents] = useState([]);
 
