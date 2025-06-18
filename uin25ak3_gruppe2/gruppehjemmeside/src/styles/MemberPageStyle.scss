@@ -1,0 +1,80 @@
+.member-page {
+    .about-me {
+        margin-block: 2rem;
+        display: flex;
+        justify-content: center;
+        text-align: left;
+        align-items: start;
+        gap: 2rem;
+
+        img {
+            max-height: 70vh;
+            width: auto;
+        }
+
+        .biography {
+            margin: 1rem 0 0 0;
+            white-space: wrap;
+
+            article:nth-child(1) { // Bio
+                margin: 0;
+        
+                h1 {
+                    font-size: 2.5rem;
+                    text-align: left;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        
+            article:nth-child(2) { // Intersser
+                h2 {
+                    text-align: left;
+                    font-size: 2rem;
+                }
+        
+                ul {
+                    padding: 0 0 0rem 1.4rem;
+                    list-style: disc;
+        
+                    li {
+                        margin: 0.5rem 0;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+
+    // ==============================================================
+    // 🔧 Worklog styles are handled in src/styles/WorkLogStyle.scss
+    // ⚠️ Do not edit styles here!
+    // ==============================================================
+}
+@media (max-width: 768px) {
+    .member-page {
+        .about-me {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            .biography {
+                margin: 0rem;
+            }
+
+            img {
+                max-height: 50vh;
+                width: auto;
+            }
+            
+            h1, h2, ul, li {
+                text-align: center !important;
+                list-style: none;
+                padding: 0 !important;
+            }
+            p {
+                text-align: left;
+            }
+        }
+    }
+}
