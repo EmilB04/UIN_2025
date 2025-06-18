@@ -1,0 +1,61 @@
+$primary-color: #006c80;
+$hover-color: #005566;
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+  -moz-osx-font-smoothing: grayscale;
+
+  // https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp
+  scrollbar-color: $primary-color #242424;
+  scrollbar-width: thin;
+  scroll-snap-align: start;
+}
+
+// Github Copilot made most of this loading-spinner:
+// Prompt: "Create a simple loading spinner"
+// Result: Created the folowwing code and classes (.loading-spinner, .spinner and @keyframes spin)
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: $primary-color;
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top: 5px solid $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
