@@ -1,0 +1,16 @@
+header{
+    width: 100%;
+    box-shadow: 3px 15px 40px white;
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+
+    nav{
+        display: flex;
+        justify-content: space-between;
+        a{
+            color: white;
+            text-decoration: none;
+            margin: 0;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+.productcard {
+  max-width: 300px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #fff;
+
+  text-align: center;
+
+  a {
+    color: #000;
+  }
+}
+
+.products {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  h1 {
+    width: 100%;
+  }
+}

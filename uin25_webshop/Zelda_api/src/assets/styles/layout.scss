@@ -1,0 +1,17 @@
+header {
+    nav {
+        display: flex;
+        justify-content: start;
+        gap: 1rem;
+        
+        a {
+            color: white;
+        }
+    }
+}
+
+.flex-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
